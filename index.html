@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="description" content="Kabul Property Hub">
+<title>Kabul Property Hub</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" href="kbl-logo.png">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="index.html"><span class="brand-logo-wrap"><img class="brand-logo" src="kbl-logo.png" alt="Kabul Property Hub logo"></span><span class="brand-copy"><strong>KABUL</strong><strong>PROPERTY HUB</strong></span></a>
+  <nav class="top-nav">
+    <a href="index.html" data-i18n="home">Home</a>
+    <a href="index.html#properties" data-i18n="properties">Properties</a>
+    <button class="explore-trigger" type="button" data-explore-trigger aria-expanded="false"><span data-i18n="explore">Explore</span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m5 7 5 5 5-5"/></svg></button>
+    <a class="header-list-link" href="list-property.html" data-i18n="listProperty">List Property</a>
+    <div class="header-tools" aria-label="KBL tools">
+      <button class="search-trigger" id="searchTrigger" type="button" aria-label="Search KBL">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7.5"/><path d="m20 20-3.5-3.5"/></svg>
+      </button>
+      <div class="language-menu">
+        <button class="language-trigger" type="button" aria-expanded="false"><span class="language-current">EN</span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></button>
+        <div class="language-dropdown" role="menu">
+          <button class="lang" data-lang="en" role="menuitem">EN</button>
+          <button class="lang" data-lang="fa" role="menuitem">دری</button>
+          <button class="lang" data-lang="ps" role="menuitem">پښتو</button>
+        </div>
+      </div>
+    </div>
+    <button class="menu-btn" type="button"><svg width="20" height="14" viewBox="0 0 20 14"><line x1="0" y1="1" x2="20" y2="1" stroke="currentColor" stroke-width="1.5"/><line x1="0" y1="7" x2="20" y2="7" stroke="currentColor" stroke-width="1.5"/><line x1="0" y1="13" x2="20" y2="13" stroke="currentColor" stroke-width="1.5"/></svg></button>
+  </nav>
+</header>
+<div class="mega-backdrop" id="megaBackdrop"></div>
+<section class="mega-menu" id="megaMenu" aria-hidden="true">
+  <div class="mega-inner">
+    <div class="mega-lead">
+      <p class="kicker" data-i18n="exploreKicker">KBL MARKETPLACE</p>
+      <h2 data-i18n="exploreTitle">Find the right way to move in Kabul.</h2>
+      <p data-i18n="exploreText">Browse verified marketplace paths for buying, renting, listing, and comparing property.</p>
+    </div>
+    <div class="mega-grid">
+      <a href="buy.html" class="mega-item"><span class="mega-index">01</span><strong data-i18n="browseBuy">Browse Buy</strong><small data-i18n="browseBuyText">Homes, land, apartments, shops, and commercial property.</small><span>→</span></a>
+      <a href="rent.html" class="mega-item"><span class="mega-index">02</span><strong data-i18n="browseRent">Browse Rent</strong><small data-i18n="browseRentText">Homes, apartments, and commercial spaces for rent.</small><span>→</span></a>
+      <a href="list-property.html" class="mega-item"><span class="mega-index">03</span><strong data-i18n="listHome">List a Property</strong><small data-i18n="listHomeText">Submit a sale or rental listing for KBL review.</small><span>→</span></a>
+      <a href="about.html" class="mega-item"><span class="mega-index">04</span><strong data-i18n="aboutUs">About KBL</strong><small data-i18n="aboutUsText">Learn about the marketplace, support, and feedback.</small><span>→</span></a>
+    </div>
+  </div>
+</section>
+<div class="search-backdrop" id="searchBackdrop"></div>
+<div class="search-overlay" id="searchOverlay" aria-hidden="true">
+  <button class="search-close" id="searchClose" type="button" aria-label="Close">×</button>
+  <div class="global-search-inner">
+    <div class="global-search-field">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input id="globalSearchInput" type="search" data-i18n-placeholder="searchProperty" placeholder="Search Kabul Property Hub" aria-label="Search Kabul Property Hub" autocomplete="off">
+      <kbd>ESC</kbd>
+    </div>
+    <div class="global-search-content">
+      <p class="search-section-label" data-i18n="searchSections">Explore KBL</p>
+      <div class="quick-links-grid">
+        <a href="buy.html" class="quick-link"><span data-i18n="browseBuy">Buy properties</span><span>→</span></a>
+        <a href="rent.html" class="quick-link"><span data-i18n="browseRent">Rent properties</span><span>→</span></a>
+        <a href="about.html" class="quick-link"><span data-i18n="menuAbout">About Kabul Property Hub</span><span>→</span></a>
+        <a href="how-it-works.html" class="quick-link"><span data-i18n="menuHow">How It Works</span><span>→</span></a>
+        <a href="contact.html" class="quick-link"><span data-i18n="menuContact">Contact Us</span><span>→</span></a>
+      </div>
+      <div class="global-search-results" id="globalSearchResults" aria-live="polite"></div>
+    </div>
+  </div>
+</div>
+<div class="menu-backdrop" id="menuBackdrop"></div>
+<aside class="menu-panel" id="menuPanel" aria-hidden="true">
+  <div class="menu-head"><span></span><button class="close-menu" type="button">×</button></div>
+  <nav class="menu-links" id="menuLinks">
+    <a href="about.html" data-i18n="menuAbout">About</a>
+    <a href="how-it-works.html" data-i18n="menuHow">How It Works</a>
+    <a href="saved.html" data-i18n="menuSaved">Saved</a>
+    <a href="list-property.html" data-i18n="menuList">List Property</a>
+    <a href="terms.html" data-i18n="menuTerms">Terms</a>
+    <a href="privacy.html" data-i18n="menuPrivacy">Privacy Policy</a>
+    <a href="contact.html" data-i18n="menuContact">Contact</a>
+  </nav>
+</aside>
+
+<main id="home">
+<section class="concierge-hero" aria-labelledby="conciergeTitle">
+  <div class="concierge-inner">
+    <div class="concierge-visual">
+      <div class="house-scene">
+        <svg class="house-icon" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+          <path d="M40 90 L100 40 L160 90" stroke="rgba(255,255,255,0.9)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M55 90 V155 H145 V90" stroke="rgba(255,255,255,0.9)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="85" y="115" width="30" height="40" rx="4" stroke="rgba(255,255,255,0.5)" stroke-width="2.5"/>
+          <rect x="65" y="70" width="18" height="18" rx="2" stroke="#d8b56c" stroke-width="2" opacity="0.8"/>
+        </svg>
+        <div class="orbit-ring"></div>
+        <div class="orbit-ring" style="animation-delay:-4s;transform:scale(1.15) rotate(15deg)"></div>
+      </div>
+    </div>
+    <div class="concierge-copy">
+      <p class="concierge-kicker" data-i18n="finderKicker">KBL PROPERTY CONCIERGE</p>
+      <h1 id="conciergeTitle" data-i18n="finderTitle">Tired of finding a house?</h1>
+      <p class="concierge-lead" data-i18n="finderText">We search. You choose.</p>
+      <p class="concierge-body" data-i18n="finderSubtext">Share what you need — district, budget, type — and KBL curates the best properties in Kabul. No endless listings. Just what fits.</p>
+      <a class="concierge-cta" href="https://wa.me/93707740762" target="_blank" rel="noopener">
+        <span class="cta-circle">
+          <svg class="wa-symbol" viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M19.11 17.33c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.13-.42-2.15-1.34-.79-.7-1.32-1.57-1.47-1.84-.15-.27-.02-.42.11-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.27s.98 2.63 1.11 2.81c.14.18 1.93 2.95 4.68 4.14.65.28 1.16.45 1.56.57.65.21 1.24.18 1.7.11.52-.08 1.6-.66 1.82-1.29.23-.63.23-1.17.16-1.29-.07-.11-.25-.18-.52-.32M16.03 3C8.84 3 3 8.84 3 16.03c0 2.3.6 4.46 1.65 6.34L3 29l6.82-1.61a12.96 12.96 0 0 0 6.21 1.58h.01C23.22 28.97 29.06 23.13 29.06 16S23.22 3 16.03 3m0 23.67h-.01a10.75 10.75 0 0 1-5.49-1.5l-.39-.23-4.05.96.98-3.95-.25-.41a10.73 10.73 0 1 1 9.21 5.13"/></svg>
+        </span>
+        <span data-i18n="finderCta">Tell KBL what you need</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="apple-services scroll-reveal" aria-labelledby="servicesTitle">
+  <div class="apple-services-inner">
+    <p class="kicker" data-i18n="servicesKicker">SERVICES</p>
+    <h2 id="servicesTitle" data-i18n="servicesTitle">How KBL Can Help You</h2>
+    <div class="service-cards">
+      <a class="service-card service-buy" href="buy.html">
+        <span class="service-number">01</span>
+        <p data-i18n="buyServiceText">Find homes, land, apartments, and commercial property for sale across Kabul.</p>
+        <span class="service-name"><span data-i18n="buy">Buy</span><span class="service-arrow">→</span></span>
+      </a>
+      <a class="service-card service-rent" href="rent.html">
+        <span class="service-number">02</span>
+        <p data-i18n="rentServiceText">Find apartments, houses, and commercial spaces for rent across Kabul.</p>
+        <span class="service-name"><span data-i18n="rent">Rent</span><span class="service-arrow">→</span></span>
+      </a>
+    </div>
+
+
+  </div>
+</section>
+
+<section class="stripe-realestate-layer scroll-reveal" aria-label="KBL platform principles">
+  <div class="stripe-layer-inner">
+    <div class="stripe-layer-heading">
+      <p class="kicker" data-i18n="platformKicker">KBL PLATFORM</p>
+      <h2 data-i18n="platformTitle">Property information built for fast decisions.</h2>
+      <p data-i18n="platformText">Clear listings, structured property data, direct contact, and a consistent experience across Kabul.</p>
+    </div>
+    <div class="stripe-layer-grid">
+      <article><span>01</span><strong data-i18n="platformCard1Title">Structured listings</strong><p data-i18n="platformCard1Text">Purpose, district, neighborhood, price, type, size, and photos stay organized.</p></article>
+      <article><span>02</span><strong data-i18n="platformCard2Title">Clear decisions</strong><p data-i18n="platformCard2Text">Compare properties, save homes, and review the same core facts before contacting.</p></article>
+      <article><span>03</span><strong data-i18n="platformCard3Title">Direct connection</strong><p data-i18n="platformCard3Text">Move from a listing to WhatsApp or the property page without extra steps.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="catalog section scroll-reveal" id="properties">
+  <div class="section-head">
+    <div>
+      <p class="kicker" data-i18n="featuredKicker">KBL COLLECTION</p>
+      <h2 data-i18n="featured">Featured Properties</h2>
+    </div>
+    <span class="result-count-wrap"><span id="resultCount"></span><span data-i18n="propertiesFound">properties</span></span>
+  </div>
+  <div class="feed-toolbar">
+    <div class="feed-tabs" role="tablist" aria-label="Property purpose">
+      <button class="feed-tab active" data-purpose="all" type="button"><span class="feed-tab-icon">⌂</span><span data-i18n="allProperties">All properties</span></button>
+    </div>
+    <button class="saved-launch" id="savedLaunch" type="button"><span>♡</span><span data-i18n="savedHomes">Saved homes</span><span class="saved-count" id="savedCount">0</span></button>
+  </div>
+  <div class="cards" id="cards"></div>
+</section>
+
+
+<section class="kbl-info-end scroll-reveal" id="kbl-info" aria-label="KBL information">
+  <div class="kbl-info-end-inner">
+    <p class="kicker" data-i18n="infoKicker">KBL INFORMATION</p>
+    <h2 data-i18n="infoTitle">Everything you need to know about KBL.</h2>
+    <div class="apple-info-accordion" aria-label="KBL information">
+      <details open>
+        <summary><span class="accordion-icon">⌂</span><span><strong data-i18n="aboutPanelTitle">About Us</strong><small data-i18n="aboutPanelSubtitle">Learn about KBL Property Hub and our mission.</small></span><span class="accordion-plus">+</span></summary>
+        <div class="accordion-content" data-i18n="aboutPanelText">Kabul Property Hub organizes property information for buyers, renters, and owners in Kabul. We focus on a clear marketplace, direct communication, and Sharia-compliant transaction principles.</div>
+      </details>
+      <details>
+        <summary><span class="accordion-icon">⌕</span><span><strong data-i18n="contactPanelTitle">Contact Us</strong><small data-i18n="contactPanelSubtitle">Get in touch with the KBL support team.</small></span><span class="accordion-plus">+</span></summary>
+        <div class="accordion-content"><span data-i18n="contactPanelText">For property questions, listing support, or reports, contact KBL through WhatsApp.</span><a class="accordion-link" href="https://wa.me/93707740762" target="_blank" rel="noopener" data-i18n="whatsapp">WhatsApp</a></div>
+      </details>
+      <details>
+        <summary><span class="accordion-icon">□</span><span><strong data-i18n="feedbackPanelTitle">Feedback</strong><small data-i18n="feedbackPanelSubtitle">Send your feedback directly by email.</small></span><span class="accordion-plus">+</span></summary>
+        <div class="accordion-content"><span data-i18n="feedbackPanelText">Tell us what works, what needs improvement, or what you want KBL to add.</span><a class="accordion-link" href="mailto:kabulpropertyhub@gmail.com">kabulpropertyhub@gmail.com</a></div>
+      </details>
+    </div>
+  </div>
+</section>
+</main>
+
+<aside class="saved-drawer" id="savedDrawer" aria-hidden="true">
+  <div class="saved-drawer-head"><div><p class="kicker" data-i18n="savedHomes">SAVED HOMES</p><h2 data-i18n="savedTitle">Your shortlist</h2></div><button type="button" class="saved-drawer-close" data-close-saved>×</button></div>
+  <div class="saved-drawer-body" id="savedDrawerBody"></div>
+</aside>
+<div class="saved-backdrop" id="savedBackdrop"></div>
+
+<section class="command-backdrop" id="commandBackdrop" aria-hidden="true">
+  <div class="command-palette" role="dialog" aria-modal="true" aria-labelledby="commandTitle">
+    <div class="command-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7.5"/><path d="m20 20-3.5-3.5"/></svg><input id="commandInput" type="search" data-i18n-placeholder="commandPlaceholder" placeholder="Search KBL or jump to a section" autocomplete="off"><kbd>ESC</kbd></div>
+    <p class="command-label" id="commandTitle" data-i18n="quickActions">Quick actions</p>
+    <div class="command-items" id="commandItems">
+      <button type="button" data-command="buy"><span>01</span><strong data-i18n="browseBuy">Browse Buy</strong><small data-i18n="browseBuyText">Homes, land, apartments, shops, and commercial property.</small></button>
+      <button type="button" data-command="rent"><span>02</span><strong data-i18n="browseRent">Browse Rent</strong><small data-i18n="browseRentText">Homes, apartments, and commercial spaces for rent.</small></button>
+      <button type="button" data-command="search"><span>03</span><strong data-i18n="openSearch">Open search</strong><small data-i18n="openSearchText">Filter by district, neighborhood, budget, currency, and type.</small></button>
+      <button type="button" data-command="saved"><span>04</span><strong data-i18n="savedHomes">Saved homes</strong><small data-i18n="savedText">Open your saved property shortlist.</small></button>
+      <a href="list-property.html"><span>05</span><strong data-i18n="listHome">List a Property</strong><small data-i18n="listHomeText">Submit a sale or rental listing for review.</small></a>
+    </div>
+  </div>
+</section>
+
+<div class="compare-tray" id="compareTray" aria-hidden="true">
+  <div><strong id="compareCount">0</strong><span data-i18n="compareSelected">selected to compare</span></div>
+  <button type="button" id="compareNow" data-i18n="compareNow">Compare</button>
+  <button type="button" id="clearCompare" data-i18n="clearCompare">Clear</button>
+</div>
+
+<footer data-i18n="footer">© 2026 Kabul Property Hub</footer>
+<script src="app.js"></script>
+</body></html>

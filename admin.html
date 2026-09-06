@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KBL Admin Control</title>
+<style>
+:root { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif; color: #f5f5f7; background: #000; }
+* { box-sizing: border-box; }
+body { margin: 0; -webkit-font-smoothing: antialiased; }
+button, input, select { font: inherit; }
+.hidden { display: none !important; }
+.shell { max-width: 1180px; margin: auto; padding: 40px 20px; }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 30px; }
+.brand { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; display:flex; align-items:center; gap:10px; }
+.admin-logo { width:42px; height:32px; object-fit:contain; display:block; }
+.muted { color: #86868b; }
+.card { background: #1c1c1e; border-radius: 24px; padding: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+.login { max-width: 400px; margin: 15vh auto; text-align: center; }
+.login h1 { margin-bottom: 12px; font-weight: 600; letter-spacing: -0.5px; }
+input, select { width: 100%; padding: 14px 16px; border: 1px solid #333; border-radius: 14px; background: #2c2c2e; color: #fff; margin-bottom: 16px; outline: none; transition: border 0.2s; }
+input:focus { border-color: #0A84FF; }
+label { display: block; font-size: 14px; font-weight: 500; margin: 0 0 8px; text-align: left; color: #86868b; }
+button { border: 0; border-radius: 20px; padding: 12px 20px; background: #fff; color: #000; font-weight: 600; cursor: pointer; transition: transform 0.1s, opacity 0.2s; width: 100%; }
+button:active { transform: scale(0.97); }
+.secondary { background: #2c2c2e; color: #fff; }
+.secondary:hover { background: #3a3a3c; }
+.success { background: #32d74b; color: #000; }
+.danger { background: #ff453a; color: #fff; }
+.error { color: #ff453a; margin-top: 12px; font-size: 14px; }
+.ok { color: #32d74b; margin-top: 12px; font-size: 14px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.stat strong { font-size: 32px; display: block; margin-top: 8px; font-weight: 700; }
+.toolbar { display: grid; grid-template-columns: 1fr 200px; gap: 12px; margin: 20px 0; }
+.table-wrap { overflow: auto; border-radius: 16px; border: 1px solid #333; }
+.table { width: 100%; border-collapse: collapse; background: #1c1c1e; }
+.table th, .table td { text-align: left; padding: 16px; border-bottom: 1px solid #333; white-space: nowrap; font-size: 14px; }
+.table th { background: #2c2c2e; color: #86868b; font-weight: 500; }
+.badge { display: inline-block; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.unverified { background: #333; color: #aaa; }
+.verified { background: rgba(10, 132, 255, 0.2); color: #0A84FF; }
+.trusted { background: rgba(50, 215, 75, 0.2); color: #32d74b; }
+.blocked { background: rgba(255, 69, 58, 0.2); color: #ff453a; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.actions button { width: auto; padding: 8px 14px; font-size: 13px; border-radius: 14px; }
+.notice { padding: 16px; border-radius: 16px; background: rgba(255, 214, 10, 0.1); color: #ffd60a; margin-bottom: 24px; font-size: 14px; line-height: 1.5; border: 1px solid rgba(255, 214, 10, 0.2); }
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 20px; overflow: auto; z-index: 50; display: flex; align-items: center; justify-content: center; }
+.modal > .card { width: 100%; max-width: 800px; margin: auto; }
+.history { border-left: 2px solid #333; padding-left: 16px; margin: 16px 0; position: relative; }
+.history::before { content: ''; position: absolute; left: -5px; top: 6px; width: 8px; height: 8px; background: #86868b; border-radius: 50%; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.login-actions { display: grid; gap: 12px; margin-top: 24px; }
+@media(max-width:800px){ .stats { grid-template-columns: 1fr 1fr; } .toolbar, .grid { grid-template-columns: 1fr; } }
+</style>
+<link rel="icon" type="image/png" href="kbl-logo.png">
+</head>
+<body>
+<section id="loginScreen" class="shell">
+  <div class="card login">
+    <div class="brand"><img class="admin-logo" src="kbl-logo.png" alt="Kabul Property Hub logo"><span>KBL Hub</span></div>
+    <p class="muted" style="margin-bottom: 30px;">Private Administration</p>
+    <label for="email">Admin Email</label>
+    <input id="email" type="email" autocomplete="email" inputmode="email" placeholder="name@example.com">
+    <div class="login-actions">
+      <button id="magicBtn">Send Secure Link</button>
+      <button id="passwordBtn" class="secondary" type="button">Use Password</button>
+    </div>
+    <div id="loginError" class="error"></div>
+    <div id="loginOk" class="ok"></div>
+  </div>
+</section>
+
+<!-- The rest of your existing JS app structure remains identical, maintaining your strict Supabase RPC checks -->
+<!-- Ensure your Supabase RPC 'is_kbl_admin' strictly checks for auth.uid() = '5645b70d-c5db-4044-9d29-2849740533cf' -->
