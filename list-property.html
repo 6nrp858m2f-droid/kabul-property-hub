@@ -1,74 +1,89 @@
 <!doctype html>
-<html lang="en" dir="ltr">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#f5f5f7"><title>List Property | Kabul Property Hub</title><link rel="stylesheet" href="style.css"><link rel="icon" type="image/png" href="kbl-logo.png">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="KBL Property Hub — Kabul property marketplace for buying and renting.">
+<title>List a Property — KBL Property Hub</title>
+<link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 <header class="site-header">
-  <a class="brand" href="index.html"><span class="brand-logo-wrap"><img class="brand-logo" src="kbl-logo.png" alt="Kabul Property Hub logo"></span><span class="brand-copy"><strong>KABUL</strong><strong>PROPERTY HUB</strong></span></a>
-  <nav class="top-nav">
-    <a href="index.html" data-i18n="home">Home</a>
-    <a href="index.html#properties" data-i18n="properties">Properties</a>
-    <div class="header-tools" aria-label="KBL tools">
-      <button class="search-trigger" id="searchTrigger" type="button" aria-label="Search KBL">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7.5"/><path d="m20 20-3.5-3.5"/></svg>
-      </button>
-      <div class="language-menu">
-        <button class="language-trigger" type="button" aria-expanded="false"><span class="language-current">EN</span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></button>
-        <div class="language-dropdown" role="menu">
-          <button class="lang" data-lang="en" role="menuitem">EN</button>
-          <button class="lang" data-lang="fa" role="menuitem">دری</button>
-          <button class="lang" data-lang="ps" role="menuitem">پښتو</button>
-        </div>
-      </div>
+  <a href="index.html" class="brand" aria-label="KBL Property Hub"><span class="brand-mark">KBL</span><span class="brand-name">Property Hub</span></a>
+  <nav class="main-nav" aria-label="Main navigation">
+    <a class="nav-link" href="buy.html">Buy</a>
+    <a class="nav-link" href="rent.html">Rent</a>
+    <a class="nav-link" href="how-it-works.html">How it works</a>
+    <button id="savedButton" class="nav-button" type="button"><span data-i18n="saved">Saved</span><span id="savedCount" class="saved-count">0</span></button>
+    <button id="commandButton" class="nav-button" type="button" aria-label="Open search">⌕</button>
+    <button id="listPropertyButton" class="nav-button" type="button" data-i18n="listProperty">List a Property</button>
+    <div class="language-switcher">
+      <button class="language-button active" data-language="en" type="button">EN</button>
+      <button class="language-button" data-language="fa" type="button">دری</button>
+      <button class="language-button" data-language="ps" type="button">پښتو</button>
     </div>
-    <button class="menu-btn" type="button" aria-label="Menu"><svg width="20" height="14" viewBox="0 0 20 14"><line x1="0" y1="1" x2="20" y2="1" stroke="currentColor" stroke-width="1.5"/><line x1="0" y1="7" x2="20" y2="7" stroke="currentColor" stroke-width="1.5"/><line x1="0" y1="13" x2="20" y2="13" stroke="currentColor" stroke-width="1.5"/></svg></button>
   </nav>
 </header>
-<div class="search-backdrop" id="searchBackdrop"></div>
-<div class="search-overlay" id="searchOverlay" aria-hidden="true">
-  <button class="search-close" id="searchClose" type="button" aria-label="Close">×</button>
-  <div class="global-search-inner">
-    <div class="global-search-field">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-      <input id="globalSearchInput" type="search" data-i18n-placeholder="searchProperty" placeholder="Search Kabul Property Hub" aria-label="Search Kabul Property Hub" autocomplete="off">
-      <kbd>ESC</kbd>
+
+<main>
+<section class="page-hero"><p class="eyebrow">KBL PROPERTY HUB</p><h1>List your property.</h1><p>Submit a structured Kabul property listing. KBL reviews listings before publication.</p></section>
+<section class="list-form">
+  <h2>Property information</h2><p class="lead">Your original photos can be selected up to 15 MB each. The final production pipeline will automatically compress, convert to WebP, add the KBL icon watermark, upload to Cloudinary, and save the returned image URLs with the property record.</p>
+  <form id="listingForm">
+    <div class="form-grid">
+      <div class="form-field"><label>Property title / عنوان ملکیت / د ملکیت سرلیک</label><input class="form-control" required placeholder="Example: 3-bedroom apartment in Karte 4"></div>
+      <div class="form-field"><label>Purpose</label><select class="form-control" required><option>Rent</option><option>Sale</option></select></div>
+      <div class="form-field"><label>District / ناحیه</label><select class="form-control" required><option value="">Select district</option><option>District 1</option><option>District 2</option><option>District 3</option><option>District 4</option><option>District 5</option><option>District 6</option><option>District 7</option><option>District 8</option><option>District 9</option><option>District 10</option><option>District 11</option><option>District 12</option><option>District 13</option><option>District 14</option><option>District 15</option><option>District 16</option><option>District 17</option><option>District 18</option><option>District 19</option><option>District 20</option><option>District 21</option><option>District 22</option></select></div>
+      <div class="form-field"><label>Neighborhood / منطقه</label><input class="form-control" required placeholder="Neighborhood or location"></div>
+      <div class="form-field"><label>Price</label><input class="form-control" type="number" min="0" required></div>
+      <div class="form-field"><label>Currency</label><select class="form-control"><option>AFN</option><option>USD</option></select></div>
+      <div class="form-field"><label>Rooms</label><input class="form-control" type="number" min="0"></div>
+      <div class="form-field"><label>Bathrooms</label><input class="form-control" type="number" min="0"></div>
+      <div class="form-field"><label>Size (m²)</label><input class="form-control" type="number" min="0"></div>
+      <div class="form-field"><label>Floor</label><input class="form-control"></div>
+      <div class="form-field wide"><label>Description / توضیحات / تشریح</label><textarea class="form-control" rows="5" placeholder="Describe the property clearly."></textarea></div>
+      <div class="form-field"><label>Contact name</label><input class="form-control" required></div>
+      <div class="form-field"><label>Afghan phone +93…</label><input class="form-control" required placeholder="+937XXXXXXXX"></div>
+      <div class="form-field wide"><label>Photos — up to 15 photos, original selection up to 15 MB each</label><div class="upload-box"><input id="photos" type="file" accept="image/*" multiple><p id="photoNote" style="color:#6e6e73;font-size:12px">Automatic processing is designed into the production flow; customers do not manually compress or enter image URLs.</p><div id="photoPreview" class="photo-preview"></div></div></div>
     </div>
-    <div class="global-search-content">
-      <p class="search-section-label" data-i18n="searchSections">Explore KBL</p>
-      <div class="quick-links-grid">
-        <a href="buy.html" class="quick-link"><span data-i18n="browseBuy">Buy properties</span><span>→</span></a>
-        <a href="rent.html" class="quick-link"><span data-i18n="browseRent">Rent properties</span><span>→</span></a>
-        <a href="about.html" class="quick-link"><span data-i18n="menuAbout">About Kabul Property Hub</span><span>→</span></a>
-        <a href="how-it-works.html" class="quick-link"><span data-i18n="menuHow">How It Works</span><span>→</span></a>
-        <a href="contact.html" class="quick-link"><span data-i18n="menuContact">Contact Us</span><span>→</span></a>
-      </div>
-      <div class="global-search-results" id="globalSearchResults" aria-live="polite"></div>
+    <div class="form-actions"><button class="primary-button" type="submit">Submit property</button><a class="secondary-button" href="how-it-works.html">How it works</a></div>
+    <p id="listingMessage" style="color:#6e6e73;font-size:12px;margin-top:15px"></p>
+  </form>
+</section>
+</main>
+<script>
+const photoInput=document.getElementById('photos'),preview=document.getElementById('photoPreview'),note=document.getElementById('photoNote');
+photoInput?.addEventListener('change',()=>{
+  preview.innerHTML='';
+  const files=[...photoInput.files];
+  if(files.length>15){note.textContent='Maximum 15 photos per property.';photoInput.value='';return}
+  const tooLarge=files.find(f=>f.size>15*1024*1024);
+  if(tooLarge){note.textContent='Each selected original photo must be 15 MB or smaller.';photoInput.value='';return}
+  note.textContent=`${files.length} photo(s) selected. Production upload will compress, watermark, and upload automatically.`;
+  files.forEach(f=>{const img=document.createElement('img');img.src=URL.createObjectURL(f);img.onload=()=>URL.revokeObjectURL(img.src);preview.appendChild(img)})
+});
+document.getElementById('listingForm')?.addEventListener('submit',e=>{
+  e.preventDefault();
+  document.getElementById('listingMessage').textContent='Form validated in this design build. Connect the secure Cloudflare Worker + Supabase submission endpoint before production publishing.';
+});
+</script>
+<div id="modalBackdrop" class="modal-backdrop" hidden><div class="modal"><button id="modalClose" class="modal-close" type="button">×</button><div id="modalContent"></div></div></div>
+<div id="toast" class="toast" aria-live="polite"></div>
+<div id="commandPalette" class="command-palette" hidden>
+  <div class="command-panel">
+    <div class="command-head"><strong id="commandTitle" data-i18n="commandTitle">KBL Search</strong><span>ESC</span></div>
+    <input id="commandInput" type="search" data-i18n-placeholder="commandPlaceholder" placeholder="Search neighborhood, street, landmark or property ID...">
+    <div class="command-links">
+      <button type="button" data-command-action="search" data-i18n="commandSearch">Search properties</button>
+      <button type="button" data-command-action="saved" data-i18n="saved">Saved</button>
+      <button type="button" data-command-action="list" data-i18n="listProperty">List a Property</button>
     </div>
   </div>
 </div>
-<div class="menu-backdrop" id="menuBackdrop"></div>
-<aside class="menu-panel" id="menuPanel" aria-hidden="true">
-  <div class="menu-head"><span></span><button class="close-menu" type="button">×</button></div>
-  <nav class="menu-links" id="menuLinks">
-    <a href="about.html" data-i18n="menuAbout">About</a>
-    <a href="how-it-works.html" data-i18n="menuHow">How It Works</a>
-    <a href="saved.html" data-i18n="menuSaved">Saved</a>
-    <a href="list-property.html" data-i18n="menuList">List Property</a>
-    <a href="terms.html" data-i18n="menuTerms">Terms</a>
-    <a href="privacy.html" data-i18n="menuPrivacy">Privacy Policy</a>
-    <a href="contact.html" data-i18n="menuContact">Contact</a>
-  </nav>
-</aside>
-<main class="form-page scroll-reveal"><div class="form-top"><a class="back-link" href="index.html">← <span data-i18n="backHome">Back</span></a></div><section class="form-card"><p class="kicker">KBL</p><h1 data-i18n="formTitle">List Your Property</h1><p class="form-intro" data-i18n="formText">Pending until reviewed.</p>
-<div class="transaction-choice"><span class="field-kicker" data-i18n="purposeLabel">What are you listing?</span><div class="transaction-grid"><label class="transaction-option"><input type="radio" name="purposeChoice" value="buy" checked><span><strong data-i18n="sale">Sale</strong><small><span data-i18n="saleHelper">Customers see this as Buy</span></small></span></label><label class="transaction-option"><input type="radio" name="purposeChoice" value="rent"><span><strong data-i18n="rent">Rent</strong><small><span data-i18n="rentHelper">Customers see this as Rent</span></small></span></label></div><input id="purpose" type="hidden" value="buy"></div>
-<label><span data-i18n="titleLabel">Title</span><input id="title" required></label>
-<label><span data-i18n="locationLabel">Address</span><input id="location" required></label>
-<div class="two"><label><span data-i18n="districtLabel">District</span><select id="formDistrict" required></select></label><label><span data-i18n="neighborhoodLabel">Neighborhood</span><select id="formNeighborhood" required></select></label></div>
-<label><span data-i18n="typeLabel">Property Type</span><select id="formType" required></select></label>
-<label><span data-i18n="descriptionLabel">Details</span><textarea id="description" rows="6" required></textarea></label>
-<div class="two"><label><span data-i18n="priceLabel">Price</span><input id="price" type="number" min="0" required></label><label><span data-i18n="currencyLabel">Currency</span><select id="formCurrency" required></select></label></div>
-<label><span data-i18n="sizeLabel">Area m²</span><input id="size" type="number" min="0"></label>
-<div class="two"><label><span data-i18n="contactNameLabel">Name</span><input id="contactName" required></label><label><span data-i18n="phoneLabel">Phone</span><input id="phone" required></label></div>
-<label><span data-i18n="photosLabel">Photos</span><input id="photos" type="file" accept="image/*" multiple></label><div id="photoPreview" class="photo-preview"></div>
-<button class="submit-button" id="submitBtn" type="button" data-i18n="submit">Submit</button><p id="formMessage" class="message"></p></section></main>
-<footer data-i18n="footer">© 2026 Kabul Property Hub</footer><script src="app.js"></script></body></html>
+<footer class="footer">
+  <div><strong>KBL Property Hub</strong><p data-i18n="footerDescription">Kabul property discovery, organized for people.</p></div>
+  <div><p>WhatsApp: +93707740762</p><p>© 2026 KBL Property Hub</p></div>
+</footer>
+<script src='app.js'></script>
+</body></html>

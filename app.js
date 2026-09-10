@@ -1,400 +1,615 @@
-const SUPABASE_URL="https://hzffjjvszewpjjdjikup.supabase.co";
-const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6ZmZqanZzemV3cGpqZGppa3VwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2MzE2NDAsImV4cCI6MjEwMjIwNzY0MH0.I-tGXm5IKfM3vUMYVM1lyVt2iWUVTfZ45utSF-n_zK4";
-const WA_NUMBER="93707740762";
-const districts=Array.from({length:22},(_,i)=>String(i+1));
-const neighborhoods=["Afshar-e-selo","Aga Ali Shames","Agab-e Hotel Khorasan","Ageb Hoza 3","Alawadin","Aqeb Pohanton Ghaleb","Aqeb Sufarat Rusia","Area 1","Arzangimat","Ayub Khan Mina","Bagh Bala","Bain Hesa Khoja Boghra & Hotal Parwan","Bain Sarak 3 & 4 Prozha taimani","Bazar Aqa Ali Shames","Chahar Qala Chahardi","Chahar Qala Wazir Abad","Chahar Rahi Asbha","Chahar Rahi Asepha","Chahar Rahi Hotal parwan","Chahar Rahi Labjar","Chahar Rahi Market","Chahar Rahi Parwan 2","Chaharahi Asb-ha","Chaharahi Sarsabzi","Charahi Qambar","Charahi Shahid","Charahi Tarafik","Chehel setoon","Cinema Bricot","Company","Dahan Bagh Zanana","Dasht-e-barchi","De Afghanan","Deh morad khan","Dehbori","Dehmazang","Duralaman","Fourth Street","Ghazi High School","Gola-e- Sinema Khiar Khana","Golaye Dawakhana","GoZar 9","Gulaei Park","Habibia High School","Haftsutar","Istgah-e Danesh","JaiRees","Jamal Mina","kart-e-char","Kart-e-Mamorin","Kart-e-sakhi","karti 3","Khair Khana","Khushal Khan","Khwaja Bughra","Koch-e-h 5 Hotal Parwan","Kocha 4 Hotel Parwan","Kocha Awal Hotel Parwan","Kocha Hotal Parwaan","Koche Hotal Parwan","Kolola Pushta","Kot-e-Sangi","Kotal Khairkhana","Kuche Jamiat","Labjar","Lisa Mariam","Lisa Maryam","Makrorian 1","Makrorian 3","Makrorian 5","Nahr-e Dar Sen","now abad-e-dehmazang","Panj sad Family","Panj Shir Wat","Parwan 2","Peshet Pohanton Sallam","pol-e-sorkh","Prozha Taimani","Prozha-e-taimani","Qal'eh Musa","Qala-e- Najara","Qala-e-wazir","Qasaba","Qhala Afghan ha","Qowai Markaz","Robaroo-e Nahia 15","Salim Karwan","Sanatoryam","Sarai Shamaly","Sarak 1 Prozha Taimani","Sarak 1 Qanony","Sarak 10 Qala-e-Fathullah","Sarak 10 Taimani Sabeqa","Sarak 11 Qala-e-Fathullah","Sarak 11 Taimani Sabeqa","Sarak 12 Qala-e-Fathullah","Sarak 13 Qala-e-Fathullah","Sarak 2 Prozha Taimani","Sarak 2 Qala-e-Fathullah","Sarak 3 Ansary Sher Naw","Sarak 3 Hotal Parwan","Sarak 3 Prozha Taimani","Sarak 3 Qala-e-Fathullah","Sarak 3 Shir Poor","Sarak 4 Ansari","Sarak 4 Prozha Taimani","Sarak 5 Prozha Taimani","Sarak 5 Qala-e-Fathullah","Sarak 5 Taimani Sabeqa","Sarak 6 Koluleh Poshteh","Sarak 6 Qala-e-Fathullah","Sarak 6 Taimani Sabeqa","Sarak 8 Hotal Parwan","Sarak 8 Qala-e-Fathullah","sarak 8 Taimani Sabeqa","Sarak 9 Koluleh Poshteh","Sarak 9 Qala-e-Fathullah","Sarak 9 Taimani Sabeqa","Sarak Bala Wasel Abad","Sarak Darulaman","Sarak Haji Chaman","Sarak Hawashenasi","Sarak Hawza","Sarak Kart-e-Parwan","Sarak Masjed Nabawi","Sarak Nahia 7","Sarak Shora","Saria Ghazni","saria-herati","Serahi Allauddin","Shah Shaheed","Shaher Naw","Shahrak Aria","Shahrak Haji Javid","Yakatoot"];
-const types=['Apartment','House','Land','Commercial Property','Shop','Other'];
-const translations={"en":{"menuTerms":"Terms","menuPrivacy":"Privacy Policy","privacyKicker":"KBL","privacyTitle":"Privacy Policy","privacyText1":"Kabul Property Hub collects only the information necessary to list and display properties.","privacyText2":"We do not sell or share personal data with third parties.","privacyText3":"Photos uploaded become part of the public listing.","privacyText4":"We use local browser storage for saved properties and language preferences.","privacyText5":"For privacy questions, contact kabulpropertyhub@gmail.com.","termsKicker":"KBL","termsTitle":"Terms of Use","termsText1":"Kabul Property Hub lists properties submitted by dealers, agencies, and owners. KBL reviews submissions before they go public but does not own, inspect, or guarantee any property.","termsText2":"Every price, description, and photo comes from the person who submitted the listing. Confirm all details directly with the listed contact before making any payment or agreement.","termsText3":"KBL does not process payments and is not a party to any sale, rental, or lease agreement made between users.","termsText4":"To report incorrect, misleading, or suspicious content, use the Report option on any listing or email kabulpropertyhub@gmail.com.","home":"Home","properties":"Properties","listProperty":"List Property","about":"About Kabul Property Hub","how":"How It Works","saved":"Saved Properties","contact":"Contact","menu":"Menu","backHome":"Back to Home","eyebrow":"KABUL PROPERTY HUB","heroKicker":"PREMIUM REAL ESTATE","heroTitle":"Find your place in Kabul.","heroText":"Search homes, apartments, land, shops, and commercial property across Kabul. Compare details, save properties, and contact through WhatsApp.","finderKicker":"KBL PROPERTY CONCIERGE","finderTitle":"Tired of finding a house?","finderText":"We search. You choose.","finderSubtext":"Share what you need — district, budget, type — and KBL curates the best properties in Kabul. No endless listings. Just what fits.","finderCta":"Tell KBL what you need","buy":"Buy","sale":"Sale","rent":"Rent","all":"All","search":"Search","reset":"Reset","searchProperty":"Search the whole property catalog","contextSearch":"Search by context","contextHint":"Can’t find your neighborhood? Search by a street, landmark, address, or any wording from the listing.","district":"District","allDistricts":"All districts","neighborhood":"Neighborhood","allNeighborhoods":"All neighborhoods","type":"Property Type","allTypes":"All property types","currency":"Currency","allCurrencies":"All currencies","minPrice":"Min price","maxPrice":"Max price","featured":"Featured Properties","featuredKicker":"KBL COLLECTION","noResults":"No approved properties match your search.","noSaved":"No saved properties yet.","save":"Save","savedLabel":"Saved","view":"View Property","whatsapp":"WhatsApp","report":"Report","reportPrompt":"Choose a reason for your report.","reportReasons":["Wrong property information","Duplicate or already listed","Suspicious or misleading listing","Wrong contact information","Other problem"],"cancel":"Cancel","sold":"SOLD","rented":"RENTED","available":"AVAILABLE","location":"Location","area":"Area (m²)","description":"Description","purpose":"Listing type","propertyType":"Property type","details":"Property details","status":"Status","howKicker":"HOW IT WORKS","howTitle":"Search. Review. Contact.","how1Title":"Search","how1Text":"Choose Buy or Rent, then filter by district, neighborhood, type, currency, price, or context.","how2Title":"Review","how2Text":"Open a property to see its photos, location, area, price, status, and description.","how3Title":"Contact","how3Text":"Use WhatsApp to contact KBL about the property.","aboutTitle":"About Kabul Property Hub","aboutText":"Kabul Property Hub is a Kabul-focused property marketplace. We organize property information into a simple search experience for buyers, renters, and property owners.","contactTitle":"Contact Kabul Property Hub","contactText":"Use WhatsApp for property questions, listing support, or reports.","halalKicker":"SHARIA MARKETPLACE","halalTitle":"Cash purchases and direct lease agreements.","halalText":"Zero interest. Direct cash purchases and lease agreements.","footer":"© 2026 Kabul Property Hub","saleHelper":"Customers see this as Buy","rentHelper":"Customers see this as Rent","formTitle":"List Your Property","formText":"Your listing stays pending until KBL reviews and approves it.","purposeLabel":"Transaction Type","titleLabel":"Property Title","locationLabel":"Address / Location","districtLabel":"District","neighborhoodLabel":"Neighborhood","typeLabel":"Property Type","descriptionLabel":"Description & Details","priceLabel":"Price / قیمت / نرخ","currencyLabel":"Currency","sizeLabel":"Area (m²)","contactNameLabel":"Contact Name","phoneLabel":"Contact Phone","photosLabel":"Upload House Photos","submit":"Submit Property","photosRequired":"Upload at least one house photo.","imageTypeError":"Please select image files only.","imageSizeError":"Each image must be 10 MB or smaller.","uploadFailed":"Photo upload failed. Check the Supabase storage bucket and upload policy.","submitting":"Submitting...","success":"Submitted for review.","failed":"Submission failed.","required":"Please complete this field.","phoneError":"Enter a valid Afghan contact number beginning with +93.","uploading":"Uploading photos...","back":"Back","next":"Next","previous":"Previous","imageOf":"of","close":"Close","searchMenu":"Search","menuAbout":"About Kabul Property Hub","menuHow":"How It Works","menuSaved":"Saved Properties","menuContact":"Contact Us","menuList":"List Property","searchWhole":"Search the whole web catalog"},"fa":{"menuTerms":"شرایط استفاده","termsKicker":"کابل پراپرتی هب","termsTitle":"شرایط استفاده","termsText1":"کابل پراپرتی هب املاکی را نشان می‌دهد که توسط دلالان، آژانس‌ها و مالکان ثبت شده‌اند. کابل پراپرتی هب پیش از نشر هر آگهی آن را بررسی می‌کند، اما مالک، بازرس یا ضامن هیچ ملکی نیست.","termsText2":"هر قیمت، توضیح و عکس از طرف شخصی است که آگهی را ثبت کرده است. پیش از هر پرداخت یا توافق، تمام جزئیات را مستقیماً با تماس ثبت‌شده تایید کنید.","termsText3":"کابل پراپرتی هب پرداخت‌ها را پردازش نمی‌کند و طرف هیچ معامله فروش، کرایه یا اجاره بین کاربران نیست.","termsText4":"برای گزارش محتوای نادرست، گمراه‌کننده یا مشکوک، از گزینه گزارش روی هر آگهی استفاده کنید یا به kabulpropertyhub@gmail.com ایمیل بفرستید.","finderKicker":"کابل پراپرتی هب","finderTitle":"از پیدا کردن خانه خسته شده‌اید؟","finderText":"ما جستجو می‌کنیم. شما انتخاب می‌کنید.","finderSubtext":"به ما بگویید چه نیاز دارید — ناحیه، بودجه، نوع ملک — و کابل پراپرتی هب بهترین املاک کابل را برای شما گلچین می‌کند. بدون لیست‌های بی‌پایان. فقط آنچه مناسب است.","finderCta":"به کابل پراپرتی هب بگویید چه می‌خواهید",
-"searchOverlayTitle":"جستجو",
-"quickLinks":"دسترسی سریع",
-"findProperty":"پیدا کردن ملک",
-"listPropQuick":"ثبت ملک",
-"howItWorksQuick":"چگونه کار می‌کند",
-"contactQuick":"تماس",
-"savedQuick":"املاک ذخیره‌شده",
-"aboutQuick":"درباره کابل پراپرتی هب",
-"menuPrivacy":"حریم خصوصی",
-"privacyKicker":"کابل پراپرتی هب",
-"privacyTitle":"حریم خصوصی",
-"privacyText1":"کابل پراپرتی هب تنها معلومات لازم برای ثبت و نمایش املاک را جمع‌آوری می‌کند.",
-"privacyText2":"ما معلومات شخصی شما را به اشخاص ثالث نمی‌فروشیم و به اشتراک نمی‌گذاریم.",
-"privacyText3":"عکس‌های آپلود شده بخشی از آگهی عمومی می‌شوند.",
-"privacyText4":"ما از ذخیره‌سازی محلی مرورگر برای املاک ذخیره‌شده و ترجیحات زبان استفاده می‌کنیم.",
-"privacyText5":"برای سوالات مربوط به حریم خصوصی، با kabulpropertyhub@gmail.com تماس بگیرید.","home":"خانه","properties":"املاک","listProperty":"ثبت ملک","about":"درباره کابل پراپرتی هب","how":"چگونه کار می‌کند","saved":"املاک ذخیره‌شده","contact":"تماس","menu":"منو","backHome":"بازگشت به خانه","eyebrow":"کابل پراپرتی هب","heroKicker":"املاک ممتاز","heroTitle":"ملک خود را در کابل پیدا کنید.","heroText":"خانه، آپارتمان، زمین، دکان و ملک تجاری را در سراسر کابل جستجو کنید. جزئیات را مقایسه کنید، ملک‌ها را ذخیره کنید و از طریق واتساپ تماس بگیرید.","buy":"خرید","sale":"فروش","rent":"کرایه","all":"همه","search":"جستجو","reset":"پاک کردن","searchProperty":"جستجوی تمام املاک","contextSearch":"جستجو بر اساس متن","contextHint":"محله خود را پیدا نمی‌کنید؟ نام سرک، نشانی، نشانه یا هر عبارت موجود در آگهی را جستجو کنید.","district":"ناحیه","allDistricts":"تمام نواحی","neighborhood":"محله","allNeighborhoods":"تمام محله‌ها","type":"نوع ملک","allTypes":"تمام انواع ملک","currency":"ارز","allCurrencies":"تمام ارزها","minPrice":"حداقل قیمت","maxPrice":"حداکثر قیمت","featured":"املاک ویژه","featuredKicker":"مجموعه کابل پراپرتی هب","noResults":"هیچ ملک تاییدشده‌ای با جستجوی شما پیدا نشد.","noSaved":"هنوز ملک ذخیره‌شده‌ای ندارید.","save":"ذخیره","savedLabel":"ذخیره‌شده","view":"مشاهده ملک","whatsapp":"واتساپ","report":"گزارش","reportPrompt":"دلیل گزارش را انتخاب کنید.","reportReasons":["معلومات نادرست ملک","ملک تکراری یا قبلاً ثبت‌شده","آگهی مشکوک یا گمراه‌کننده","معلومات نادرست تماس","مشکل دیگر"],"cancel":"لغو","sold":"فروخته شد","rented":"کرایه داده شد","available":"موجود","location":"موقعیت","area":"مساحت (متر مربع)","description":"توضیحات","purpose":"نوع معامله","propertyType":"نوع ملک","details":"مشخصات ملک","status":"وضعیت","howKicker":"چگونه کار می‌کند","howTitle":"جستجو. بررسی. تماس.","how1Title":"جستجو","how1Text":"خرید یا کرایه را انتخاب کنید، سپس بر اساس ناحیه، محله، نوع ملک، ارز، قیمت یا متن جستجو کنید.","how2Title":"بررسی","how2Text":"ملک را باز کنید تا عکس‌ها، موقعیت، مساحت، قیمت، وضعیت و توضیحات را ببینید.","how3Title":"تماس","how3Text":"برای تماس درباره ملک از واتساپ استفاده کنید.","aboutTitle":"درباره کابل پراپرتی هب","aboutText":"کابل پراپرتی هب بازار متمرکز املاک کابل است. معلومات املاک را منظم می‌کنیم تا خریداران، کرایه‌گیرندگان و مالکان سریع‌تر به گزینه مناسب برسند.","contactTitle":"تماس با کابل پراپرتی هب","contactText":"برای پرسش درباره ملک، پشتیبانی ثبت ملک یا گزارش از واتساپ استفاده کنید.","halalKicker":"بازار مطابق شریعت","halalTitle":"خرید نقدی و قراردادهای مستقیم کرایه.","halalText":"بدون سود. خرید نقدی و قرارداد مستقیم کرایه.","footer":"© 2026 Kabul Property Hub","formTitle":"ثبت ملک","formText":"آگهی شما تا بررسی و تایید کابل پراپرتی هب در حالت انتظار می‌ماند.","purposeLabel":"نوع معامله","titleLabel":"عنوان ملک","locationLabel":"نشانی / موقعیت","districtLabel":"ناحیه","neighborhoodLabel":"محله","typeLabel":"نوع ملک","descriptionLabel":"توضیحات و مشخصات","priceLabel":"قیمت","currencyLabel":"ارز","sizeLabel":"مساحت (متر مربع)","contactNameLabel":"نام تماس","phoneLabel":"شماره تماس","photosLabel":"آپلود عکس‌های خانه","submit":"ثبت ملک","photosRequired":"لطفاً حداقل یک عکس خانه آپلود کنید.","imageTypeError":"لطفاً فقط فایل‌های تصویری انتخاب کنید.","imageSizeError":"حجم هر عکس باید ۱۰ مگابایت یا کمتر باشد.","uploadFailed":"آپلود عکس انجام نشد. تنظیمات ذخیره‌سازی و اجازه آپلود Supabase را بررسی کنید.","submitting":"در حال ارسال...","success":"برای بررسی ارسال شد.","failed":"ارسال ناموفق بود.","required":"لطفاً این بخش را تکمیل کنید.","phoneError":"شماره تماس معتبر افغانستان را با +93 وارد کنید.","uploading":"در حال آپلود عکس‌ها...","back":"بازگشت","next":"بعدی","previous":"قبلی","imageOf":"از","close":"بستن","searchMenu":"جستجو","menuAbout":"درباره کابل پراپرتی هب","menuHow":"چگونه کار می‌کند","menuSaved":"املاک ذخیره‌شده","menuContact":"تماس با ما","menuList":"ثبت ملک","searchWhole":"جستجوی تمام املاک"},"ps":{"menuTerms":"د کارونې شرایط","termsKicker":"کابل پراپرتي هب","termsTitle":"د کارونې شرایط","termsText1":"کابل پراپرتي هب هغه ملکونه ښیي چې د دلالانو، آژانسونو او مالکینو لخوا ثبت شوي دي. کابل پراپرتي هب مخکې تر خپریدو هر اعلان کتنه کوي، خو د هیڅ ملک مالک، بازرس یا ضامن نه دی.","termsText2":"هره بیه، تفصیل او عکس د هغه چا لخوا دی چې اعلان یې ثبت کړی. مخکې له هرې پیسو ورکړې یا تړون، ټول جزیات مستقیم د ثبت شوي اړیکې سره تایید کړئ.","termsText3":"کابل پراپرتي هب تادیات نه پروسس کوي او د کاروونکو ترمنځ د پلور، کرایې یا اجارې په هیڅ تړون کې لوری نه دی.","termsText4":"د ناسم، ګمراه کوونکي یا مشکوک منځپانګې د راپور لپاره، په هر اعلان کې د راپور اختیار وکاروئ یا kabulpropertyhub@gmail.com ته برېښنالیک ولېږئ.","finderKicker":"کابل پراپرتي هب","finderTitle":"د کور پیدا کولو ستړی شوي یاست؟","finderText":"موږ لټوو. تاسو ټاکئ.","finderSubtext":"موږ ته ووایاست چې تاسو ته څه اړتیا لرئ — ناحیه، بودیجه، د ملک ډول — او کابل پراپرتي هب د کابل غوره ملکونه تاسو ته ټاکي. بې پایانه لیستونه نه. یوازې هغه څه چې مناسب دي.","finderCta":"کابل پراپرتي هب ته ووایاست چې تاسو ته څه اړتیا لري",
-"searchOverlayTitle":"لټون",
-"quickLinks":"ژر لینکونه",
-"findProperty":"ملک پیدا کړئ",
-"listPropQuick":"ملک ثبت کړئ",
-"howItWorksQuick":"څنګه کار کوي",
-"contactQuick":"اړیکه",
-"savedQuick":"خوندي شوي ملکونه",
-"aboutQuick":"د کابل پراپرتي هب په اړه",
-"menuPrivacy":"معلوماتو خوندیتوب",
-"privacyKicker":"کابل پراپرتي هب",
-"privacyTitle":"معلوماتو خوندیتوب",
-"privacyText1":"کابل پراپرتي هب یوازې هغه معلومات راټولوي چې د ملکونو د ثبت او ښودلو لپاره اړین دي.",
-"privacyText2":"موږ شخصي معلومات نه پلورو او نه دریمې ډلې سره شریکوو.",
-"privacyText3":"آپلود شوي انځورونه د عامه اعلان برخه کېږي.",
-"privacyText4":"موږ د خوندي شوو ملکونو او د ژبې غوره توبونو لپاره د براوزر محلي ذخیره کاروو.",
-"privacyText5":"د معلوماتو خوندیتوب پوښتنو لپاره، kabulpropertyhub@gmail.com ته اړیکه ونیسئ.","home":"کور","properties":"ملکونه","listProperty":"ملک ثبت کړئ","about":"د کابل پراپرتي هب په اړه","how":"څنګه کار کوي","saved":"خوندي شوي ملکونه","contact":"اړیکه","menu":"مینو","backHome":"کور ته بېرته","eyebrow":"کابل پراپرتي هب","heroKicker":"غوره ملکونه","heroTitle":"په کابل کې خپل ملک پیدا کړئ.","heroText":"په ټول کابل کې کورونه، اپارتمانونه، ځمکې، دوکانونه او تجارتي ملکونه ولټوئ. معلومات پرتله کړئ، ملکونه خوندي کړئ او د واتساپ له لارې اړیکه ونیسئ.","buy":"پېرود","sale":"پلور","rent":"کرایه","all":"ټول","search":"لټون","reset":"پاکول","searchProperty":"د ټولو ملکونو لټون","contextSearch":"د متن له مخې لټون","contextHint":"سیمه نه مومئ؟ د سرک، نښې، پتې یا د اعلان د هر متن له مخې لټون وکړئ.","district":"ناحیه","allDistricts":"ټولې ناحیې","neighborhood":"سیمه","allNeighborhoods":"ټولې سیمې","type":"د ملک ډول","allTypes":"ټول ډولونه","currency":"اسعار","allCurrencies":"ټول اسعار","minPrice":"لږ تر لږه نرخ","maxPrice":"تر ټولو لوړ نرخ","featured":"غوره ملکونه","featuredKicker":"کابل پراپرتي هب ټولګه","noResults":"ستاسو د لټون سره سم تایید شوی ملک پیدا نه شو.","noSaved":"تر اوسه خوندي شوی ملک نشته.","save":"خوندي کول","savedLabel":"خوندي","view":"ملک وګورئ","whatsapp":"واتساپ","report":"راپور","reportPrompt":"د راپور دلیل وټاکئ.","reportReasons":["د ملک ناسم معلومات","تکراري یا مخکې ثبت شوی ملک","مشکوک یا ګمراه کوونکی اعلان","د اړیکې ناسم معلومات","بله ستونزه"],"cancel":"لغوه","sold":"پلورل شوی","rented":"کرایه شوی","available":"موجود","location":"موقعیت","area":"مساحت (متر مربع)","description":"توضیحات","purpose":"د معاملې ډول","propertyType":"د ملک ډول","details":"د ملک معلومات","status":"حالت","howKicker":"څنګه کار کوي","howTitle":"لټون. کتنه. اړیکه.","how1Title":"لټون","how1Text":"پېرود یا کرایه وټاکئ، بیا د ناحیې، سیمې، ملک ډول، اسعارو، نرخ یا متن له مخې لټون وکړئ.","how2Title":"کتنه","how2Text":"ملک پرانیزئ څو عکسونه، موقعیت، مساحت، نرخ، حالت او توضیحات وګورئ.","how3Title":"اړیکه","how3Text":"د ملک په اړه د واتساپ له لارې اړیکه ونیسئ.","aboutTitle":"د کابل پراپرتي هب په اړه","aboutText":"کابل پراپرتي هب د کابل لپاره د ملکونو منظم بازار دی. د ملک معلومات منظموي څو پېرودونکي، کرایه‌اخیستونکي او مالکین ژر مناسب انتخاب پیدا کړي.","contactTitle":"له کابل پراپرتي هب سره اړیکه","contactText":"د ملک پوښتنو، د ثبت ملاتړ یا راپور لپاره له واتساپ څخه کار واخلئ.","halalKicker":"د شریعت بازار","halalTitle":"نغدي پېرود او مستقیم د کرایې تړونونه.","halalText":"بې سود. نغدي پېرود او مستقیم د کرایې تړون.","footer":"© 2026 Kabul Property Hub","formTitle":"خپل ملک ثبت کړئ","formText":"ستاسو اعلان تر هغه پورې د کتنې په حالت کې وي څو کابل پراپرتي هب یې وڅېړي او تایید یې کړي.","purposeLabel":"د معاملې ډول","titleLabel":"د ملک سرلیک","locationLabel":"پته / موقعیت","districtLabel":"ناحیه","neighborhoodLabel":"سیمه","typeLabel":"د ملک ډول","descriptionLabel":"توضیحات او مشخصات","priceLabel":"نرخ","currencyLabel":"اسعار","sizeLabel":"مساحت (متر مربع)","contactNameLabel":"د اړیکې نوم","phoneLabel":"د اړیکې شمېره","photosLabel":"د کور عکسونه پورته کړئ","submit":"ملک ثبت کړئ","photosRequired":"لطفاً لږ تر لږه د کور یو عکس پورته کړئ.","imageTypeError":"مهرباني وکړئ یوازې د انځور فایلونه وټاکئ.","imageSizeError":"د هر انځور اندازه باید ۱۰ مېګابایټه یا کمه وي.","uploadFailed":"د عکس پورته کول ناکام شول. د Supabase ذخیره او د اپلوډ اجازه وګورئ.","submitting":"د لېږلو په حال کې...","success":"د کتنې لپاره ولېږل شو.","failed":"لېږل ناکام شول.","required":"مهرباني وکړئ دا برخه ډکه کړئ.","phoneError":"د افغانستان معتبره شمېره د +93 سره ولیکئ.","uploading":"عکسونه پورته کېږي...","back":"بېرته","next":"بل","previous":"مخکینی","imageOf":"له","close":"بندول","searchMenu":"لټون","menuAbout":"د کابل پراپرتي هب په اړه","menuHow":"څنګه کار کوي","menuSaved":"خوندي شوي ملکونه","menuContact":"اړیکه","menuList":"ملک ثبت کړئ","searchWhole":"د ټولو ملکونو لټون"}};
-const typeTranslations={"en":{"Apartment":"Apartment","House":"House","Land":"Land","Commercial Property":"Commercial Property","Shop":"Shop","Other":"Other"},"fa":{"Apartment":"آپارتمان","House":"خانه","Land":"زمین","Commercial Property":"ملک تجاری","Shop":"دکان","Other":"سایر"},"ps":{"Apartment":"اپارتمان","House":"کور","Land":"ځمکه","Commercial Property":"تجارتي ملک","Shop":"دوکان","Other":"نور"}};
-const neighborhoodTranslations={fa:{"Afshar-e-selo":"افشار سیلو","Aga Ali Shames":"آقا علی شمس","Agab-e Hotel Khorasan":"عقب هوتل خراسان","Ageb Hoza 3":"عقب حوزه ۳","Alawadin":"علاءالدین","Aqeb Pohanton Ghaleb":"عقب پوهنتون غالب","Aqeb Sufarat Rusia":"عقب سفارت روسیه","Area 1":"ساحه ۱","Arzangimat":"ارزان قیمت","Ayub Khan Mina":"مینه ایوب خان","Bain Hesa Khoja Boghra & Hotal Parwan":"بین حصه خواجه بغرا و هوتل پروان","Bain Sarak 3 & 4 Prozha taimani":"بین سرک ۳ و ۴ پروژه تایمنی","Bazar Aqa Ali Shames":"بازار آغا علی شمس","Chahar Qala Chahardi":"چهارقلعه چهاردهی","Chahar Qala Wazir Abad":"چهارقلعه وزیرآباد","Chahar Rahi Asbha":"چهارراهی اسب‌ها","Chahar Rahi Asepha":"چهارراهی اسب‌ها","Chahar Rahi Hotal parwan":"چهارراهی هوتل پروان","Chahar Rahi Labjar":"چهارراهی لب‌جر","Chahar Rahi Market":"چهارراهی مارکیت","Chahar Rahi Parwan 2":"چهارراهی پروان ۲","Chaharahi Asb-ha":"چهارراهی اسب‌ها","Chaharahi Sarsabzi":"چهارراهی سرسبزی","Charahi Qambar":"چهارراهی قمبر","Charahi Shahid":"چهارراهی شهید","Charahi Tarafik":"چهارراهی ترافیک","Chehel setoon":"چهل‌ستون","Cinema Bricot":"سینما بریکت","Company":"کمپنی","Dahan Bagh Zanana":"دهان باغ زنانه","Dasht-e-barchi":"دشت برچی","De Afghanan":"ده افغانان","Deh morad khan":"ده مراد خان","Dehbori":"ده‌بوری","Dehmazang":"ده‌مزنگ","Duralaman":"دارالامان","Fourth Street":"سرک چهارم","Ghazi High School":"لیسه غازی","Gola-e- Sinema Khiar Khana":"گولایی سینمای خیرخانه","Golaye Dawakhana":"گولایی دواخانه","GoZar 9":"گذر ۹","Gulaei Park":"گل‌آی پارک","Habibia High School":"لیسه حبیبیه","Haftsutar":"هفت‌ستاره","Istgah-e Danesh":"ایستگاه دانش","JaiRees":"جایریس","Jamal Mina":"جمال مینه","kart-e-char":"کارت چهار","Kart-e-Mamorin":"کارت مامورین","Kart-e-sakhi":"کارت سخی","karti 3":"کارته ۳","Khair Khana":"خیرخانه","Khushal Khan":"خوشحال خان","Khwaja Bughra":"خواجه بغرا","Koch-e-h 5 Hotal Parwan":"کوچه هـ ۵ هوتل پروان","Kocha 4 Hotel Parwan":"کوچه ۴ هوتل پروان","Kocha Awal Hotel Parwan":"کوچه اول هوتل پروان","Kocha Hotal Parwaan":"کوچه هوتل پروان","Koche Hotal Parwan":"کوچه هوتل پروان","Kolola Pushta":"کلوله پشته","Kot-e-Sangi":"کوت سنگی","Kotal Khairkhana":"کوتل خیرخانه","Kuche Jamiat":"کوچه جمعیت","Labjar":"لب‌جر","Lisa Mariam":"لیسه مریم","Lisa Maryam":"لیسه مریم","Makrorian 1":"مکروریان ۱","Makrorian 3":"مکروریان ۳","Makrorian 5":"مکروریان ۵","Nahr-e Dar Sen":"نهر دارسن","now abad-e-dehmazang":"نوآباد ده‌مزنگ","Panj sad Family":"پنج‌صد فامیلی","Panj Shir Wat":"پنجشیر وات","Parwan 2":"پروان ۲","Peshet Pohanton Sallam":"پشت پوهنتون سلام","pol-e-sorkh":"پل سرخ","Prozha Taimani":"پروژه تایمنی","Prozha-e-taimani":"پروژه تایمنی","Qal'eh Musa":"قلعه موسی","Qala-e- Najara":"قلعه نجاره","Qala-e-wazir":"قلعه وزیر","Qasaba":"قصبه","Qhala Afghan ha":"قلعه افغان‌ها","Qowai Markaz":"قوای مرکز","Robaroo-e Nahia 15":"روبروی ناحیه ۱۵","Salim Karwan":"سلیم کاروان","Sanatoryam":"سناتوریوم","Sarai Shamaly":"سرای شمالی","Sarak 1 Prozha Taimani":"سرک ۱ پروژه تایمنی","Sarak 1 Qanony":"سرک ۱ قانونی","Sarak 10 Qala-e-Fathullah":"سرک ۱۰ قلعه فتح‌الله","Sarak 10 Taimani Sabeqa":"سرک ۱۰ تایمنی سابقه","Sarak 11 Qala-e-Fathullah":"سرک ۱۱ قلعه فتح‌الله","Sarak 11 Taimani Sabeqa":"سرک ۱۱ تایمنی سابقه","Sarak 12 Qala-e-Fathullah":"سرک ۱۲ قلعه فتح‌الله","Sarak 13 Qala-e-Fathullah":"سرک ۱۳ قلعه فتح‌الله","Sarak 2 Prozha Taimani":"سرک ۲ پروژه تایمنی","Sarak 2 Qala-e-Fathullah":"سرک ۲ قلعه فتح‌الله","Sarak 3 Ansary Sher Naw":"سرک ۳ انصاری شهر نو","Sarak 3 Hotal Parwan":"سرک ۳ هوتل پروان","Sarak 3 Prozha Taimani":"سرک ۳ پروژه تایمنی","Sarak 3 Qala-e-Fathullah":"سرک ۳ قلعه فتح‌الله","Sarak 3 Shir Poor":"سرک ۳ شیرپور","Sarak 4 Ansari":"سرک ۴ انصاری","Sarak 4 Prozha Taimani":"سرک ۴ پروژه تایمنی","Sarak 5 Prozha Taimani":"سرک ۵ پروژه تایمنی","Sarak 5 Qala-e-Fathullah":"سرک ۵ قلعه فتح‌الله","Sarak 5 Taimani Sabeqa":"سرک ۵ تایمنی سابقه","Sarak 6 Koluleh Poshteh":"سرک ۶ کلوله پشته","Sarak 6 Qala-e-Fathullah":"سرک ۶ قلعه فتح‌الله","Sarak 6 Taimani Sabeqa":"سرک ۶ تایمنی سابقه","Sarak 8 Hotal Parwan":"سرک ۸ هوتل پروان","Sarak 8 Qala-e-Fathullah":"سرک ۸ قلعه فتح‌الله","sarak 8 Taimani Sabeqa":"سرک ۸ تایمنی سابقه","Sarak 9 Koluleh Poshteh":"سرک ۹ کلوله پشته","Sarak 9 Qala-e-Fathullah":"سرک ۹ قلعه فتح‌الله","Sarak 9 Taimani Sabeqa":"سرک ۹ تایمنی سابقه","Sarak Bala Wasel Abad":"سرک بالای واصل‌آباد","Sarak Darulaman":"سرک دارالامان","Sarak Haji Chaman":"سرک حاجی چمن","Sarak Hawashenasi":"سرک هواشناسی","Sarak Hawza":"سرک حوزه","Sarak Kart-e-Parwan":"سرک کارته پروان","Sarak Masjed Nabawi":"سرک مسجد نبوی","Sarak Nahia 7":"سرک ناحیه ۷","Sarak Shora":"سرک شورا","Saria Ghazni":"سریا غزنی","saria-herati":"سریا هراتی","Serahi Allauddin":"سرای علاءالدین","Shah Shaheed":"شاه شهید","Shaher Naw":"شهر نو","Shahrak Aria":"شهرک آریا","Shahrak Haji Javid":"شهرک حاجی جاوید","Yakatoot":"یکه‌توت","Taimani":"تایمنی","Bagh Bala":"باغ بالا"},ps:{"Afshar-e-selo":"افشار سیلو","Aga Ali Shames":"آغا علي شمس","Agab-e Hotel Khorasan":"عقب هوټل خراسان","Ageb Hoza 3":"عقب حوزه ۳","Alawadin":"علاءالدین","Aqeb Pohanton Ghaleb":"عقب پوهنتون غالب","Aqeb Sufarat Rusia":"عقب سفارت روسیه","Area 1":"سیمه ۱","Arzangimat":"ارزان قیمت","Ayub Khan Mina":"ایوب خان مېنه","Bain Hesa Khoja Boghra & Hotal Parwan":"د خواجه بغرا او هوتل پروان ترمنځ","Bain Sarak 3 & 4 Prozha taimani":"د پروژې تایمني د ۳ او ۴ سرکونو ترمنځ","Bazar Aqa Ali Shames":"بازار آغا علي شمس","Chahar Qala Chahardi":"څلور قلعه چهاردهی","Chahar Qala Wazir Abad":"څلور قلعه وزیرآباد","Chahar Rahi Asbha":"څلورلارې اسونه","Chahar Rahi Asepha":"څلورلارې اسونه","Chahar Rahi Hotal parwan":"څلورلارې هوټل پروان","Chahar Rahi Labjar":"څلورلارې لب‌جر","Chahar Rahi Market":"څلورلارې مارکېټ","Chahar Rahi Parwan 2":"څلورلارې پروان ۲","Chaharahi Asb-ha":"څلورلارې اسونه","Chaharahi Sarsabzi":"څلورلارې سرسبزي","Charahi Qambar":"څلورلارې قمبر","Charahi Shahid":"څلورلارې شهید","Charahi Tarafik":"څلورلارې ترافیک","Chehel setoon":"څلوېښت ستن","Cinema Bricot":"سینما بریکوت","Company":"کمپنۍ","Dahan Bagh Zanana":"د باغ زنانه خوله","Dasht-e-barchi":"دشت برچي","De Afghanan":"ده افغانان","Deh morad khan":"ده مراد خان","Dehbori":"ده‌بوري","Dehmazang":"ده‌مزنګ","Duralaman":"دارالامان","Fourth Street":"څلورمه کوڅه","Ghazi High School":"غازی لېسه","Gola-e- Sinema Khiar Khana":"د خیرخانې سینما ګولایي","Golaye Dawakhana":"دواخانې ګولایي","GoZar 9":"ګذر ۹","Gulaei Park":"ګلایي پارک","Habibia High School":"حبیبیه لېسه","Haftsutar":"هفت ستوري","Istgah-e Danesh":"د دانش تمځای","JaiRees":"جایریس","Jamal Mina":"جمال مینه","kart-e-char":"کارته څلور","Kart-e-Mamorin":"کارت مامورین","Kart-e-sakhi":"کارته سخي","karti 3":"کارته ۳","Khair Khana":"خیرخانه","Khushal Khan":"خوشال خان","Khwaja Bughra":"خواجه بغرا","Koch-e-h 5 Hotal Parwan":"کوڅه هـ ۵ هوټل پروان","Kocha 4 Hotel Parwan":"کوڅه ۴ هوټل پروان","Kocha Awal Hotel Parwan":"لومړۍ کوڅه هوټل پروان","Kocha Hotal Parwaan":"کوڅه هوټل پروان","Koche Hotal Parwan":"کوڅه هوټل پروان","Kolola Pushta":"کلوله پشته","Kot-e-Sangi":"کوټ سنګي","Kotal Khairkhana":"د خیرخانې کوتل","Kuche Jamiat":"کوڅه جمعیت","Labjar":"لب‌جر","Lisa Mariam":"مریم لېسه","Lisa Maryam":"مریم لېسه","Makrorian 1":"مکروریان ۱","Makrorian 3":"مکروریان ۳","Makrorian 5":"مکروریان ۵","Nahr-e Dar Sen":"نهر دارسن","now abad-e-dehmazang":"نوآباد ده‌مزنګ","Panj sad Family":"پنځه سوه فامیلي","Panj Shir Wat":"پنجشیر واټ","Parwan 2":"پروان ۲","Peshet Pohanton Sallam":"د سلام پوهنتون شاته","pol-e-sorkh":"پل سرخ","Prozha Taimani":"پروژه تایمني","Prozha-e-taimani":"پروژه تایمني","Qal'eh Musa":"قلعه موسی","Qala-e- Najara":"قلعه نجاره","Qala-e-wazir":"قلعه وزیر","Qasaba":"قصبه","Qhala Afghan ha":"قلعه افغانان","Qowai Markaz":"قوای مرکز","Robaroo-e Nahia 15":"د ۱۵مې ناحیې روبه‌رو","Salim Karwan":"سلیم کاروان","Sanatoryam":"سناتوریم","Sarai Shamaly":"شمالي سرای","Sarak 1 Prozha Taimani":"د پروژې تایمني ۱ سرک","Sarak 1 Qanony":"سرک ۱ قانوني","Sarak 10 Qala-e-Fathullah":"سرک ۱۰ قلعه فتح‌الله","Sarak 10 Taimani Sabeqa":"سرک ۱۰ تایمني سابقه","Sarak 11 Qala-e-Fathullah":"سرک ۱۱ قلعه فتح‌الله","Sarak 11 Taimani Sabeqa":"سرک ۱۱ تایمني سابقه","Sarak 12 Qala-e-Fathullah":"سرک ۱۲ قلعه فتح‌الله","Sarak 13 Qala-e-Fathullah":"سرک ۱۳ قلعه فتح‌الله","Sarak 2 Prozha Taimani":"د پروژې تایمني ۲ سرک","Sarak 2 Qala-e-Fathullah":"سرک ۲ قلعه فتح‌الله","Sarak 3 Ansary Sher Naw":"سرک ۳ انصاري شهر نو","Sarak 3 Hotal Parwan":"سرک ۳ هوټل پروان","Sarak 3 Prozha Taimani":"د پروژې تایمني ۳ سرک","Sarak 3 Qala-e-Fathullah":"سرک ۳ قلعه فتح‌الله","Sarak 3 Shir Poor":"سرک ۳ شیرپور","Sarak 4 Ansari":"سرک ۴ انصاري","Sarak 4 Prozha Taimani":"د پروژې تایمني ۴ سرک","Sarak 5 Prozha Taimani":"د پروژې تایمني ۵ سرک","Sarak 5 Qala-e-Fathullah":"سرک ۵ قلعه فتح‌الله","Sarak 5 Taimani Sabeqa":"سرک ۵ تایمني سابقه","Sarak 6 Koluleh Poshteh":"سرک ۶ کلوله پشته","Sarak 6 Qala-e-Fathullah":"سرک ۶ قلعه فتح‌الله","Sarak 6 Taimani Sabeqa":"سرک ۶ تایمني سابقه","Sarak 8 Hotal Parwan":"سرک ۸ هوټل پروان","Sarak 8 Qala-e-Fathullah":"سرک ۸ قلعه فتح‌الله","sarak 8 Taimani Sabeqa":"سرک ۸ تایمني سابقه","Sarak 9 Koluleh Poshteh":"سرک ۹ کلوله پشته","Sarak 9 Qala-e-Fathullah":"سرک ۹ قلعه فتح‌الله","Sarak 9 Taimani Sabeqa":"سرک ۹ تایمني سابقه","Sarak Bala Wasel Abad":"د واصل آباد پورته سرک","Sarak Darulaman":"سرک دارالامان","Sarak Haji Chaman":"سرک حاجي چمن","Sarak Hawashenasi":"سرک هوا پېژندنه","Sarak Hawza":"سرک حوزه","Sarak Kart-e-Parwan":"سرک کارته پروان","Sarak Masjed Nabawi":"سرک مسجد نبوي","Sarak Nahia 7":"سرک ناحیه ۷","Sarak Shora":"سرک شورا","Saria Ghazni":"سریا غزني","saria-herati":"سریا هراتي","Serahi Allauddin":"سرای علاءالدین","Shah Shaheed":"شاه شهید","Shaher Naw":"ښار نو","Shahrak Aria":"آریا ښارګوټی","Shahrak Haji Javid":"حاجي جاوید ښارګوټی","Yakatoot":"یکه‌توت","Taimani":"تایمني","Bagh Bala":"باغ بالا"}};
-const WA_ICON='<svg class="wa-symbol" viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M19.11 17.33c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.13-.42-2.15-1.34-.79-.7-1.32-1.57-1.47-1.84-.15-.27-.02-.42.11-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.27s.98 2.63 1.11 2.81c.14.18 1.93 2.95 4.68 4.14.65.28 1.16.45 1.56.57.65.21 1.24.18 1.7.11.52-.08 1.6-.66 1.82-1.29.23-.63.23-1.17.16-1.29-.07-.11-.25-.18-.52-.32M16.03 3C8.84 3 3 8.84 3 16.03c0 2.3.6 4.46 1.65 6.34L3 29l6.82-1.61a12.96 12.96 0 0 0 6.21 1.58h.01C23.22 28.97 29.06 23.13 29.06 16S23.22 3 16.03 3m0 23.67h-.01a10.75 10.75 0 0 1-5.49-1.5l-.39-.23-4.05.96.98-3.95-.25-.41a10.73 10.73 0 1 1 9.21 5.13"/></svg>';
-const TYPE_ICONS={"Apartment":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M8 7h2M14 7h2M8 11h2M14 11h2M8 15h2M14 15h2"/></svg>',"House":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9.5a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10"/><path d="M10 20.5V14h4v6.5"/></svg>',"Land":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 19h18"/><rect x="5" y="9" width="14" height="10" stroke-dasharray="2.4 2.2"/><path d="M9 9V5.5l3-1.5 3 1.5V9"/></svg>',"Commercial Property":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="9" width="18" height="11" rx="1"/><path d="M8 9V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3"/><path d="M3 13h18"/></svg>',"Shop":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 9V5h16v4"/><path d="M4 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0"/><path d="M5 9v10h14V9"/><path d="M10 19v-5h4v5"/></svg>',"Other":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="6" cy="12" r="1.15" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.15" fill="currentColor" stroke="none"/><circle cx="18" cy="12" r="1.15" fill="currentColor" stroke="none"/></svg>'};
-Object.assign(translations.en,{priceRange:"Price range",allKabul:"All Kabul",anyPrice:"Any price",allProperties:"All properties",chatAgent:"Chat with Agent",viewMap:"View on Map",close:"Close",mapTitle:"Property location",mapFallback:"Map location will open from the property address.",saleHistory:"KBL recorded property",soldOn:"Sold",rentedOn:"Rented"});
-Object.assign(translations.en,{servicesKicker:"SERVICES",servicesTitle:"How KBL Can Help You",buyServiceText:"Find homes, land, apartments, and commercial property for sale across Kabul.",rentServiceText:"Find apartments, houses, and commercial spaces for rent across Kabul.",aboutPanelTitle:"About Us",aboutPanelSubtitle:"Learn about KBL Property Hub and our mission.",aboutPanelText:"Kabul Property Hub organizes property information for buyers, renters, and owners in Kabul. We focus on a clear marketplace, direct communication, and Sharia-compliant transaction principles.",contactPanelTitle:"Contact Us",contactPanelSubtitle:"Get in touch with the KBL support team.",contactPanelText:"For property questions, listing support, or reports, contact KBL through WhatsApp.",feedbackPanelTitle:"Feedback",feedbackPanelSubtitle:"Send your feedback directly by email.",feedbackPanelText:"Tell us what works, what needs improvement, or what you want KBL to add.",searchKicker:"SEARCH",searchTitle:"Find a property",contextSearchPlaceholder:"Street, landmark, address..."});
-Object.assign(translations.fa,{servicesKicker:"خدمات",servicesTitle:"کابل پراپرتی هب چگونه به شما کمک می‌کند",buyServiceText:"خانه، زمین، آپارتمان و املاک تجاری برای فروش در سراسر کابل پیدا کنید.",rentServiceText:"آپارتمان، خانه و فضاهای تجاری برای کرایه در سراسر کابل پیدا کنید.",aboutPanelTitle:"درباره ما",aboutPanelSubtitle:"درباره کابل پراپرتی هب و مأموریت ما بیشتر بدانید.",aboutPanelText:"کابل پراپرتی هب معلومات املاک را برای خریداران، کرایه‌گیرندگان و مالکان در کابل منظم می‌کند. تمرکز ما بر بازار روشن، ارتباط مستقیم و اصول معاملات مطابق شریعت است.",contactPanelTitle:"تماس با ما",contactPanelSubtitle:"با تیم پشتیبانی کابل پراپرتی هب در تماس شوید.",contactPanelText:"برای پرسش‌های ملکی، پشتیبانی ثبت آگهی یا گزارش، از طریق واتساپ با کابل پراپرتی هب تماس بگیرید.",feedbackPanelTitle:"بازخورد",feedbackPanelSubtitle:"بازخورد خود را مستقیماً از طریق ایمیل بفرستید.",feedbackPanelText:"نظر خود را درباره بخش‌های خوب، موارد نیازمند بهبود یا امکانات مورد نظر شما با ما در میان بگذارید.",searchKicker:"جستجو",searchTitle:"ملک پیدا کنید",contextSearchPlaceholder:"سرک، نشانی، نشانه..."});
-Object.assign(translations.ps,{servicesKicker:"خدمتونه",servicesTitle:"کابل پراپرتي هب څنګه ستاسو مرسته کوي",buyServiceText:"په ټول کابل کې د پلور لپاره کورونه، ځمکې، اپارتمانونه او تجارتي ملکونه پیدا کړئ.",rentServiceText:"په ټول کابل کې د کرایې لپاره اپارتمانونه، کورونه او تجارتي ځایونه پیدا کړئ.",aboutPanelTitle:"زموږ په اړه",aboutPanelSubtitle:"د کابل پراپرتي هب او زموږ د موخې په اړه معلومات واخلئ.",aboutPanelText:"کابل پراپرتي هب په کابل کې د پېرودونکو، کرایه‌اخیستونکو او مالکینو لپاره د ملکونو معلومات منظموي. زموږ تمرکز روښانه بازار، مستقیمې اړیکې او د شریعت مطابق د معاملاتو پر اصولو دی.",contactPanelTitle:"له موږ سره اړیکه",contactPanelSubtitle:"د کابل پراپرتي هب د ملاتړ له ټیم سره اړیکه ونیسئ.",contactPanelText:"د ملک پوښتنو، د اعلان د ثبت ملاتړ یا راپور لپاره له کابل پراپرتي هب سره د واتساپ له لارې اړیکه ونیسئ.",feedbackPanelTitle:"نظر",feedbackPanelSubtitle:"خپل نظر مستقیم د ایمیل له لارې راولېږئ.",feedbackPanelText:"موږ ته ووایاست چې څه ښه دي، څه ښه کېدو ته اړتیا لري، یا کومه ځانګړنه غواړئ چې کابل پراپرتي هب یې ورزیاته کړي.",searchKicker:"لټون",searchTitle:"ملک پیدا کړئ",contextSearchPlaceholder:"سرک، پته، نښه..."});
-Object.assign(translations.fa,{saleHelper:"مشتری این را به عنوان خرید می‌بیند",rentHelper:"مشتری این را به عنوان کرایه می‌بیند",priceRange:"محدوده قیمت",allKabul:"تمام کابل",anyPrice:"هر قیمت",allProperties:"همه املاک",chatAgent:"گفتگو با نماینده",viewMap:"مشاهده روی نقشه",mapTitle:"موقعیت ملک",mapFallback:"موقعیت ملک از آدرس ثبت‌شده باز می‌شود.",saleHistory:"سابقه ثبت‌شده توسط KBL",soldOn:"فروخته شد",rentedOn:"کرایه داده شد"});
-Object.assign(translations.ps,{saleHelper:"پېرېدونکي دا د پیرود په توګه ویني",rentHelper:"پېرېدونکي دا د کرایې په توګه ویني",priceRange:"د نرخ حد",allKabul:"ټول کابل",anyPrice:"هر نرخ",allProperties:"ټول ملکونه",chatAgent:"له استازي سره خبرې",viewMap:"پر نقشه وګورئ",mapTitle:"د ملک موقعیت",mapFallback:"د ملک موقعیت به د ثبت شوي ادرس له لارې پرانیستل شي.",saleHistory:"د KBL ثبت شوی ملک",soldOn:"وپلورل شو",rentedOn:"په کرایه ورکړل شو"});
-let lang=localStorage.getItem('kbl_lang')||'en';
-let purpose='all';
-let selectedType='';
-let listings=[];
-const tr=k=>(translations[lang]&&translations[lang][k])??translations.en[k]??k;
-const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-function localizedNeighborhood(v){if(!v)return '';if(typeof v==='object')return v[lang]||v.en||Object.values(v)[0]||'';return neighborhoodTranslations[lang]?.[v]||v;}
-function localizedType(v){if(!v)return '';return typeTranslations[lang]?.[v]||v;}
-function localizedDistrict(v){if(v===undefined||v===null||v==='')return '';return lang==='en'?`District ${v}`:lang==='fa'?`ناحیه ${v}`:`${v}مه ناحیه`;}
-function normalizePurpose(p){const x=String(p?.purpose??p?.listing_type??p?.transaction_type??p?.sale_type??p?.type_of_listing??'').toLowerCase();if(x==='sale'||x==='buy'||x==='for sale')return 'buy';if(x==='rent'||x==='rental'||x==='for rent')return 'rent';return p?.purpose||p?.listing_type||p?.transaction_type||'';}
-function getType(p){return p?.property_type||p?.type||'';}
-function getNeighborhood(p){return p?.neighborhood||p?.area||'';}
-function getStatus(p){const s=String(p?.listing_status||p?.property_status||'available').toLowerCase();if(s==='sold'||s==='rented')return s;return 'available';}
-function getImages(p){let v=p?.photo_urls??p?.images??[];try{if(typeof v==='string')v=JSON.parse(v)}catch{v=[]};return Array.isArray(v)?v.filter(Boolean):[];}
-function priceText(p){const n=Number(p?.price_amount??p?.price??0);const c=p?.price_currency||p?.currency||'AFN';if(!n)return '';return `${new Intl.NumberFormat(lang==='en'?'en-US':lang==='fa'?'fa-AF':'ps-AF').format(n)} ${c==='USD'?'USD $':'AFN ؋'}`;}
-function openMenu(){document.getElementById('menuPanel')?.classList.add('open');document.getElementById('menuBackdrop')?.classList.add('open');document.getElementById('menuPanel')?.setAttribute('aria-hidden','false');}
-function closeMenu(){document.getElementById('menuPanel')?.classList.remove('open');document.getElementById('menuBackdrop')?.classList.remove('open');document.getElementById('menuPanel')?.setAttribute('aria-hidden','true');}
-function fillSelect(id,values,kind){const s=document.getElementById(id);if(!s)return;const old=s.value;let first=kind==='district'?tr('allDistricts'):kind==='neighborhood'?tr('allNeighborhoods'):kind==='type'?tr('allTypes'):kind==='currency'?tr('allCurrencies'):'';s.innerHTML=`<option value="">${esc(first)}</option>`+values.map(v=>`<option value="${esc(v)}">${esc(kind==='district'?localizedDistrict(v):kind==='neighborhood'?localizedNeighborhood(v):kind==='type'?localizedType(v):v==='USD'?'USD $':'AFN ؋')}</option>`).join('');if(values.includes(old))s.value=old;}
-function renderTypeTabs(){const el=document.getElementById('typeTabs');if(!el)return;const items=[['',tr('allTypes'),'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></svg>']].concat(types.map(t=>[t,localizedType(t),TYPE_ICONS[t]||'']));el.innerHTML=items.map(([val,label,icon])=>`<button type="button" class="type-tab ${selectedType===val?'active':''}" data-type="${esc(val)}">${icon}<span>${esc(label)}</span></button>`).join('');}
-function renderOptions(){fillSelect('district',districts,'district');fillSelect('neighborhood',neighborhoods,'neighborhood');fillSelect('type',types,'type');fillSelect('currency',['AFN','USD'],'currency');fillSelect('formDistrict',districts,'district');fillSelect('formNeighborhood',neighborhoods,'neighborhood');fillSelect('formType',types,'type');renderTypeTabs();fillSelect('formCurrency',['AFN','USD'],'currency');const p=document.getElementById('purpose');if(p){const old=p.value||'buy';p.innerHTML=`<option value="buy">${esc(tr('sale'))}</option><option value="rent">${esc(tr('rent'))}</option>`;p.value=old;}}
-function applyLang(){document.documentElement.lang=lang;document.documentElement.dir=lang==='en'?'ltr':'rtl';document.querySelectorAll('[data-i18n]').forEach(e=>{const t=tr(e.dataset.i18n);if(t)e.textContent=t;});document.querySelectorAll('[data-i18n-placeholder]').forEach(e=>e.placeholder=tr(e.dataset.i18nPlaceholder));document.querySelectorAll('.lang').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));const lt=document.querySelector('.language-trigger');if(lt){const lc=lt.querySelector('.language-current');if(lc)lc.textContent=(lang==='fa'?'دری':lang==='ps'?'پښتو':'EN');else lt.firstChild.textContent=(lang==='fa'?'دری':lang==='ps'?'پښتو':'EN')+' ';}renderOptions();renderCards();renderSaved();}
-function setLang(next){if(!translations[next])return;lang=next;localStorage.setItem('kbl_lang',lang);applyLang();}
-function savedSet(){try{return new Set(JSON.parse(localStorage.getItem('kbl_saved_properties')||'[]').map(String))}catch{return new Set()}}
-function toggleSaved(id){const s=savedSet();s.has(String(id))?s.delete(String(id)):s.add(String(id));localStorage.setItem('kbl_saved_properties',JSON.stringify([...s]));renderCards();renderSaved();}
-function searchable(p){const parts=[p.id,p.submission_id,p.title,p.location,getNeighborhood(p),localizedNeighborhood(getNeighborhood(p)),p.description,p.description_en,p.description_fa,p.description_ps,p.district,getType(p),normalizePurpose(p),p.contact_name].flatMap(v=>typeof v==='object'?Object.values(v):[v]);return parts.filter(Boolean).join(' ').toLowerCase();}
-function matches(p){const q=(document.getElementById('propertySearch')?.value||'').trim().toLowerCase();const ctx=(document.getElementById('contextSearch')?.value||'').trim().toLowerCase();const d=document.getElementById('district')?.value||'';const n=document.getElementById('neighborhood')?.value||'';const t=selectedType;const c=document.getElementById('currency')?.value||'';const min=Number(document.getElementById('minPrice')?.value||0);const max=Number(document.getElementById('maxPrice')?.value||0);const text=searchable(p);const pp=normalizePurpose(p);return(!q||text.includes(q))&&(!ctx||text.includes(ctx))&&(!d||String(p.district)===d)&&(!n||String(getNeighborhood(p))===n)&&(!t||String(getType(p))===t)&&(!c||String(p.price_currency||p.currency||'')===c)&&(!min||Number(p.price_amount??p.price??0)>=min)&&(!max||Number(p.price_amount??p.price??0)<=max)&&(purpose==='all'||pp===purpose);}
-function card(p){const id=String(p.id);const imgs=getImages(p);const saved=savedSet().has(id);const status=getStatus(p);const purposeText=normalizePurpose(p)==='rent'?tr('rent'):normalizePurpose(p)==='buy'?tr('buy'):'';const n=localizedNeighborhood(getNeighborhood(p));const d=localizedDistrict(p.district);const t=localizedType(getType(p));const desc=typeof p.description==='object'?(p.description[lang]||p.description.en||Object.values(p.description)[0]):(p[`description_${lang}`]||p.description||'');
-  const imgScroll=imgs.length?`<div class="image-scroll" data-scroll-id="${esc(id)}">${imgs.map(src=>`<img src="${esc(src)}" alt="${esc(n||p.title||'')}" loading="lazy">`).join('')}</div>`:`<div class="image-scroll"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600'%3E%3Crect width='800' height='600' fill='%23e8e8ed'/%3E%3C/svg%3E" alt=""></div>`;
-  const dots=imgs.length>1?`<div class="image-dots">${imgs.map((_,i)=>`<button type="button" class="image-dot ${i===0?'active':''}" data-dot-id="${esc(id)}" data-index="${i}" aria-label="${i+1}"></button>`).join('')}</div>`:'';
-  const badge=status==='sold'?`<span class="status-badge sold">${esc(tr('sold'))}</span>`:status==='rented'?`<span class="status-badge rented">${esc(tr('rented'))}</span>`:'';
-  return `<article class="property-card" data-card-id="${esc(id)}"><div class="property-media">${imgScroll}<button class="save-button ${saved?'saved':''}" data-save="${esc(id)}" type="button">${saved?'♥':'♡'}</button>${badge}${dots}${imgs.length>1?`<span class="image-count">1 ${esc(tr('imageOf'))} ${imgs.length}</span>`:''}</div><div class="property-content"><div class="card-top"><span class="property-type">${esc(t)}</span><span class="purpose-label">${esc(purposeText)}</span></div><h3>${esc(p.title||n||tr('propertyType'))}</h3><p class="location-line">${esc(d)} · ${esc(n)}${p.location?` · ${esc(p.location)}`:''}</p><div class="price-line">${esc(priceText(p))}</div><div class="area-line">${p.size_sqm?`${esc(tr('area'))}: ${esc(p.size_sqm)}`:''}</div><p class="description-line">${esc(desc)}</p><div class="card-actions"><button class="view-button" data-view="${esc(id)}" type="button">${esc(tr('view'))}</button><a class="wa-button" href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(whatsappText(p))}" target="_blank" rel="noopener">${esc(tr('whatsapp'))}</a><button class="report-button" data-report="${esc(id)}" type="button">⚑ ${esc(tr('report'))}</button></div></div></article>`;
-}
-function renderCards(){const el=document.getElementById('cards');if(!el)return;const arr=listings.filter(matches);const count=document.getElementById('resultCount');if(count)count.textContent=arr.length?String(arr.length):'';el.innerHTML=arr.map(card).join('')||`<div class="empty">${esc(tr('noResults'))}</div>`;requestAnimationFrame(()=>{arr.forEach(p=>setupImageScroll(p));});}
-function renderSaved(){const el=document.getElementById('savedCards');if(!el)return;const s=savedSet();const arr=listings.filter(p=>s.has(String(p.id)));el.innerHTML=arr.map(card).join('')||`<div class="empty">${esc(tr('noSaved'))}</div>`;requestAnimationFrame(()=>{arr.forEach(p=>setupImageScroll(p));});}
-function setupImageScroll(p){const id=String(p.id);const scrollEl=document.querySelector(`[data-scroll-id="${CSS.escape(id)}"]`);if(!scrollEl)return;const imgs=getImages(p);if(imgs.length<2)return;let current=0;const dots=document.querySelectorAll(`[data-dot-id="${CSS.escape(id)}"]`);const countEl=scrollEl.parentElement.querySelector('.image-count');const updateDots=()=>{dots.forEach((d,i)=>d.classList.toggle('active',i===current));if(countEl)countEl.textContent=`${current+1} ${tr('imageOf')} ${imgs.length}`;};scrollEl.addEventListener('scroll',()=>{const idx=Math.round(scrollEl.scrollLeft/scrollEl.clientWidth);if(idx!==current&&idx>=0&&idx<imgs.length){current=idx;updateDots();}},{passive:true});dots.forEach(d=>d.addEventListener('click',()=>{current=Number(d.dataset.index);scrollEl.scrollTo({left:current*scrollEl.clientWidth,behavior:'smooth'});updateDots();}));}
+/* KBL PROPERTY HUB
+   Lightweight multilingual property frontend.
+   Replace REPORT_EMAIL with the email address you want to receive reports.
+*/
+const MY_WHATSAPP_NUMBER = "93707740762";
+const REPORT_EMAIL = "YOUR_EMAIL@example.com";
 
-function whatsappText(p){const n=localizedNeighborhood(getNeighborhood(p));const d=localizedDistrict(p.district);return lang==='fa'?`سلام، درباره ملک ${p.submission_id||p.id} در ${n}، ${d} معلومات می‌خواهم.`:lang==='ps'?`سلام، زه د ${p.submission_id||p.id} ملک په ${n}، ${d} کې معلومات غواړم.`:`Hello, I want information about property ${p.submission_id||p.id} in ${n}, ${d}.`;}
-function legacyShowProperty(id){const p=listings.find(x=>String(x.id)===String(id));if(!p)return;const imgs=getImages(p);const n=localizedNeighborhood(getNeighborhood(p));const d=localizedDistrict(p.district);const desc=typeof p.description==='object'?(p.description[lang]||p.description.en||Object.values(p.description)[0]):(p[`description_${lang}`]||p.description||'');const overlay=document.createElement('div');overlay.className='modal-overlay';overlay.innerHTML=`<div class="property-modal"><button class="modal-close" data-close-modal type="button">×</button><div class="modal-media"><img src="${esc(imgs[0]||'')}" alt="${esc(n)}"></div><div class="modal-body"><span class="kicker">${esc(localizedType(getType(p)))}</span><h2>${esc(p.title||n)}</h2><p class="modal-location">${esc(d)} · ${esc(n)}${p.location?` · ${esc(p.location)}`:''}</p><div class="modal-price">${esc(priceText(p))}</div><div class="modal-grid"><div><small>${esc(tr('purpose'))}</small><strong>${esc(normalizePurpose(p)==='rent'?tr('rent'):tr('buy'))}</strong></div><div><small>${esc(tr('area'))}</small><strong>${esc(p.size_sqm||'—')}</strong></div><div><small>${esc(tr('status'))}</small><strong>${esc(getStatus(p)==='sold'?tr('sold'):getStatus(p)==='rented'?tr('rented'):tr('available'))}</strong></div></div><h3>${esc(tr('description'))}</h3><p class="modal-description">${esc(desc)}</p><div class="modal-actions"><a class="wa-button" href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(whatsappText(p))}" target="_blank" rel="noopener"><svg class="wa-symbol" viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M19.11 17.33c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.13-.42-2.15-1.34-.79-.7-1.32-1.57-1.47-1.84-.15-.27-.02-.42.11-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.27s.98 2.63 1.11 2.81c.14.18 1.93 2.95 4.68 4.14.65.28 1.16.45 1.56.57.65.21 1.24.18 1.7.11.52-.08 1.6-.66 1.82-1.29.23-.63.23-1.17.16-1.29-.07-.11-.25-.18-.52-.32M16.03 3C8.84 3 3 8.84 3 16.03c0 2.3.6 4.46 1.65 6.34L3 29l6.82-1.61a12.96 12.96 0 0 0 6.21 1.58h.01C23.22 28.97 29.06 23.13 29.06 16S23.22 3 16.03 3m0 23.67h-.01a10.75 10.75 0 0 1-5.49-1.5l-.39-.23-4.05.96.98-3.95-.25-.41a10.73 10.73 0 1 1 9.21 5.13"/></svg>${esc(tr('whatsapp'))}</a><button class="report-button" data-report="${esc(String(p.id))}" type="button">⚑ ${esc(tr('report'))}</button></div></div></div>`;document.body.appendChild(overlay);requestAnimationFrame(()=>requestAnimationFrame(()=>overlay.classList.add('active')));overlay.addEventListener('click',e=>{if(e.target===overlay||e.target.closest('[data-close-modal]')){overlay.classList.remove('active');setTimeout(()=>overlay.remove(),300);}const r=e.target.closest('[data-report]');if(r){overlay.classList.remove('active');setTimeout(()=>{overlay.remove();openReport(r.dataset.report);},300);}});}
-function openReport(id){const p=listings.find(x=>String(x.id)===String(id));const reasons=translations[lang].reportReasons;const overlay=document.createElement('div');overlay.className='modal-overlay';overlay.innerHTML=`<div class="report-modal"><button class="modal-close" data-close type="button">×</button><p class="kicker">${esc(tr('report'))}</p><h2>${esc(tr('report'))}</h2><p>${esc(tr('reportPrompt'))}</p><div class="report-options">${reasons.map((r,i)=>`<button type="button" data-reason="${i}">${esc(r)}</button>`).join('')}</div><button class="cancel-report" data-close type="button">${esc(tr('cancel'))}</button></div>`;document.body.appendChild(overlay);requestAnimationFrame(()=>requestAnimationFrame(()=>overlay.classList.add('active')));overlay.addEventListener('click',e=>{if(e.target===overlay||e.target.closest('[data-close]')){overlay.classList.remove('active');setTimeout(()=>overlay.remove(),300);}const b=e.target.closest('[data-reason]');if(!b)return;const reason=reasons[Number(b.dataset.reason)];const subject=encodeURIComponent(`KBL Property Report - ${p?.submission_id||id}`);const body=encodeURIComponent(`Property ID: ${p?.submission_id||id}\nTitle: ${p?.title||''}\nReason: ${reason}\n\n`);window.location.href=`mailto:kabulpropertyhub@gmail.com?subject=${subject}&body=${body}`;overlay.classList.remove('active');setTimeout(()=>overlay.remove(),300);});}
-async function loadListings(){try{const r=await fetch(`${SUPABASE_URL}/rest/v1/listings?select=*&status=in.(approved,verified,trusted,sold,rented)&order=id.desc`,{headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`}});if(!r.ok)throw new Error('load');const data=await r.json();listings=Array.isArray(data)?data:[];}catch{listings=[]}renderCards();renderSaved();const listingId=new URLSearchParams(location.search).get('listing');if(listingId)setTimeout(()=>showProperty(listingId),180);}
-async function uploadPhotos(){const input=document.getElementById('photos');const files=[...(input?.files||[])];if(!files.length)throw new Error(tr('photosRequired'));const urls=[];for(const file of files){if(!file.type.startsWith('image/'))throw new Error(tr('imageTypeError'));if(file.size>10*1024*1024)throw new Error(tr('imageSizeError'));const safeName=file.name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]/g,'_').replace(/_+/g,'_');const path=`${crypto.randomUUID()}-${safeName}`;const r=await fetch(`${SUPABASE_URL}/storage/v1/object/property-images/${path}`,{method:'POST',headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`,'Content-Type':file.type||'application/octet-stream','x-upsert':'false','cache-control':'3600'},body:file});if(!r.ok){let detail='';try{detail=await r.text()}catch{};console.error('Supabase photo upload failed',r.status,detail);throw new Error(`${tr('uploadFailed')} (${r.status})${detail?`: ${detail}`:''}`);}urls.push(`${SUPABASE_URL}/storage/v1/object/public/property-images/${path}`);}return urls;}
-async function submitProperty(){const choice=document.querySelector('input[name="purposeChoice"]:checked');const purposeField=document.getElementById('purpose');if(choice&&purposeField)purposeField.value=choice.value;const msg=document.getElementById('formMessage');const get=id=>document.getElementById(id);const required=['title','location','formDistrict','formNeighborhood','formType','description','price','formCurrency','contactName','phone'];for(const id of required){const x=get(id);if(!x?.value){msg.textContent=tr('required');msg.className='message error';x?.focus();return;}}if(!/^\+93\d{8,12}$/.test(get('phone').value.trim())){msg.textContent=tr('phoneError');msg.className='message error';return;}try{msg.textContent=tr('uploading');msg.className='message';const urls=await uploadPhotos();const args=[get('title').value,get('formType').value,get('description').value,get('contactName').value,Number(get('formDistrict').value),get('location').value,Number(get('price').value),get('formCurrency').value,0,0,Number(get('size').value||0),0,false,false,false,false,false,false,get('phone').value.trim(),get('formNeighborhood').value,get('purpose').value,urls];const body=Object.fromEntries(args.map((v,i)=>[`p${i+1}`,v]));const r=await fetch(`${SUPABASE_URL}/rest/v1/rpc/submit_kbl_property_secure`,{method:'POST',headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`,'Content-Type':'application/json'},body:JSON.stringify(body)});if(!r.ok){const t=await r.text();throw new Error(t||tr('failed'));}msg.textContent=tr('success');msg.className='message success';get('submitBtn').disabled=true;}catch(e){msg.textContent=e.message||tr('failed');msg.className='message error';}}
-document.addEventListener('click',e=>{const l=e.target.closest('.lang');if(l){setLang(l.dataset.lang);return}if(e.target.closest('.menu-btn')){openMenu();return}if(e.target.closest('.close-menu')||e.target.closest('#menuBackdrop')){closeMenu();return}const p=e.target.closest('.purpose');if(p){if(p.tagName==='A'&&p.getAttribute('href'))return;purpose=p.dataset.purpose;document.querySelectorAll('.purpose').forEach(x=>x.classList.toggle('active',x===p));refreshCardsWithSkeleton();return}const tt=e.target.closest('.type-tab');if(tt){selectedType=tt.dataset.type;document.querySelectorAll('.type-tab').forEach(x=>x.classList.toggle('active',x===tt));renderCards();return}const save=e.target.closest('[data-save]');if(save){toggleSaved(save.dataset.save);return}const view=e.target.closest('[data-view]');if(view){showProperty(view.dataset.view);return}const report=e.target.closest('[data-report]');if(report){openReport(report.dataset.report);return}if(e.target.closest('#searchBtn')){renderCards();return}if(e.target.closest('#resetBtn')){['propertySearch','contextSearch','district','neighborhood','type','currency','minPrice','maxPrice'].forEach(id=>{const x=document.getElementById(id);if(x)x.value='';});purpose='all';selectedType='';document.querySelectorAll('.purpose').forEach(x=>x.classList.toggle('active',x.dataset.purpose==='all'));renderTypeTabs();renderCards();return}if(e.target.closest('#submitBtn'))submitProperty();
-  if(e.target.closest('#searchTrigger')||e.target.closest('.search-trigger')){openSearch();return;}
-  if(e.target.closest('#searchClose')||e.target.closest('#searchBackdrop')){closeSearch();return;}
-});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSearch();closeMenu();}if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();}});
-document.addEventListener('input',e=>{if(['propertySearch','contextSearch','minPrice','maxPrice'].includes(e.target.id))refreshCardsWithSkeleton();});document.addEventListener('change',e=>{if(['district','neighborhood','type','currency'].includes(e.target.id))refreshCardsWithSkeleton();});
-const photos=document.getElementById('photos');if(photos)photos.addEventListener('change',()=>{const p=document.getElementById('photoPreview');p.innerHTML=[...photos.files].map(f=>`<img src="${URL.createObjectURL(f)}" alt="">`).join('');});
-function openSearch(){document.getElementById('searchOverlay')?.classList.add('open');document.getElementById('searchBackdrop')?.classList.add('open');document.getElementById('globalSearchInput')?.focus();document.body.style.overflow='hidden';}
-function closeSearch(){document.getElementById('searchOverlay')?.classList.remove('open');document.getElementById('searchBackdrop')?.classList.remove('open');document.body.style.overflow='';}
-function updateSearchOverlay(){const title=document.getElementById('searchOverlayTitle');if(title)title.textContent=tr('searchOverlayTitle');const ql=document.getElementById('searchQuickLinksLabel');if(ql)ql.textContent=tr('quickLinks');const links=['findProperty','listPropQuick','howItWorksQuick','contactQuick','savedQuick','aboutQuick'];links.forEach(k=>{const el=document.getElementById('ql-'+k);if(el)el.querySelector('span').textContent=tr(k);});}
-function globalSearchItems(query){
-  const q=(query||'').trim().toLowerCase();
-  const staticItems=[
-    ['About Kabul Property Hub','about.html','menuAbout'],
-    ['How It Works','how-it-works.html','menuHow'],
-    ['Contact Us','contact.html','menuContact'],
-    ['Saved Properties','saved.html','menuSaved'],
-    ['List Property','list-property.html','menuList'],
-    ['Buy properties','buy.html','browseBuy'],
-    ['Rent properties','rent.html','browseRent']
-  ];
-  const pages=staticItems.filter(x=>!q||x[0].toLowerCase().includes(q));
-  const props=listings.filter(p=>!q||searchable(p).includes(q)).slice(0,8);
-  return {pages,props};
-}
-function renderGlobalSearch(query){
-  const el=document.getElementById('globalSearchResults');if(!el)return;
-  const q=(query||'').trim();if(!q){el.innerHTML='';return;}
-  const {pages,props}=globalSearchItems(q);
-  if(!pages.length&&!props.length){el.innerHTML=`<div class="global-search-empty">${esc(tr('searchNoResults'))}</div>`;return;}
-  const pageHtml=pages.length?`<p class="search-section-label">${esc(tr('searchSections'))}</p><div class="global-search-result-list">${pages.map(x=>`<a href="${x[1]}" class="global-search-result"><span>${esc(tr(x[2]))}</span><span>→</span></a>`).join('')}</div>`:'';
-  const propHtml=props.length?`<p class="search-section-label">${esc(tr('searchResults'))}</p><div class="global-search-result-list">${props.map(p=>{const id=String(p.id??p.kbl_listing_id??p.submission_id);return `<a href="${normalizePurpose(p)==='rent'?'rent.html':'buy.html'}?listing=${encodeURIComponent(id)}" class="global-search-result"><span><strong>${esc(p.title||localizedNeighborhood(getNeighborhood(p))||tr('propertyType'))}</strong><small>${esc(localizedDistrict(p.district))} · ${esc(localizedNeighborhood(getNeighborhood(p)))} · ${esc(priceText(p))}</small></span><span>→</span></a>`}).join('')}</div>`:'';
-  el.innerHTML=pageHtml+propHtml;
-}
-function openSearch(){const overlay=document.getElementById('searchOverlay');const back=document.getElementById('searchBackdrop');overlay?.classList.add('open');back?.classList.add('open');overlay?.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';const input=document.getElementById('globalSearchInput');if(input){input.value='';renderGlobalSearch('');setTimeout(()=>input.focus(),80);}}
-function closeSearch(){document.getElementById('searchOverlay')?.classList.remove('open');document.getElementById('searchBackdrop')?.classList.remove('open');document.getElementById('searchOverlay')?.setAttribute('aria-hidden','true');document.body.style.overflow='';}
+const properties = [
+  {
+    id:"KBL-101", type:"sale", status:"available", verified:true,
+    neighborhood:{en:"Khair Khana",fa:"خیرخانه",ps:"خیرخانه"},
+    district:{en:"Kabul District 11",fa:"ناحیه ۱۱ کابل",ps:"د کابل ۱۱مه ناحیه"},
+    price:105000,currency:"USD",negotiable:true,rooms:4,bathrooms:3,size:330,floor:1,furnished:false,
+    description:{
+      en:"Spacious four-room apartment with rooftop access, parking and modern facilities.",
+      fa:"آپارتمان جادار چهار اتاقه با دسترسی به بام، پارکینگ و امکانات مناسب.",
+      ps:"پراخه څلور کوټې اپارتمان چې بام ته لاسرسی، پارکینګ او مناسبې اسانتیاوې لري."
+    },
+    features:{
+      kitchen:{en:"Available",fa:"موجود",ps:"شته"},
+      documents:{en:"Sharia & Legal",fa:"شرعی و قانونی",ps:"شرعي او قانوني"},
+      heating:{en:"Central Heating",fa:"مرکز گرمی",ps:"مرکزي تودوخه"},
+      electricity:{en:"Sub-meter",fa:"میتر فرعی",ps:"فرعي میتر"},
+      water:{en:"Fresh Water",fa:"آب شیرین",ps:"پاکې اوبه"},
+      fireProtection:{en:"Available",fa:"موجود",ps:"شته"},
+      security:{en:"CCTV",fa:"کمره امنیتی",ps:"امنیتي کمرې"},
+      parking:{en:"Available",fa:"موجود",ps:"شته"}
+    },
+    images:[
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=78",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=78",
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=78",
+      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=78"
+    ]
+  },
+  {
+    id:"KBL-102", type:"rent", status:"available", verified:true,
+    neighborhood:{en:"Macroyan",fa:"مکروریان",ps:"مکروریان"},
+    district:{en:"Kabul District 9",fa:"ناحیه ۹ کابل",ps:"د کابل ۹مه ناحیه"},
+    price:65000,currency:"AFN",negotiable:false,rooms:3,bathrooms:2,size:180,floor:3,furnished:true,
+    description:{
+      en:"Furnished three-room apartment in a convenient residential area with parking and reliable utilities.",
+      fa:"آپارتمان مبله سه اتاقه در منطقه مسکونی مناسب با پارکینگ و امکانات ضروری.",
+      ps:"په مناسب استوګنیزه سیمه کې درې کوټې مبله اپارتمان، پارکینګ او اړینې اسانتیاوې لري."
+    },
+    features:{
+      kitchen:{en:"Available",fa:"موجود",ps:"شته"},
+      documents:{en:"Sharia & Legal",fa:"شرعی و قانونی",ps:"شرعي او قانوني"},
+      heating:{en:"Central Heating",fa:"مرکز گرمی",ps:"مرکزي تودوخه"},
+      electricity:{en:"Available",fa:"موجود",ps:"شته"},
+      water:{en:"Available",fa:"موجود",ps:"شته"},
+      fireProtection:{en:"Available",fa:"موجود",ps:"شته"},
+      security:{en:"CCTV",fa:"کمره امنیتی",ps:"امنیتي کمرې"},
+      parking:{en:"Available",fa:"موجود",ps:"شته"}
+    },
+    images:[
+      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=78",
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=78",
+      "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1200&q=78",
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=78"
+    ]
+  },
+  {
+    id:"KBL-103", type:"sale", status:"available", verified:false,
+    neighborhood:{en:"Shar-e Naw",fa:"شهر نو",ps:"شېر نو"},
+    district:{en:"Kabul District 10",fa:"ناحیه ۱۰ کابل",ps:"د کابل ۱۰مه ناحیه"},
+    price:8500000,currency:"AFN",negotiable:true,rooms:5,bathrooms:3,size:420,floor:2,furnished:false,
+    description:{
+      en:"Large five-room property suitable for a family looking for space in central Kabul.",
+      fa:"خانه بزرگ پنج اتاقه مناسب خانواده‌هایی که به فضای بیشتر در مرکز کابل نیاز دارند.",
+      ps:"لویه پنځه کوټې کور د هغو کورنیو لپاره مناسب دی چې په مرکزي کابل کې پراخ ځای غواړي."
+    },
+    features:{
+      kitchen:{en:"Available",fa:"موجود",ps:"شته"},
+      documents:{en:"Sharia & Legal",fa:"شرعی و قانونی",ps:"شرعي او قانوني"},
+      heating:{en:"Central Heating",fa:"مرکز گرمی",ps:"مرکزي تودوخه"},
+      electricity:{en:"Available",fa:"موجود",ps:"شته"},
+      water:{en:"Fresh Water",fa:"آب شیرین",ps:"پاکې اوبه"},
+      fireProtection:{en:"Available",fa:"موجود",ps:"شته"},
+      security:{en:"CCTV",fa:"کمره امنیتی",ps:"امنیتي کمرې"},
+      parking:{en:"Available",fa:"موجود",ps:"شته"}
+    },
+    images:[
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=78",
+      "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1200&q=78",
+      "https://images.unsplash.com/photo-1600566753051-f0b89df2dd90?auto=format&fit=crop&w=1200&q=78",
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=78"
+    ]
+  }
+];
 
-document.addEventListener('input',e=>{if(e.target.id==='globalSearchInput')renderGlobalSearch(e.target.value);});
-
-function updateMenuOverlay(){const links=[{k:'menuAbout',h:'about.html'},{k:'menuHow',h:'how-it-works.html'},{k:'menuSaved',h:'saved.html'},{k:'menuList',h:'list-property.html'},{k:'menuTerms',h:'terms.html'},{k:'menuPrivacy',h:'privacy.html'},{k:'menuContact',h:'contact.html'}];const nav=document.getElementById('menuLinks');if(!nav)return;nav.innerHTML=links.map(l=>`<a href="${l.h}" data-i18n="${l.k}">${esc(tr(l.k))}</a>`).join('');}
-function initScrollReveal(){const observer=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});document.querySelectorAll('.scroll-reveal').forEach(el=>observer.observe(el));}
-function initCarousel(){const carousel=document.getElementById('featureCarousel');if(!carousel)return;const prev=document.getElementById('carouselPrev');const next=document.getElementById('carouselNext');const cardWidth=()=>carousel.querySelector('.feature-card')?.offsetWidth+20||440;if(prev)prev.addEventListener('click',()=>carousel.scrollBy({left:-cardWidth(),behavior:'smooth'}));if(next)next.addEventListener('click',()=>carousel.scrollBy({left:cardWidth(),behavior:'smooth'}));}
-document.addEventListener('click',e=>{const service=e.target.closest('[data-service-purpose]');if(!service)return;if(service.tagName==='A'&&service.getAttribute('href'))return;purpose=service.dataset.servicePurpose;document.querySelectorAll('.purpose').forEach(x=>x.classList.toggle('active',x.dataset.purpose===purpose));renderCards();});
-
-function init(){const pagePurpose=document.body?.dataset.pagePurpose;if(pagePurpose==='buy'||pagePurpose==='rent')purpose=pagePurpose;renderOptions();applyLang();loadListings();}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-function _postInit(){initScrollReveal();initCarousel();updateSearchOverlay();updateMenuOverlay();}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',_postInit);else _postInit();
-
-
-/* KBL marketplace redesign: Airbnb structure + Linear/Vercel visual system, built with native CSS/JS. */
-function fillMobileSelects(){
-  const copy=(from,to)=>{const a=document.getElementById(from),b=document.getElementById(to);if(!a||!b)return;b.innerHTML=a.innerHTML;b.value=a.value;};
-  copy('district','mobileDistrict'); copy('neighborhood','mobileNeighborhood'); copy('type','mobileType');
-}
-function syncSearchSummary(){
-  const d=document.getElementById('district')?.value||'';
-  const n=document.getElementById('neighborhood')?.value||'';
-  const min=document.getElementById('minPrice')?.value||'';
-  const max=document.getElementById('maxPrice')?.value||'';
-  const t=selectedType||document.getElementById('type')?.value||'';
-  const dLabel=d?`${tr('district')} ${d}`:tr('allKabul');
-  const nLabel=n?localizedNeighborhood(n):'';
-  const loc=document.getElementById('locationSummary'); if(loc)loc.textContent=d?dLabel:tr('allDistricts'); const nsum=document.getElementById('neighborhoodSummary'); if(nsum)nsum.textContent=nLabel||tr('allNeighborhoods');
-  const price=document.getElementById('priceSummary'); if(price)price.textContent=min||max?`${min||'0'}${max?' – '+max:''} ${document.getElementById('currency')?.value||'AFN'}`:tr('anyPrice');
-  const type=document.getElementById('typeSummary'); if(type)type.textContent=t?localizedType(t):tr('allProperties');
-}
-function renderOptions(){
-  fillSelect('district',districts,'district');fillSelect('neighborhood',neighborhoods,'neighborhood');fillSelect('type',types,'type');fillSelect('currency',['AFN','USD'],'currency');
-  fillSelect('formDistrict',districts,'district');fillSelect('formNeighborhood',neighborhoods,'neighborhood');fillSelect('formType',types,'type');fillSelect('formCurrency',['AFN','USD'],'currency');
-  const purposeEl=document.getElementById('purpose');if(purposeEl){const old=purposeEl.value||'buy';purposeEl.value=old;document.querySelectorAll('input[name="purposeChoice"]').forEach(r=>{r.checked=r.value===old;r.addEventListener('change',()=>{purposeEl.value=r.value;});});}
-  renderTypeTabs(); fillMobileSelects(); syncSearchSummary();
-}
-function card(p){
-  const id=String(p.id??p.kbl_listing_id??p.submission_id); const imgs=getImages(p); const saved=savedSet().has(id); const status=getStatus(p);
-  const n=localizedNeighborhood(getNeighborhood(p)); const d=localizedDistrict(p.district); const t=localizedType(getType(p));
-  const desc=typeof p.description==='object'?(p.description[lang]||p.description.en||Object.values(p.description)[0]):(p[`description_${lang}`]||p.description||'');
-  const purposeText=normalizePurpose(p)==='rent'?tr('rent'):normalizePurpose(p)==='buy'?tr('buy'):'';
-  const imgScroll=imgs.length?`<div class="image-scroll" data-scroll-id="${esc(id)}">${imgs.map(src=>`<img src="${esc(src)}" alt="${esc(n||p.title||'')}" loading="lazy" draggable="false">`).join('')}</div>`:`<div class="image-scroll"><div class="image-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9.5a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10"/></svg></div></div>`;
-  const dots=imgs.length>1?`<div class="image-dots">${imgs.map((_,i)=>`<button type="button" class="image-dot ${i===0?'active':''}" data-dot-id="${esc(id)}" data-index="${i}" aria-label="${i+1}"></button>`).join('')}</div>`:'';
-  const badge=status==='sold'?`<span class="status-badge sold">${esc(tr('sold'))}</span>`:status==='rented'?`<span class="status-badge rented">${esc(tr('rented'))}</span>`:'';
-  return `<article class="property-card" data-card-id="${esc(id)}"><div class="property-media">${imgScroll}<button class="save-button ${saved?'saved':''}" data-save="${esc(id)}" type="button" aria-label="${esc(saved?tr('savedLabel'):tr('save'))}">${saved?'♥':'♡'}</button>${badge}${dots}${imgs.length>1?`<span class="image-count">1 ${esc(tr('imageOf'))} ${imgs.length}</span>`:''}</div><div class="property-content"><div class="card-meta-row"><span class="property-type">${esc(t)}</span>${purposeText?`<span class="purpose-label">${esc(purposeText)}</span>`:''}</div><h3>${esc(p.title||n||tr('propertyType'))}</h3><p class="location-line">${esc(n||d)}${p.location?` · ${esc(p.location)}`:''}</p><p class="distance-line">${esc(d)}${n?` · ${esc(n)}`:''}</p><div class="price-line">${esc(priceText(p))}</div><div class="area-line">${p.size_sqm?`${esc(tr('area'))}: ${esc(p.size_sqm)}`:''}</div><p class="description-line">${esc(desc)}</p><div class="card-actions"><button class="view-button" data-view="${esc(id)}" type="button">${esc(tr('view'))}</button><a class="wa-button" href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(whatsappText(p))}" target="_blank" rel="noopener"><svg class="wa-symbol" viewBox="0 0 32 32"><path fill="currentColor" d="M19.11 17.33c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.13-.42-2.15-1.34-.79-.7-1.32-1.57-1.47-1.84-.15-.27-.02-.42.11-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.27s.98 2.63 1.11 2.81c.14.18 1.93 2.95 4.68 4.14.65.28 1.16.45 1.56.57.65.21 1.24.18 1.7.11.52-.08 1.6-.66 1.82-1.29.23-.63.23-1.17.16-1.29-.07-.11-.25-.18-.52-.32M16.03 3C8.84 3 3 8.84 3 16.03c0 2.3.6 4.46 1.65 6.34L3 29l6.82-1.61a12.96 12.96 0 0 0 6.21 1.58h.01C23.22 28.97 29.06 23.13 29.06 16S23.22 3 16.03 3m0 23.67h-.01a10.75 10.75 0 0 1-5.49-1.5l-.39-.23-4.05.96.98-3.95-.25-.41a10.73 10.73 0 1 1 9.21 5.13"/></svg>${esc(tr('whatsapp'))}</a><button class="report-button" data-report="${esc(id)}" type="button">⚑ ${esc(tr('report'))}</button></div></div></article>`;
-}
-function renderSkeletonCards(count=8){
-  const el=document.getElementById('cards');
-  if(!el)return;
-  const skeleton=Array.from({length:count},()=>`<article class="property-card skeleton-card" aria-hidden="true"><div class="property-media skeleton-block"></div><div class="property-content"><div class="skeleton-line skeleton-short"></div><div class="skeleton-line skeleton-title"></div><div class="skeleton-line"></div><div class="skeleton-line skeleton-price"></div><div class="skeleton-line skeleton-small"></div></div></article>`).join('');
-  el.innerHTML=skeleton;
-}
-let renderTimer=null;
-function refreshCardsWithSkeleton(){
-  renderSkeletonCards();
-  clearTimeout(renderTimer);
-  renderTimer=setTimeout(()=>renderCards(),140);
-}
-function renderCards(){
-  const el=document.getElementById('cards');if(!el)return;const arr=listings.filter(matches);const count=document.getElementById('resultCount');if(count)count.textContent=arr.length?`${arr.length}`:'';
-  el.innerHTML=arr.map(card).join('')||`<div class="empty">${esc(tr('noResults'))}</div>`;
-  requestAnimationFrame(()=>arr.forEach(p=>setupImageScroll(p)));
-  syncSearchSummary();
-}
-function legacyShowProperty(id){
-  const p=listings.find(x=>String(x.id??x.kbl_listing_id??x.submission_id)===String(id));if(!p)return;
-  const imgs=getImages(p); const n=localizedNeighborhood(getNeighborhood(p)); const d=localizedDistrict(p.district); const desc=typeof p.description==='object'?(p.description[lang]||p.description.en||Object.values(p.description)[0]):(p[`description_${lang}`]||p.description||'');
-  const loc=[n,d,p.location].filter(Boolean).join(', '); const mapUrl=`https://www.google.com/maps?q=${encodeURIComponent(loc||'Kabul Afghanistan')}&output=embed`; const mapsLink=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc||'Kabul Afghanistan')}`;
-  const gallery=imgs.length?`<div class="detail-gallery immersive-gallery">${imgs.map((src,i)=>`<img src="${esc(src)}" class="detail-slide ${i===0?'active':''}" data-detail-index="${i}" alt="${esc(n||p.title||'')}" loading="lazy">`).join('')}<div class="detail-dots">${imgs.map((_,i)=>`<button type="button" data-detail-dot="${i}" class="${i===0?'active':''}" aria-label="${i+1}"></button>`).join('')}</div></div>`:`<div class="detail-gallery detail-empty"><div class="image-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9.5a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10"/></svg></div></div>`;
-  const overlay=document.createElement('div');overlay.className='modal-overlay';overlay.innerHTML=`<div class="property-modal detail-modal"><button class="modal-close" data-close-modal type="button">×</button><div class="detail-left"><div class="detail-topline"><span class="kicker">${esc(localizedType(getType(p)))}</span><span class="detail-status">${esc(getStatus(p)==='sold'?tr('sold'):getStatus(p)==='rented'?tr('rented'):tr('available'))}</span></div><h2>${esc(p.title||n)}</h2><p class="modal-location">${esc(d)} · ${esc(n)}${p.location?` · ${esc(p.location)}`:''}</p>${gallery}<div class="detail-price">${esc(priceText(p))}</div><div class="modal-grid"><div><small>${esc(tr('purpose'))}</small><strong>${esc(normalizePurpose(p)==='rent'?tr('rent'):tr('buy'))}</strong></div><div><small>${esc(tr('area'))}</small><strong>${esc(p.size_sqm||'—')}</strong></div><div><small>${esc(tr('status'))}</small><strong>${esc(getStatus(p)==='sold'?tr('sold'):getStatus(p)==='rented'?tr('rented'):tr('available'))}</strong></div></div><h3>${esc(tr('description'))}</h3><p class="modal-description">${esc(desc)}</p><div class="detail-mobile-bar"><a class="detail-chat" href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(whatsappText(p))}" target="_blank" rel="noopener">${esc(tr('chatAgent'))}</a><button class="detail-map-button" type="button" data-open-map>${esc(tr('viewMap'))}</button></div></div><aside class="detail-map"><div class="map-head"><span>${esc(tr('mapTitle'))}</span><div class="map-head-actions"><a href="${esc(mapsLink)}" target="_blank" rel="noopener">${esc(tr('viewMap'))}</a><button type="button" data-close-map>×</button></div></div><iframe title="${esc(tr('mapTitle'))}" src="${esc(mapUrl)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><div class="detail-actions"><a class="detail-chat" href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(whatsappText(p))}" target="_blank" rel="noopener"><svg class="wa-symbol" viewBox="0 0 32 32"><path fill="currentColor" d="M19.11 17.33c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.13-.42-2.15-1.34-.79-.7-1.32-1.57-1.47-1.84-.15-.27-.02-.42.11-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.27s.98 2.63 1.11 2.81c.14.18 1.93 2.95 4.68 4.14.65.28 1.24.18 1.7.11.52-.08 1.6-.66 1.82-1.29.23-.63.23-1.17.16-1.29-.07-.11-.25-.18-.52-.32M16.03 3C8.84 3 3 8.84 3 16.03c0 2.3.6 4.46 1.65 6.34L3 29l6.82-1.61a12.96 12.96 0 0 0 6.21 1.58h.01C23.22 28.97 29.06 23.13 29.06 16S23.22 3 16.03 3m0 23.67h-.01a10.75 10.75 0 0 1-5.49-1.5l-.39-.23-4.05.96.98-3.95-.25-.41a10.73 10.73 0 1 1 9.21 5.13"/></svg>${esc(tr('chatAgent'))}</a><a class="detail-map-button" href="${esc(mapsLink)}" target="_blank" rel="noopener">⌖ ${esc(tr('viewMap'))}</a></div></aside></div>`;
-  document.body.appendChild(overlay);requestAnimationFrame(()=>requestAnimationFrame(()=>overlay.classList.add('active')));
-  overlay.addEventListener('click',e=>{if(e.target===overlay||e.target.closest('[data-close-modal]')){overlay.classList.remove('active');setTimeout(()=>overlay.remove(),300);return;}if(e.target.closest('[data-open-map]')){overlay.querySelector('.detail-map')?.classList.add('open');return;}if(e.target.closest('[data-close-map]')){overlay.querySelector('.detail-map')?.classList.remove('open');return;}const dot=e.target.closest('[data-detail-dot]');if(dot){const idx=Number(dot.dataset.detailDot);overlay.querySelectorAll('.detail-slide').forEach((im,i)=>im.classList.toggle('active',i===idx));overlay.querySelectorAll('[data-detail-dot]').forEach((b,i)=>b.classList.toggle('active',i===idx));}});
-}
-async function loadListings(){
-  renderSkeletonCards(8);
-  try{const q='status=in.(approved,verified,trusted,sold,rented)';const r=await fetch(`${SUPABASE_URL}/rest/v1/listings?select=*&${q}&order=id.desc`,{headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`}});if(!r.ok)throw new Error('load');const data=await r.json();listings=Array.isArray(data)?data:[];}catch{listings=[]}renderCards();renderSaved();
-}
-function openSearch(){document.getElementById('searchOverlay')?.classList.add('open');document.getElementById('searchBackdrop')?.classList.add('open');document.body.style.overflow='hidden';const q=document.getElementById('propertySearch')?.value||'';const g=document.getElementById('globalSearchInput');if(g){g.value=q;setTimeout(()=>g.focus(),80);}syncMobileFilters();}
-function syncMobileFilters(){
-  const pairs=[['district','mobileDistrict'],['neighborhood','mobileNeighborhood'],['type','mobileType'],['minPrice','mobileMinPrice'],['maxPrice','mobileMaxPrice']];pairs.forEach(([a,b])=>{const x=document.getElementById(a),y=document.getElementById(b);if(x&&y)y.value=x.value;});
-}
-function closeSearch(){document.getElementById('searchOverlay')?.classList.remove('open');document.getElementById('searchBackdrop')?.classList.remove('open');document.body.style.overflow='';}
-function applyMobileSearch(){
-  const g=document.getElementById('globalSearchInput');const q=document.getElementById('propertySearch');if(q)q.value=g?.value||'';
-  const pairs=[['mobileDistrict','district'],['mobileNeighborhood','neighborhood'],['mobileType','type'],['mobileMinPrice','minPrice'],['mobileMaxPrice','maxPrice']];pairs.forEach(([a,b])=>{const x=document.getElementById(a),y=document.getElementById(b);if(x&&y)y.value=x.value;});
-  selectedType=document.getElementById('type')?.value||''; renderTypeTabs();renderCards();closeSearch();document.getElementById('properties')?.scrollIntoView({behavior:'smooth',block:'start'});
-}
-function resetAllFilters(){['propertySearch','contextSearch','district','neighborhood','type','currency','minPrice','maxPrice'].forEach(id=>{const x=document.getElementById(id);if(x)x.value='';});purpose='all';selectedType='';document.querySelectorAll('.purpose').forEach(x=>x.classList.toggle('active',x.dataset.purpose==='all'));renderTypeTabs();syncMobileFilters();renderCards();}
-function updateSearchOverlay(){const g=document.getElementById('globalSearchInput');if(g)g.placeholder=tr('searchProperty');}
-
-/* Filter-zone behavior */
-document.addEventListener('click',e=>{
-  const langTrigger=e.target.closest('.language-trigger');
-  if(langTrigger){const menu=langTrigger.closest('.language-menu');const open=menu?.classList.toggle('open');langTrigger.setAttribute('aria-expanded',open?'true':'false');return;}
-  const zone=e.target.closest('[data-filter-zone]');if(zone){const panel=document.getElementById('desktopFilters');panel?.classList.add('open');const target=zone.dataset.filterZone==='district'?document.getElementById('district'):zone.dataset.filterZone==='neighborhood'?document.getElementById('neighborhood'):zone.dataset.filterZone==='price'?document.getElementById('minPrice'):document.getElementById('type');target?.focus();return;}
-  if(e.target.closest('#mobileSearchPill')){openSearch();return;}
-  if(e.target.closest('#mobileApplySearch')){applyMobileSearch();return;}
-  if(e.target.closest('#mobileResetBtn')){resetAllFilters();syncMobileFilters();return;}
-});
-['district','neighborhood','type','currency','minPrice','maxPrice'].forEach(id=>document.getElementById(id)?.addEventListener('change',()=>{if(id==='type')selectedType=document.getElementById('type').value||'';syncSearchSummary();renderCards();}));
-
-document.addEventListener('click',e=>{if(!e.target.closest('.language-menu'))document.querySelectorAll('.language-menu.open').forEach(m=>{m.classList.remove('open');m.querySelector('.language-trigger')?.setAttribute('aria-expanded','false');});});
-
-/* KBL ADVANCED REAL ESTATE EXPERIENCE
-   Apple presentation + Linear command interaction + Airbnb marketplace behavior. */
-Object.assign(translations.en,{
-  explore:"Explore",exploreKicker:"KBL MARKETPLACE",exploreTitle:"Find the right way to move in Kabul.",exploreText:"Browse the marketplace by purpose, location, property type, and your shortlist.",browseBuy:"Browse Buy",browseBuyText:"Homes, land, apartments, shops, and commercial property.",browseRent:"Browse Rent",browseRentText:"Homes, apartments, and commercial spaces for rent.",listHome:"List a Property",listHomeText:"Submit a sale or rental listing for KBL review.",aboutUs:"About KBL",aboutUsText:"Learn about the marketplace, support, and feedback.",marketPulse:"MARKET PULSE",marketPulseTitle:"Kabul property, organized for action.",liveListings:"Live listings",forSale:"For sale",forRent:"For rent",districtCoverage:"Districts covered",propertiesFound:"properties",savedHomes:"Saved homes",savedTitle:"Your shortlist",savedText:"Open your saved property shortlist.",openSearch:"Open search",openSearchText:"Filter by district, neighborhood, budget, currency, and type.",quickActions:"Quick actions",commandPlaceholder:"Search KBL or jump to a section",compare:"Compare",compareNow:"Compare",clearCompare:"Clear",compareSelected:"selected to compare",compareLimit:"Select up to 3 properties.",shariaBadge:"Sharia marketplace",directDealBadge:"Direct agreement",verifiedBadge:"KBL reviewed",marketplaceBadge:"Kabul marketplace",details:"Property details",bedrooms:"Rooms",bathrooms:"Bathrooms",floor:"Floor",furnished:"Furnished",notSpecified:"Not specified",emailUs:"Email us",viewDetails:"View details"
-});
-Object.assign(translations.fa,{
-  explore:"گشت‌وگذار",exploreKicker:"بازار کابل",exploreTitle:"راه مناسب برای جستجوی ملک در کابل را پیدا کنید.",exploreText:"بازار را بر اساس نوع معامله، موقعیت، نوع ملک و فهرست ذخیره‌شده بررسی کنید.",browseBuy:"املاک برای خرید",browseBuyText:"خانه، زمین، آپارتمان، دوکان و ملک تجاری.",browseRent:"املاک برای کرایه",browseRentText:"خانه، آپارتمان و فضاهای تجاری برای کرایه.",listHome:"ثبت ملک",listHomeText:"آگهی فروش یا کرایه را برای بررسی کابل پراپرتی هب ارسال کنید.",aboutUs:"درباره کابل",aboutUsText:"درباره بازار، پشتیبانی و بازخورد معلومات بگیرید.",marketPulse:"نبض بازار",marketPulseTitle:"املاک کابل، منظم برای تصمیم‌گیری.",liveListings:"آگهی‌های فعال",forSale:"برای فروش",forRent:"برای کرایه",districtCoverage:"ناحیه تحت پوشش",propertiesFound:"ملک",savedHomes:"املاک ذخیره‌شده",savedTitle:"فهرست شما",savedText:"فهرست املاک ذخیره‌شده خود را باز کنید.",openSearch:"باز کردن جستجو",openSearchText:"بر اساس ناحیه، منطقه، بودجه، اسعار و نوع ملک فیلتر کنید.",quickActions:"اقدامات سریع",commandPlaceholder:"در کابل جستجو کنید یا به بخش مورد نظر بروید",compare:"مقایسه",compareNow:"مقایسه",clearCompare:"پاک کردن",compareSelected:"ملک برای مقایسه انتخاب شده",compareLimit:"حداکثر ۳ ملک را انتخاب کنید.",shariaBadge:"بازار مطابق شریعت",directDealBadge:"توافق مستقیم",verifiedBadge:"بررسی‌شده توسط KBL",marketplaceBadge:"بازار املاک کابل",details:"جزئیات ملک",bedrooms:"اتاق‌ها",bathrooms:"حمام‌ها",floor:"طبقه",furnished:"مبله",notSpecified:"مشخص نشده",emailUs:"ایمیل کنید",viewDetails:"مشاهده جزئیات"
-});
-Object.assign(translations.ps,{
-  explore:"سپړنه",exploreKicker:"د کابل بازار",exploreTitle:"په کابل کې د ملک لپاره مناسبه لاره پیدا کړئ.",exploreText:"بازار د معاملې، موقعیت، د ملک ډول او خوندي شویو ملکونو له مخې وګورئ.",browseBuy:"د پېرود لپاره",browseBuyText:"کورونه، ځمکې، اپارتمانونه، دوکانونه او تجارتي ملکونه.",browseRent:"د کرایې لپاره",browseRentText:"کورونه، اپارتمانونه او تجارتي ځایونه د کرایې لپاره.",listHome:"ملک ثبت کړئ",listHomeText:"د پلور یا کرایې اعلان د KBL کتنې لپاره ولېږئ.",aboutUs:"د KBL په اړه",aboutUsText:"د بازار، ملاتړ او نظرونو په اړه معلومات واخلئ.",marketPulse:"د بازار حالت",marketPulseTitle:"د کابل ملکونه، د پرېکړې لپاره منظم.",liveListings:"فعال اعلانونه",forSale:"د پلور لپاره",forRent:"د کرایې لپاره",districtCoverage:"تر پوښښ لاندې ناحیې",propertiesFound:"ملکونه",savedHomes:"خوندي شوي ملکونه",savedTitle:"ستاسو لېست",savedText:"خپل خوندي شوي ملکونه پرانیزئ.",openSearch:"لټون پرانیزئ",openSearchText:"د ناحیې، سیمې، بودجې، اسعارو او ملک ډول له مخې فلټر وکړئ.",quickActions:"چټک اقدامات",commandPlaceholder:"په KBL کې ولټوئ یا یوې برخې ته لاړ شئ",compare:"پرتله",compareNow:"پرتله",clearCompare:"پاکول",compareSelected:"ملکونه د پرتله لپاره ټاکل شوي",compareLimit:"تر ۳ ملکونو پورې وټاکئ.",shariaBadge:"د شریعت بازار",directDealBadge:"مستقیم تړون",verifiedBadge:"د KBL لخوا کتلی",marketplaceBadge:"د کابل د ملکونو بازار",details:"د ملک معلومات",bedrooms:"خونې",bathrooms:"حمامونه",floor:"پوړ",furnished:"فرنیچر لرونکی",notSpecified:"نه دی مشخص",emailUs:"ایمیل وکړئ",viewDetails:"معلومات وګورئ"
-});
-
-Object.assign(translations.en,{
-  searchSections:'Explore KBL',searchResults:'Search results',searchNoResults:'No matching KBL pages or properties.',infoKicker:'KBL INFORMATION',infoTitle:'Everything you need to know about KBL.',
-  platformKicker:'KBL PLATFORM',platformTitle:'Property information built for fast decisions.',platformText:'Clear listings, structured property data, direct contact, and a consistent experience across Kabul.',platformCard1Title:'Structured listings',platformCard1Text:'Purpose, district, neighborhood, price, type, size, and photos stay organized.',platformCard2Title:'Clear decisions',platformCard2Text:'Compare properties, save homes, and review the same core facts before contacting.',platformCard3Title:'Direct connection',platformCard3Text:'Move from a listing to WhatsApp or the property page without extra steps.',
-  buyPageKicker:'KBL BUY',buyPageTitle:'Buy properties in Kabul.',buyPageText:'Browse approved properties listed for sale across Kabul.',buyPageHeading:'Properties for sale',rentPageKicker:'KBL RENT',rentPageTitle:'Rent properties in Kabul.',rentPageText:'Browse approved properties listed for rent across Kabul.',rentPageHeading:'Properties for rent',contactKicker:'CONTACT',emailUs:'Email us'
-});
-Object.assign(translations.fa,{
-  searchSections:'کابل را جستجو کنید',searchResults:'نتایج جستجو',searchNoResults:'هیچ صفحه یا ملک مطابق پیدا نشد.',infoKicker:'معلومات کابل',infoTitle:'همه معلومات مورد نیاز درباره کابل.',
-  platformKicker:'پلتفرم کابل',platformTitle:'معلومات ملک برای تصمیم‌گیری سریع.',platformText:'آگهی‌های روشن، معلومات منظم ملک، ارتباط مستقیم و تجربه یکسان در سراسر کابل.',platformCard1Title:'آگهی‌های منظم',platformCard1Text:'نوع معامله، ناحیه، منطقه، قیمت، نوع ملک، مساحت و عکس‌ها منظم می‌مانند.',platformCard2Title:'تصمیم روشن',platformCard2Text:'املاک را مقایسه و ذخیره کنید و پیش از تماس معلومات اصلی را بررسی کنید.',platformCard3Title:'ارتباط مستقیم',platformCard3Text:'از آگهی مستقیماً به واتساپ یا صفحه ملک بروید.',
-  buyPageKicker:'خرید در کابل',buyPageTitle:'املاک برای خرید در کابل.',buyPageText:'املاک تاییدشده برای فروش در سراسر کابل را ببینید.',buyPageHeading:'املاک برای فروش',rentPageKicker:'کرایه در کابل',rentPageTitle:'املاک برای کرایه در کابل.',rentPageText:'املاک تاییدشده برای کرایه در سراسر کابل را ببینید.',rentPageHeading:'املاک برای کرایه',contactKicker:'تماس',emailUs:'ایمیل کنید'
-});
-Object.assign(translations.ps,{
-  searchSections:'KBL کې لټون',searchResults:'د لټون پایلې',searchNoResults:'د KBL هېڅ مناسبه پاڼه یا ملک پیدا نه شو.',infoKicker:'د KBL معلومات',infoTitle:'د KBL په اړه اړین معلومات.',
-  platformKicker:'د KBL پلاتفورم',platformTitle:'د ملک معلومات د چټکو پرېکړو لپاره.',platformText:'روښانه اعلانونه، منظم د ملک معلومات، مستقیمه اړیکه او په ټول کابل کې یو شان تجربه.',platformCard1Title:'منظم اعلانونه',platformCard1Text:'د معاملې ډول، ناحیه، سیمه، نرخ، د ملک ډول، مساحت او عکسونه منظم ساتل کېږي.',platformCard2Title:'روښانه پرېکړه',platformCard2Text:'ملکونه پرتله او خوندي کړئ او له اړیکې مخکې مهم معلومات وګورئ.',platformCard3Title:'مستقیمه اړیکه',platformCard3Text:'له اعلان څخه مستقیم واتساپ یا د ملک پاڼې ته لاړ شئ.',
-  buyPageKicker:'د KBL پېرود',buyPageTitle:'په کابل کې د پېرود لپاره ملکونه.',buyPageText:'په ټول کابل کې تایید شوي د پلور ملکونه وګورئ.',buyPageHeading:'د پلور لپاره ملکونه',rentPageKicker:'د KBL کرایه',rentPageTitle:'په کابل کې د کرایې لپاره ملکونه.',rentPageText:'په ټول کابل کې تایید شوي د کرایې ملکونه وګورئ.',rentPageHeading:'د کرایې لپاره ملکونه',contactKicker:'اړیکه',emailUs:'ایمیل وکړئ'
-});
-
-const KBL_TRUST_ICONS={
-  sharia:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-5"/></svg>',
-  direct:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 7h10v10H7z"/><path d="M9 12h6M12 9v6"/></svg>',
-  reviewed:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>'
+const translations = {
+  en:{
+    saved:"Saved",listProperty:"List a Property",eyebrow:"KABUL PROPERTY DISCOVERY",startSearch:"Start searching",heroNote:"Verified listings. Clear information. One place.",finderEyebrow:"NEED HELP FINDING A HOME?",finderTitle:"Tired of finding a house? Don’t worry. KBL finds it for you.",finderText:"Tell us what you need, search the market, and build a shortlist without losing your place.",findForMe:"Find properties for me",verifiedOnlyShort:"Verified",commandTitle:"KBL Search",commandPlaceholder:"Search neighborhood, street, landmark or property ID...",commandSearch:"Search properties",
+    heroTitle:"Find the place you want to live.",
+    heroDescription:"Explore homes across Kabul, compare details, save favorites, and request a viewing through KBL.",
+    rent:"Rent",buy:"Buy",all:"All",contextSearch:"Search by context",contextSearchPlaceholder:"Search by neighborhood, street, landmark or property ID...",
+    district:"District",allDistricts:"All districts",neighborhood:"Neighborhood",allNeighborhoods:"All neighborhoods",
+    maxPrice:"Maximum price",pricePlaceholder:"AFN",furnishing:"Furnishing",any:"Any",
+    furnished:"Furnished",unfurnished:"Unfurnished",verifiedOnly:"KBL verified only",clearFilters:"Clear filters",
+    featuredEyebrow:"KBL COLLECTION",featuredTitle:"Explore properties.",available:"Available",sold:"Sold",rented:"Rented",
+    negotiable:"Negotiable",fixed:"Fixed",sqm:"m²",viewProperty:"View Property",bookViewing:"Book Viewing via WhatsApp",
+    report:"Report",similar:"Similar Properties",features:"Property Features",kitchen:"Kitchen",documents:"Documents",
+    heating:"Heating",electricity:"Electricity",water:"Water",fireProtection:"Fire Protection",security:"Security",
+    parking:"Parking",noResults:"No properties match your search.",savedEmpty:"Your saved properties will appear here.",
+    halalBadge:"SHARIA MARKETPLACE",halalTitle:"Clear, direct property transactions.",
+    halalDescription:"KBL focuses on direct property purchases and rental agreements.",
+    serviceOneTitle:"See everything.",serviceOneText:"Size, floor, facilities, documents and pricing in one place.",
+    serviceTwoTitle:"Request a viewing.",serviceTwoText:"Send the property ID to KBL and arrange the next step.",
+    serviceThreeTitle:"Save your shortlist.",serviceThreeText:"Save homes in your browser and return to them later.",
+    footerDescription:"Kabul property discovery, organized for people.",close:"Close",
+    reportTitle:"Report this property",reportText:"Tell KBL what looks wrong with this listing.",
+    reportReason:"Reason",reportDetails:"Details",reportDetailsPlaceholder:"Describe the issue...",
+    reportWrongInfo:"Wrong information",reportUnavailable:"Property unavailable",reportMisleading:"Misleading listing",
+    reportOther:"Other",sendReport:"Prepare Email Report",cancel:"Cancel",
+    reportSubject:"KBL Property Report: {id}",
+    reportBody:"Property ID: {id}\nNeighborhood: {neighborhood}\nReason: {reason}\nDetails: {details}",
+    emailNotSet:"Set your REPORT_EMAIL in app.js before using reports.",
+    whatsappMessage:"Assalamu Alaikum. I am interested in viewing Property ID: {id} in {neighborhood}."
+  },
+  fa:{
+    saved:"ذخیره‌شده",listProperty:"ثبت ملک",eyebrow:"جستجوی املاک کابل",startSearch:"شروع جستجو",heroNote:"املاک بررسی‌شده. معلومات روشن. همه در یک جا.",finderEyebrow:"برای پیدا کردن خانه کمک می‌خواهید؟",finderTitle:"از پیدا کردن خانه خسته شده‌اید؟ نگران نباشید. KBL برای شما پیدا می‌کند.",finderText:"نیاز خود را مشخص کنید، بازار را جستجو کنید و فهرست مورد علاقه خود را بسازید.",findForMe:"املاک را برای من پیدا کن",verifiedOnlyShort:"بررسی‌شده",commandTitle:"جستجوی KBL",commandPlaceholder:"منطقه، سرک، نشانی یا کد ملک را جستجو کنید...",commandSearch:"جستجوی املاک",
+    heroTitle:"خانه‌ای را که می‌خواهید در کابل پیدا کنید.",
+    heroDescription:"خانه‌های کابل را ببینید، جزئیات را مقایسه کنید، موارد مورد علاقه را ذخیره کنید و از KBL درخواست بازدید بدهید.",
+    rent:"کرایه",buy:"خرید",all:"همه",contextSearch:"جستجو بر اساس متن",contextSearchPlaceholder:"بر اساس منطقه، سرک، نشانی یا کد ملک جستجو کنید...",
+    district:"ناحیه",allDistricts:"تمام نواحی",neighborhood:"منطقه",allNeighborhoods:"تمام مناطق",
+    maxPrice:"حداکثر قیمت",pricePlaceholder:"افغانی",furnishing:"مبله بودن",any:"همه",
+    furnished:"مبله",unfurnished:"غیرمبله",verifiedOnly:"فقط املاک بررسی‌شده توسط KBL",clearFilters:"پاک کردن فیلترها",
+    featuredEyebrow:"مجموعه KBL",featuredTitle:"املاک را جستجو کنید.",available:"موجود",sold:"فروخته شد",rented:"کرایه داده شد",
+    negotiable:"قابل جورآمد",fixed:"قیمت ثابت",sqm:"متر مربع",viewProperty:"مشاهده ملک",bookViewing:"درخواست بازدید از واتساپ",
+    report:"گزارش",similar:"املاک مشابه",features:"امکانات ملک",kitchen:"آشپزخانه",documents:"اسناد",
+    heating:"گرمایش",electricity:"برق",water:"آب",fireProtection:"اطفائیه",security:"امنیت",parking:"پارکینگ",
+    noResults:"هیچ ملکی مطابق جستجوی شما پیدا نشد.",savedEmpty:"املاک ذخیره‌شده شما در اینجا نمایش داده می‌شوند.",
+    halalBadge:"بازار املاک شرعی",halalTitle:"معاملات روشن و مستقیم املاک.",
+    halalDescription:"KBL روی خرید مستقیم ملک و قراردادهای کرایه تمرکز دارد. خدمات قرضه و مورگیج ندارد.",
+    serviceOneTitle:"همه جزئیات را ببینید.",serviceOneText:"مساحت (متر مربع)، طبقه، امکانات، اسناد و قیمت در یک جا.",
+    serviceTwoTitle:"درخواست بازدید.",serviceTwoText:"کد ملک را برای KBL بفرستید و مرحله بعد را هماهنگ کنید.",
+    serviceThreeTitle:"فهرست خود را ذخیره کنید.",serviceThreeText:"خانه‌ها را در مرورگر ذخیره کنید و بعداً دوباره ببینید.",
+    footerDescription:"جستجوی منظم املاک کابل برای مردم.",close:"بستن",
+    reportTitle:"گزارش این ملک",reportText:"مشکل موجود در این آگهی را به KBL اطلاع دهید.",
+    reportReason:"دلیل",reportDetails:"جزئیات",reportDetailsPlaceholder:"مشکل را توضیح دهید...",
+    reportWrongInfo:"اطلاعات نادرست",reportUnavailable:"ملک دیگر موجود نیست",reportMisleading:"آگهی گمراه‌کننده",
+    reportOther:"سایر",sendReport:"آماده‌سازی گزارش ایمیل",cancel:"لغو",
+    reportSubject:"گزارش ملک KBL: {id}",
+    reportBody:"کد ملک: {id}\nمنطقه: {neighborhood}\nدلیل: {reason}\nجزئیات: {details}",
+    emailNotSet:"قبل از گزارش، REPORT_EMAIL را در app.js وارد کنید.",
+    whatsappMessage:"السلام علیکم. من علاقه‌مند به بازدید از ملک با کد {id} در منطقه {neighborhood} هستم."
+  },
+  ps:{
+    saved:"خوندي شوي",listProperty:"خپل ملک ثبت کړئ",eyebrow:"د کابل د ملکونو لټون",startSearch:"لټون پیل کړئ",heroNote:"تایید شوي ملکونه. روښانه معلومات. هر څه په یوه ځای کې.",finderEyebrow:"د کور په موندلو کې مرسته غواړئ؟",finderTitle:"د کور په موندلو ستړي شوي یاست؟ اندېښنه مه کوئ. KBL یې ستاسو لپاره پیدا کوي.",finderText:"خپلې اړتیاوې وټاکئ، بازار ولټوئ او خپلې خوښې ملکونه خوندي کړئ.",findForMe:"زما لپاره ملکونه پیدا کړه",verifiedOnlyShort:"تایید شوي",commandTitle:"د KBL لټون",commandPlaceholder:"سیمه، سړک، پته یا د ملک کوډ ولټوئ...",commandSearch:"ملکونه ولټوئ",
+    heroTitle:"په کابل کې هغه کور پیدا کړئ چې غواړئ پکې ژوند وکړئ.",
+    heroDescription:"په کابل کې کورونه وګورئ، معلومات پرتله کړئ، خپلې خوښې خوندي کړئ او د KBL له لارې د لیدنې غوښتنه وکړئ.",
+    rent:"کرایه",buy:"پېرود",all:"ټول",contextSearch:"د متن له مخې لټون",contextSearchPlaceholder:"د سیمې، سړک، پته یا ملک کوډ له مخې لټون وکړئ...",
+    district:"ناحیه",allDistricts:"ټولې ناحیې",neighborhood:"سیمه",allNeighborhoods:"ټولې سیمې",
+    maxPrice:"اعظمي بیه",pricePlaceholder:"افغانۍ",furnishing:"مبله حالت",any:"هر ډول",
+    furnished:"مبله",unfurnished:"غیر مبله",verifiedOnly:"یوازې د KBL تایید شوي ملکونه",clearFilters:"فلټرونه پاک کړئ",
+    featuredEyebrow:"د KBL ټولګه",featuredTitle:"ملکونه وپلټئ.",available:"موجود",sold:"پلورل شوی",rented:"کرایه شوی",
+    negotiable:"د جوړجاړي وړ",fixed:"ثابته بیه",sqm:"مربع متر",viewProperty:"ملک وګورئ",bookViewing:"د WhatsApp له لارې د لیدنې غوښتنه",
+    report:"راپور",similar:"ورته ملکونه",features:"د ملک اسانتیاوې",kitchen:"پخلنځی",documents:"اسناد",
+    heating:"تودوخه",electricity:"برېښنا",water:"اوبه",fireProtection:"د اور وژنه",security:"امنیت",parking:"پارکینګ",
+    noResults:"ستاسو د لټون سره سم ملک پیدا نشو.",savedEmpty:"ستاسو خوندي شوي ملکونه به دلته ښکاره شي.",
+    halalBadge:"د شریعت بازار",halalTitle:"روښانه او مستقیم د ملکونو معاملات.",
+    halalDescription:"KBL پر مستقیم پېرود او کرایي تړونونو تمرکز کوي. د سودي قرضې او مورگیج خدمتونه نشته.",
+    serviceOneTitle:"ټول معلومات وګورئ.",serviceOneText:"مساحت، پوړ، اسانتیاوې، اسناد او بیه په یوه ځای کې.",
+    serviceTwoTitle:"د لیدنې غوښتنه وکړئ.",serviceTwoText:"د ملک کوډ KBL ته ولېږئ او بل ګام تنظیم کړئ.",
+    serviceThreeTitle:"خپله لنډه فهرست خوندي کړئ.",serviceThreeText:"کورونه په خپل براوزر کې خوندي کړئ او وروسته یې بیا وګورئ.",
+    footerDescription:"د کابل د ملکونو منظم لټون د خلکو لپاره.",close:"بندول",
+    reportTitle:"د دې ملک راپور",reportText:"KBL ته ووایاست چې په دې اعلان کې څه ستونزه ده.",
+    reportReason:"دلیل",reportDetails:"تفصیل",reportDetailsPlaceholder:"ستونزه تشریح کړئ...",
+    reportWrongInfo:"ناسم معلومات",reportUnavailable:"ملک نور موجود نه دی",reportMisleading:"ګمراه کوونکی اعلان",
+    reportOther:"نور",sendReport:"د ایمیل راپور چمتو کړئ",cancel:"لغوه",
+    reportSubject:"د KBL ملک راپور: {id}",
+    reportBody:"د ملک کوډ: {id}\nسیمه: {neighborhood}\nدلیل: {reason}\nتفصیل: {details}",
+    emailNotSet:"د راپور لپاره لومړی په app.js کې REPORT_EMAIL داخل کړئ.",
+    whatsappMessage:"السلام علیکم. زه غواړم د {id} ملک په {neighborhood} کې د لیدنې لپاره معلومات واخلم."
+  }
 };
 
-function kblTrustBadges(){return `<div class="trust-badges"><span>${KBL_TRUST_ICONS.sharia}${esc(tr('shariaBadge'))}</span><span>${KBL_TRUST_ICONS.direct}${esc(tr('directDealBadge'))}</span><span>${KBL_TRUST_ICONS.reviewed}${esc(tr('verifiedBadge'))}</span></div>`;}
+let currentLanguage=localStorage.getItem("kbl_language")||"en";
+let purpose="all";
+let savedProperties=JSON.parse(localStorage.getItem("kbl_saved_properties")||"[]");
+const carouselTimers=new Map();
+const carouselStates=new Map();
+const imageCache=new Map();
+let toastTimer=null;
 
-function updatePulse(){
-  const all=listings.filter(p=>!['sold','rented'].includes(getStatus(p)));
-  const sale=all.filter(p=>normalizePurpose(p)==='buy').length;
-  const rent=all.filter(p=>normalizePurpose(p)==='rent').length;
-  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=String(v);};
-  set('pulseListings',all.length);set('pulseBuy',sale);set('pulseRent',rent);set('pulseDistricts',22);
-  const sc=savedSet();set('savedCount',sc.size);
-}
+const $=s=>document.querySelector(s);
+const $$=s=>document.querySelectorAll(s);
+const t=key=>(translations[currentLanguage]?.[key]??translations.en[key]??key);
 
-const compareSet=new Set();
-function updateCompareTray(){
-  const tray=document.getElementById('compareTray');if(!tray)return;
-  const count=compareSet.size;tray.setAttribute('aria-hidden',count?'false':'true');tray.classList.toggle('open',count>0);
-  const c=document.getElementById('compareCount');if(c)c.textContent=String(count);
+function localized(obj){return obj?.[currentLanguage]??obj?.en??""}
+function esc(value){
+  return String(value??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 }
-function toggleCompare(id){
-  const key=String(id);
-  if(compareSet.has(key)){compareSet.delete(key);}
-  else if(compareSet.size<3){compareSet.add(key);}
-  else {showToast(tr('compareLimit'));return;}
-  renderCards();updateCompareTray();
+function formatPrice(p){
+  const locale=currentLanguage==="en"?"en-US":currentLanguage==="fa"?"fa-AF":"ps-AF";
+  const n=new Intl.NumberFormat(locale).format(p.price);
+  return p.currency==="USD"?`$${n}`:`${n} AFN`;
 }
-function compareModal(){
-  const selected=listings.filter(p=>compareSet.has(String(p.id??p.kbl_listing_id??p.submission_id)));
-  if(!selected.length)return;
-  const overlay=document.createElement('div');overlay.className='modal-overlay';
-  const rows=[
-    ['purpose',p=>normalizePurpose(p)==='rent'?tr('rent'):tr('buy')],
-    ['propertyType',p=>localizedType(getType(p))],
-    ['district',p=>localizedDistrict(p.district)],
-    ['neighborhood',p=>localizedNeighborhood(getNeighborhood(p))],
-    ['area',p=>p.size_sqm?`${p.size_sqm} m²`:tr('notSpecified')],
-    ['status',p=>getStatus(p)==='sold'?tr('sold'):getStatus(p)==='rented'?tr('rented'):tr('available')]
-  ];
-  overlay.innerHTML=`<div class="compare-modal"><button class="modal-close" data-close-compare type="button">×</button><p class="kicker">KBL</p><h2>${esc(tr('compare'))}</h2><div class="compare-grid">${selected.map(p=>{const id=String(p.id??p.kbl_listing_id??p.submission_id);const imgs=getImages(p);return `<article><div class="compare-photo">${imgs[0]?`<img src="${esc(imgs[0])}" alt="${esc(p.title||'')}">`:'<div class="image-placeholder"></div>'}</div><h3>${esc(p.title||localizedNeighborhood(getNeighborhood(p)))}</h3><strong>${esc(priceText(p))}</strong><div class="compare-mini">${rows.map(([k,fn])=>`<div><span>${esc(tr(k))}</span><b>${esc(fn(p))}</b></div>`).join('')}</div><button type="button" class="view-button compare-view" data-view="${esc(id)}">${esc(tr('viewDetails'))}</button></article>`}).join('')}</div></div>`;
-  document.body.appendChild(overlay);requestAnimationFrame(()=>requestAnimationFrame(()=>overlay.classList.add('active')));
-  overlay.addEventListener('click',e=>{if(e.target===overlay||e.target.closest('[data-close-compare]')){overlay.classList.remove('active');setTimeout(()=>overlay.remove(),220);return;}});
+function statusText(p){return p.status==="sold"?t("sold"):p.status==="rented"?t("rented"):t("available")}
+function buildWhatsAppLink(p){
+  const message=t("whatsappMessage")
+    .replace("{id}",p.id)
+    .replace("{neighborhood}",localized(p.neighborhood));
+  return `https://wa.me/${MY_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
+function showToast(message){
+  const el=$("#toast");
+  if(!el)return;
+  el.textContent=message;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove("show"),2600);
 }
 
-function openSavedDrawer(){
-  const d=document.getElementById('savedDrawer'),b=document.getElementById('savedBackdrop');if(!d)return;
-  renderSavedDrawer();d.classList.add('open');b?.classList.add('open');d.setAttribute('aria-hidden','false');document.body.classList.add('drawer-open');
-}
-function closeSavedDrawer(){const d=document.getElementById('savedDrawer'),b=document.getElementById('savedBackdrop');d?.classList.remove('open');b?.classList.remove('open');d?.setAttribute('aria-hidden','true');document.body.classList.remove('drawer-open');}
-function renderSavedDrawer(){
-  const el=document.getElementById('savedDrawerBody');if(!el)return;
-  const ids=savedSet();const arr=listings.filter(p=>ids.has(String(p.id??p.kbl_listing_id??p.submission_id)));
-  el.innerHTML=arr.length?arr.map(p=>{const id=String(p.id??p.kbl_listing_id??p.submission_id),imgs=getImages(p),n=localizedNeighborhood(getNeighborhood(p));return `<button class="saved-drawer-card" type="button" data-view="${esc(id)}"><span class="saved-thumb">${imgs[0]?`<img src="${esc(imgs[0])}" alt="">`:''}</span><span><strong>${esc(p.title||n||tr('propertyType'))}</strong><small>${esc(localizedDistrict(p.district))} · ${esc(n)}</small><b>${esc(priceText(p))}</b></span></button>`}).join(''):`<div class="saved-empty">${esc(tr('noSaved'))}</div>`;
-  const count=document.getElementById('savedCount');if(count)count.textContent=String(arr.length);
+function applyLanguage(){
+  document.documentElement.lang=currentLanguage;
+  document.documentElement.dir=currentLanguage==="en"?"ltr":"rtl";
+  $$("[data-i18n]").forEach(el=>{el.textContent=t(el.dataset.i18n)});
+  $$("[data-i18n-placeholder]").forEach(el=>{el.placeholder=t(el.dataset.i18nPlaceholder)});
+  $$(".language-button").forEach(b=>b.classList.toggle("active",b.dataset.language===currentLanguage));
+  localStorage.setItem("kbl_language",currentLanguage);
+  populateFilters();
+  renderAll();
 }
 
-function showToast(text){let t=document.getElementById('kblToast');if(!t){t=document.createElement('div');t.id='kblToast';t.className='kbl-toast';document.body.appendChild(t);}t.textContent=text;t.classList.add('show');clearTimeout(window.__kblToastTimer);window.__kblToastTimer=setTimeout(()=>t.classList.remove('show'),2200);}
+function setLanguage(lang){
+  if(!translations[lang])return;
+  currentLanguage=lang;
+  applyLanguage();
+}
 
-const baseKblShowProperty=legacyShowProperty;
+function populateFilters(){
+  const district=$("#districtFilter");
+  const neighborhood=$("#neighborhoodFilter");
+  if(!district||!neighborhood)return;
+  const oldDistrict=district.value,oldNeighborhood=neighborhood.value;
+  const districts=[...new Set(properties.map(p=>p.district.en))];
+  const neighborhoods=[...new Set(properties.map(p=>p.neighborhood.en))];
+  district.innerHTML=`<option value="">${esc(t("allDistricts"))}</option>`+
+    districts.map(d=>{
+      const p=properties.find(x=>x.district.en===d);
+      return `<option value="${esc(d)}">${esc(localized(p.district))}</option>`;
+    }).join("");
+  neighborhood.innerHTML=`<option value="">${esc(t("allNeighborhoods"))}</option>`+
+    neighborhoods.map(n=>{
+      const p=properties.find(x=>x.neighborhood.en===n);
+      return `<option value="${esc(n)}">${esc(localized(p.neighborhood))}</option>`;
+    }).join("");
+  if(district.querySelector(`option[value="${CSS.escape(oldDistrict)}"]`))district.value=oldDistrict;
+  if(neighborhood.querySelector(`option[value="${CSS.escape(oldNeighborhood)}"]`))neighborhood.value=oldNeighborhood;
+}
+
+function getFiltered(){
+  const search=($("#searchInput")?.value||"").trim().toLowerCase();
+  const district=$("#districtFilter")?.value||"";
+  const neighborhood=$("#neighborhoodFilter")?.value||"";
+  const maxPrice=Number($("#priceFilter")?.value||0);
+  const furnishing=$("#furnishingFilter")?.value||"";
+  const verified=$("#verifiedFilter")?.checked||false;
+
+  return properties.filter(p=>{
+    if(p.status!=="available")return false;
+    if(purpose!=="all" && p.type!==purpose)return false;
+    if(district && p.district.en!==district)return false;
+    if(neighborhood && p.neighborhood.en!==neighborhood)return false;
+    if(maxPrice && p.price>maxPrice)return false;
+    if(furnishing==="furnished"&&!p.furnished)return false;
+    if(furnishing==="unfurnished"&&p.furnished)return false;
+    if(verified&&!p.verified)return false;
+    if(search){
+      const text=[
+        p.id,p.neighborhood.en,p.neighborhood.fa,p.neighborhood.ps,
+        p.district.en,p.district.fa,p.district.ps,
+        p.description.en,p.description.fa,p.description.ps
+      ].join(" ").toLowerCase();
+      if(!text.includes(search))return false;
+    }
+    return true;
+  });
+}
+
+function preloadImages(p){
+  if(imageCache.has(p.id))return imageCache.get(p.id);
+  const list=p.images.map(src=>{
+    const img=new Image();
+    img.decoding="async";
+    img.src=src;
+    return img;
+  });
+  imageCache.set(p.id,list);
+  return list;
+}
+
+function stopCarousel(id){
+  const timer=carouselTimers.get(id);
+  if(timer)clearInterval(timer);
+  carouselTimers.delete(id);
+}
+function stopAllCarousels(){
+  carouselTimers.forEach(timer=>clearInterval(timer));
+  carouselTimers.clear();
+}
+function startCarousel(p){
+  stopCarousel(p.id);
+  if(p.images.length<2)return;
+  preloadImages(p);
+  let index=0;
+  carouselStates.set(p.id,0);
+  const img=document.querySelector(`[data-image-id="${p.id}"]`);
+  if(!img)return;
+  const tick=()=>{
+    const next=(index+1)%p.images.length;
+    const preloaded=preloadImages(p)[next];
+    const swap=()=>{
+      img.classList.add("is-changing");
+      requestAnimationFrame(()=>{
+        img.src=p.images[next];
+        img.onload=()=>{
+          requestAnimationFrame(()=>img.classList.remove("is-changing"));
+        };
+      });
+      $(`[data-dots="${p.id}"]`)?.querySelectorAll(".image-dot").forEach((dot,i)=>{
+        dot.classList.toggle("active",i===next);
+      });
+      index=next;
+      carouselStates.set(p.id,index);
+    };
+    if(preloaded?.complete)swap();
+    else if(preloaded)preloaded.onload=swap;
+    else swap();
+  };
+  const timer=setInterval(tick,5000);
+  carouselTimers.set(p.id,timer);
+}
+
+function cardHTML(p){
+  const n=localized(p.neighborhood),d=localized(p.district),desc=localized(p.description);
+  const saved=savedProperties.includes(p.id);
+  return `
+  <article class="property-card" data-property-id="${esc(p.id)}">
+    <div class="property-media">
+      <img data-image-id="${esc(p.id)}" src="${esc(p.images[0])}" alt="${esc(n)}" decoding="async" loading="lazy">
+      <div class="card-top">
+        <div>
+          <span class="property-type">${p.type==="rent"?t("rent"):t("buy")}</span>
+          ${p.verified?`<span class="status-pill">${esc(t("available"))}</span>`:""}
+        </div>
+        <button class="favorite-button ${saved?"saved":""}" data-save-id="${esc(p.id)}" type="button" aria-label="${esc(t("saved"))}">
+          ${saved?"♥":"♡"}
+        </button>
+      </div>
+      <div class="image-dots" data-dots="${esc(p.id)}">
+        ${p.images.map((_,i)=>`<span class="image-dot ${i===0?"active":""}"></span>`).join("")}
+      </div>
+    </div>
+    <div class="property-content">
+      <div class="property-title-row">
+        <div>
+          <h3 class="property-title">${esc(n)}</h3>
+          <p class="property-location">${esc(d)}</p>
+        </div>
+        <div class="property-price">${esc(formatPrice(p))}</div>
+      </div>
+      <div class="property-specs">
+        <div class="spec"><strong>${p.size}</strong>${esc(t("sqm"))}</div>
+      </div>
+      <p class="property-description">${esc(desc)}</p>
+      <div class="property-status-row">
+        <span class="status-available">${esc(statusText(p))}</span>
+        <span>${esc(p.negotiable?t("negotiable"):t("fixed"))}</span>
+        <span>${esc(p.furnished?t("furnished"):t("unfurnished"))}</span>
+      </div>
+      <div class="action-grid">
+        <button class="primary-button view-property" data-view-id="${esc(p.id)}" type="button">${esc(t("viewProperty"))}</button>
+        <a class="secondary-button whatsapp-button" href="${esc(buildWhatsAppLink(p))}" target="_blank" rel="noopener noreferrer">${esc(t("bookViewing"))}</a>
+        <button class="report-button" data-report-id="${esc(p.id)}" type="button">${esc(t("report"))}</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+function renderProperties(){
+  const grid=$("#propertyGrid");
+  if(!grid)return;
+  stopAllCarousels();
+  const list=getFiltered();
+  $("#resultCount").textContent=`${list.length}`;
+  if(!list.length){
+    grid.innerHTML=`<div class="empty-state">${esc(t("noResults"))}</div>`;
+    return;
+  }
+  grid.innerHTML=list.map(cardHTML).join("");
+  list.forEach(p=>startCarousel(p));
+}
+
+function renderSaved(){
+  const saved=savedProperties.map(id=>properties.find(p=>p.id===id)).filter(Boolean);
+  updateSavedCount();
+  return saved;
+}
+function updateSavedCount(){$("#savedCount").textContent=savedProperties.length}
+function toggleSaved(id){
+  const i=savedProperties.indexOf(id);
+  if(i<0)savedProperties.push(id);else savedProperties.splice(i,1);
+  localStorage.setItem("kbl_saved_properties",JSON.stringify(savedProperties));
+  renderProperties();
+  showToast(i<0?t("saved"):t("saved"));
+}
+function showSaved(){
+  const list=renderSaved();
+  const modal=$("#modalBackdrop"),content=$("#modalContent");
+  content.innerHTML=`
+    <div class="modal-body">
+      <p class="eyebrow">${esc(t("saved"))}</p>
+      <h2>${esc(t("saved"))}</h2>
+      ${list.length?`<div class="property-grid">${list.map(cardHTML).join("")}</div>`:`<div class="empty-state">${esc(t("savedEmpty"))}</div>`}
+    </div>`;
+  modal.hidden=false;
+  if(list.length)list.forEach(startCarousel);
+  document.body.classList.add("modal-open");
+}
+
+function featureRows(p){
+  const f=p.features;
+  return [
+    ["kitchen",f.kitchen],["documents",f.documents],["heating",f.heating],
+    ["electricity",f.electricity],["water",f.water],["fireProtection",f.fireProtection],
+    ["security",f.security],["parking",f.parking]
+  ].map(([key,val])=>`<div><strong>${esc(t(key))}</strong><br>${esc(typeof val==="object"?localized(val):val)}</div>`).join("");
+}
+
 function showProperty(id){
-  baseKblShowProperty(id);
-  const modal=document.querySelector('.modal-overlay:last-of-type .detail-modal');if(!modal)return;
-  const p=listings.find(x=>String(x.id??x.kbl_listing_id??x.submission_id)===String(id));if(!p)return;
-  const header=modal.querySelector('.detail-topline');if(header&&!modal.querySelector('.detail-trust')){const block=document.createElement('div');block.className='detail-trust';block.innerHTML=kblTrustBadges();header.insertAdjacentElement('afterend',block);}
-  const left=modal.querySelector('.detail-left');if(left&&!modal.querySelector('[data-compare-detail]')){const btn=document.createElement('button');btn.type='button';btn.className='detail-compare';btn.dataset.compareDetail=String(id);btn.textContent=tr('compare');left.querySelector('.detail-price')?.insertAdjacentElement('afterend',btn);}
+  const p=properties.find(x=>x.id===id);if(!p)return;
+  const modal=$("#modalBackdrop"),content=$("#modalContent");
+  content.innerHTML=`
+    <div class="modal-media"><img src="${esc(p.images[0])}" alt="${esc(localized(p.neighborhood))}"></div>
+    <div class="modal-body">
+      <p class="eyebrow">${esc(p.id)}</p>
+      <h2 id="modalTitle">${esc(localized(p.neighborhood))}</h2>
+      <p>${esc(localized(p.district))}</p>
+      <div class="modal-price">${esc(formatPrice(p))}</div>
+      <div class="detail-grid">
+        <div><strong>${p.size} ${esc(t("sqm"))}</strong><span>${esc(t("size")||"Size")}</span></div>
+        <div><strong>${p.floor}</strong><span>${esc(t("floor")||"Floor")}</span></div>
+        <div><strong>${esc(p.furnished?t("furnished"):t("unfurnished"))}</strong><span>${esc(t("furnishing"))}</span></div>
+        <div><strong>${esc(p.negotiable?t("negotiable"):t("fixed"))}</strong><span>${esc(t("price"))}</span></div>
+      </div>
+      <p>${esc(localized(p.description))}</p>
+      <h3>${esc(t("features"))}</h3>
+      <div class="features-grid">${featureRows(p)}</div>
+      <div class="modal-actions">
+        <a class="primary-button whatsapp-button" href="${esc(buildWhatsAppLink(p))}" target="_blank" rel="noopener noreferrer">${esc(t("bookViewing"))}</a>
+        <button class="secondary-button" data-report-id="${esc(p.id)}" type="button">${esc(t("report"))}</button>
+      </div>
+    </div>`;
+  modal.hidden=false;
+  document.body.classList.add("modal-open");
 }
 
-function card(p){
-  const id=String(p.id??p.kbl_listing_id??p.submission_id);const imgs=getImages(p);const saved=savedSet().has(id);const selected=compareSet.has(id);const status=getStatus(p);const n=localizedNeighborhood(getNeighborhood(p));const d=localizedDistrict(p.district);const t=localizedType(getType(p));
-  const desc=typeof p.description==='object'?(p.description[lang]||p.description.en||Object.values(p.description)[0]):(p[`description_${lang}`]||p.description||'');
-  const pp=normalizePurpose(p);const purposeText=pp==='rent'?tr('rent'):pp==='buy'?tr('buy'):'';
-  const imgScroll=imgs.length?`<div class="image-scroll" data-scroll-id="${esc(id)}">${imgs.map(src=>`<img src="${esc(src)}" alt="${esc(n||p.title||'')}" loading="lazy" draggable="false">`).join('')}</div>`:`<div class="image-scroll"><div class="image-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9.5a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10"/></svg></div></div>`;
-  const dots=imgs.length>1?`<div class="image-dots">${imgs.map((_,i)=>`<button type="button" class="image-dot ${i===0?'active':''}" data-dot-id="${esc(id)}" data-index="${i}" aria-label="${i+1}"></button>`).join('')}</div>`:'';
-  const badge=status==='sold'?`<span class="status-badge sold">${esc(tr('sold'))}</span>`:status==='rented'?`<span class="status-badge rented">${esc(tr('rented'))}</span>`:'';
-  return `<article class="property-card ${selected?'compare-selected':''}" data-card-id="${esc(id)}"><div class="property-media">${imgScroll}<button class="save-button ${saved?'saved':''}" data-save="${esc(id)}" type="button" aria-label="${esc(saved?tr('savedLabel'):tr('save'))}">${saved?'♥':'♡'}</button><button class="compare-button ${selected?'active':''}" data-compare="${esc(id)}" type="button" aria-label="${esc(tr('compare'))}">${selected?'✓':'+'}<span>${esc(tr('compare'))}</span></button>${badge}${dots}${imgs.length>1?`<span class="image-count">1 ${esc(tr('imageOf'))} ${imgs.length}</span>`:''}</div><div class="property-content">${kblTrustBadges()}<div class="card-meta-row"><span class="property-type">${esc(t)}</span>${purposeText?`<span class="purpose-label">${esc(purposeText)}</span>`:''}</div><h3>${esc(p.title||n||tr('propertyType'))}</h3><p class="location-line">${esc(n||d)}${p.location?` · ${esc(p.location)}`:''}</p><p class="distance-line">${esc(d)}${n?` · ${esc(n)}`:''}</p><div class="price-line">${esc(priceText(p))}</div><div class="area-line">${p.size_sqm?`${esc(tr('area'))}: ${esc(p.size_sqm)}`:''}</div><p class="description-line">${esc(desc)}</p><div class="card-actions"><button class="view-button" data-view="${esc(id)}" type="button">${esc(tr('view'))}</button><a class="wa-button" href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(whatsappText(p))}" target="_blank" rel="noopener"><svg class="wa-symbol" viewBox="0 0 32 32"><path fill="currentColor" d="M19.11 17.33c-.27-.14-1.6-.79-1.85-.88-.25-.09-1.85-.88-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.13-.42-2.15-1.34-.79-.7-1.32-1.57-1.47-1.84-.15-.27-.02-.42.11-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.27s.98 2.63 1.11 2.81c.14.18 1.93 2.95 4.68 4.14.65.28 1.24.18 1.7.11.52-.08 1.6-.66 1.82-1.29.23-.63.23-1.17.16-1.29-.07-.11-.25-.18-.52-.32M16.03 3C8.84 3 3 8.84 3 16.03c0 2.3.6 4.46 1.65 6.34L3 29l6.82-1.61a12.96 12.96 0 0 0 6.21 1.58h.01C23.22 28.97 29.06 23.13 29.06 16S23.22 3 16.03 3m0 23.67h-.01a10.75 10.75 0 0 1-5.49-1.5l.98-3.95-.25-.41a10.73 10.73 0 1 1 9.21 5.13"/></svg>${esc(tr('whatsapp'))}</a><button class="report-button" data-report="${esc(id)}" type="button">⚑ ${esc(tr('report'))}</button></div></div></article>`;
-}
-function renderCards(){
-  const el=document.getElementById('cards');if(!el)return;const arr=listings.filter(matches);const count=document.getElementById('resultCount');if(count)count.textContent=arr.length?String(arr.length):'';
-  el.innerHTML=arr.map(card).join('')||`<div class="empty">${esc(tr('noResults'))}</div>`;requestAnimationFrame(()=>arr.forEach(p=>setupImageScroll(p)));syncSearchSummary();updatePulse();updateCompareTray();
+function showReport(id){
+  const p=properties.find(x=>x.id===id);if(!p)return;
+  const modal=$("#modalBackdrop"),content=$("#modalContent");
+  content.innerHTML=`
+    <form class="report-form" id="reportForm">
+      <p class="eyebrow">${esc(p.id)}</p>
+      <h2>${esc(t("reportTitle"))}</h2>
+      <p>${esc(t("reportText"))}</p>
+      <div class="form-field">
+        <label>${esc(t("reportReason"))}</label>
+        <select id="reportReason">
+          <option value="${esc(t("reportWrongInfo"))}">${esc(t("reportWrongInfo"))}</option>
+          <option value="${esc(t("reportUnavailable"))}">${esc(t("reportUnavailable"))}</option>
+          <option value="${esc(t("reportMisleading"))}">${esc(t("reportMisleading"))}</option>
+          <option value="${esc(t("reportOther"))}">${esc(t("reportOther"))}</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>${esc(t("reportDetails"))}</label>
+        <textarea id="reportDetails" placeholder="${esc(t("reportDetailsPlaceholder"))}"></textarea>
+      </div>
+      <div class="form-actions">
+        <button class="secondary-button" data-close-modal type="button">${esc(t("cancel"))}</button>
+        <button class="primary-button" type="submit">${esc(t("sendReport"))}</button>
+      </div>
+    </form>`;
+  modal.hidden=false;
+  document.body.classList.add("modal-open");
+  $("#reportForm").addEventListener("submit",e=>{
+    e.preventDefault();
+    if(!REPORT_EMAIL || REPORT_EMAIL.includes("YOUR_EMAIL")){
+      showToast(t("emailNotSet"));return;
+    }
+    const reason=$("#reportReason").value;
+    const details=$("#reportDetails").value.trim();
+    const subject=t("reportSubject").replace("{id}",p.id);
+    const body=t("reportBody")
+      .replace("{id}",p.id)
+      .replace("{neighborhood}",localized(p.neighborhood))
+      .replace("{reason}",reason)
+      .replace("{details}",details||"-");
+    window.location.href=`mailto:${REPORT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
 }
 
-function applyLang(){
-  document.documentElement.lang=lang;document.documentElement.dir=lang==='en'?'ltr':'rtl';
-  document.querySelectorAll('[data-i18n]').forEach(e=>{const t=tr(e.dataset.i18n);if(t)e.textContent=t;});
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(e=>e.placeholder=tr(e.dataset.i18nPlaceholder));
-  document.querySelectorAll('.lang').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
-  const lt=document.querySelector('.language-trigger');if(lt){const lc=lt.querySelector('.language-current');if(lc)lc.textContent=(lang==='fa'?'دری':lang==='ps'?'پښتو':'EN');else lt.firstChild.textContent=(lang==='fa'?'دری':lang==='ps'?'پښتو':'EN')+' ';}
-  renderOptions();renderCards();renderSaved();renderSavedDrawer();updatePulse();
+function closeModal(){
+  stopAllCarousels();
+  const modal=$("#modalBackdrop");
+  modal.hidden=true;
+  document.body.classList.remove("modal-open");
+  renderProperties();
 }
 
-function commandOpen(){const b=document.getElementById('commandBackdrop');if(!b)return;b.classList.add('open');b.setAttribute('aria-hidden','false');const input=document.getElementById('commandInput');if(input){input.value='';filterCommands('');setTimeout(()=>input.focus(),50);}document.body.classList.add('command-open');}
-function commandClose(){const b=document.getElementById('commandBackdrop');b?.classList.remove('open');b?.setAttribute('aria-hidden','true');document.body.classList.remove('command-open');}
-function filterCommands(q){const query=(q||'').toLowerCase().trim();document.querySelectorAll('#commandItems > *').forEach(x=>{x.hidden=!!query&&!x.textContent.toLowerCase().includes(query);});}
+function clearFilters(){
+  $("#searchInput").value="";
+  $("#districtFilter").value="";
+  $("#neighborhoodFilter").value="";
+  $("#priceFilter").value="";
+  $("#furnishingFilter").value="";
+  $("#verifiedFilter").checked=false;
+  purpose="all";
+  $$(".purpose-tab").forEach(b=>b.classList.toggle("active",b.dataset.purpose==="all"));
+  renderProperties();
+}
 
-// Advanced interaction layer.
-document.addEventListener('click',e=>{
-  const explore=e.target.closest('[data-explore-trigger]');
-  if(explore){const menu=document.getElementById('megaMenu'),back=document.getElementById('megaBackdrop');const open=!menu?.classList.contains('open');menu?.classList.toggle('open',open);back?.classList.toggle('open',open);explore.setAttribute('aria-expanded',open?'true':'false');menu?.setAttribute('aria-hidden',open?'false':'true');return;}
-  if(e.target.closest('#megaBackdrop')){document.getElementById('megaMenu')?.classList.remove('open');document.getElementById('megaBackdrop')?.classList.remove('open');document.querySelector('[data-explore-trigger]')?.setAttribute('aria-expanded','false');return;}
-  const feed=e.target.closest('.feed-tab');if(feed){purpose=feed.dataset.purpose;document.querySelectorAll('.feed-tab').forEach(x=>x.classList.toggle('active',x===feed));document.querySelectorAll('.purpose').forEach(x=>x.classList.toggle('active',x.dataset.purpose===purpose));refreshCardsWithSkeleton();return;}
-  const cmp=e.target.closest('[data-compare]');if(cmp){toggleCompare(cmp.dataset.compare);return;}
-  if(e.target.closest('#compareNow')){compareModal();return;}
-  if(e.target.closest('#clearCompare')){compareSet.clear();renderCards();updateCompareTray();return;}
-  const detailCmp=e.target.closest('[data-compare-detail]');if(detailCmp){toggleCompare(detailCmp.dataset.compareDetail);return;}
-  const cmd=e.target.closest('[data-command]');if(cmd){const action=cmd.dataset.command;commandClose();if(action==='buy'){window.location.href='buy.html';}else if(action==='rent'){window.location.href='rent.html';}else if(action==='search'){openSearch();}else if(action==='saved'){window.location.href='saved.html';}return;}
-  if(e.target.closest('#commandBackdrop')&&e.target===document.getElementById('commandBackdrop')){commandClose();return;}
+function renderAll(){
+  renderProperties();
+  updateSavedCount();
+}
+
+document.addEventListener("click",e=>{
+  if(e.target.closest("#commandButton")){openCommandPalette();return}
+  if(e.target.closest("[data-command-close]")){closeCommandPalette();return}
+  const cmd=e.target.closest("[data-command-action]");
+  if(cmd){const action=cmd.dataset.commandAction;closeCommandPalette();if(action==="search"){$("#searchInput")?.focus();$("#searchSection")?.scrollIntoView({behavior:"smooth",block:"center"});}else if(action==="saved")showSaved();else if(action==="list")$("#listPropertyButton")?.click();return}
+  const chip=e.target.closest(".filter-chip");
+  if(chip&&chip.dataset.purpose){purpose=chip.dataset.purpose;$$('.purpose-tab').forEach(b=>b.classList.toggle('active',b.dataset.purpose===purpose));$$('.filter-chip').forEach(b=>b.classList.toggle('active',b===chip));renderProperties();return}
+  if(e.target.closest("#verifiedChip")){const box=$("#verifiedFilter");if(box){box.checked=!box.checked;renderProperties();}return}
+  if(e.target.closest("#heroSearchButton")||e.target.closest("#finderSearchButton")){$("#searchSection")?.scrollIntoView({behavior:"smooth",block:"center"});setTimeout(()=>$("#searchInput")?.focus(),450);return}
+  const lang=e.target.closest(".language-button");
+  if(lang){setLanguage(lang.dataset.language);return}
+  const save=e.target.closest("[data-save-id]");
+  if(save){toggleSaved(save.dataset.saveId);return}
+  const view=e.target.closest("[data-view-id]");
+  if(view){showProperty(view.dataset.viewId);return}
+  const report=e.target.closest("[data-report-id]");
+  if(report){showReport(report.dataset.reportId);return}
+  const close=e.target.closest("[data-close-modal]")||e.target.id==="modalClose";
+  if(close){closeModal();return}
+  const purposeButton=e.target.closest(".purpose-tab");
+  if(purposeButton){
+    purpose=purposeButton.dataset.purpose;
+    $$(".purpose-tab").forEach(b=>b.classList.toggle("active",b===purposeButton));
+    renderProperties();return;
+  }
+  if(e.target.id==="clearFilters"){clearFilters();return}
+  if(e.target.id==="savedButton"){showSaved();return}
+  if(e.target.id==="listPropertyButton"){
+    const url=buildWhatsAppLink({id:"PROPERTY LISTING",neighborhood:{en:"Kabul",fa:"کابل",ps:"کابل"}});
+    window.open(url,"_blank","noopener");return;
+  }
 });
 
-document.getElementById('commandInput')?.addEventListener('input',e=>filterCommands(e.target.value));
-document.addEventListener('keydown',e=>{
-  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();commandOpen();}
-  if(e.key==='Escape'){commandClose();closeSavedDrawer();document.getElementById('megaMenu')?.classList.remove('open');document.getElementById('megaBackdrop')?.classList.remove('open');}
+document.addEventListener("input",e=>{
+  if(["searchInput","priceFilter"].includes(e.target.id))renderProperties();
+});
+document.addEventListener("change",e=>{
+  if(["districtFilter","neighborhoodFilter","furnishingFilter","verifiedFilter"].includes(e.target.id))renderProperties();
+});
+document.addEventListener("keydown",e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="k"){e.preventDefault();openCommandPalette();return}
+  if(e.key==="Escape"){
+    if(!$("#commandPalette")?.hidden){closeCommandPalette();return}
+    if(!$("#modalBackdrop")?.hidden)closeModal();
+  }
 });
 
-// Make the bottom search the primary marketplace entry point.
-
-document.addEventListener('click',e=>{
-  if(e.target.closest('.property-card [data-view]')||e.target.closest('.saved-drawer-card [data-view]')){closeSavedDrawer();}
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden)stopAllCarousels();else renderProperties();
 });
 
-// Re-apply language after the advanced layer exists, then refresh dynamic state.
-applyLang();
-renderSavedDrawer();updatePulse();updateCompareTray();
 
-function updateMenuOverlay(){
-  const links=[
-    {k:'menuAbout',h:'about.html'},
-    {k:'menuHow',h:'how-it-works.html'},
-    {k:'menuContact',h:'contact.html'},
-    {k:'menuSaved',h:'saved.html'},
-    {k:'menuList',h:'list-property.html'},
-    {k:'menuTerms',h:'terms.html'},
-    {k:'menuPrivacy',h:'privacy.html'}
-  ];
-  const nav=document.getElementById('menuLinks');if(!nav)return;
-  nav.innerHTML=links.map(l=>`<a href="${l.h}" data-i18n="${l.k}">${esc(tr(l.k))}</a>`).join('');
+function openCommandPalette(){
+  const el=$("#commandPalette"); if(!el)return;
+  el.hidden=false; document.body.classList.add("command-open");
+  setTimeout(()=>$("#commandInput")?.focus(),20);
 }
-updateMenuOverlay();
+function closeCommandPalette(){
+  const el=$("#commandPalette"); if(!el)return;
+  el.hidden=true; document.body.classList.remove("command-open");
+}
+function initHeaderCanvas(){
+  const canvas=$("#headerCanvas"); if(!canvas)return;
+  const ctx=canvas.getContext("2d"); if(!ctx)return;
+  let raf=0,t=0;
+  const resize=()=>{const d=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.max(1,window.innerWidth*d);canvas.height=90*d;canvas.style.height="90px";ctx.setTransform(d,0,0,d,0,0)};
+  const draw=()=>{t+=0.004;const w=window.innerWidth,h=90;ctx.clearRect(0,0,w,h);
+    const blobs=[[w*.18+Math.sin(t)*40,35,170],[w*.62+Math.cos(t*.8)*55,45,220],[w*.92+Math.sin(t*1.2)*30,18,150]];
+    blobs.forEach((b,i)=>{const g=ctx.createRadialGradient(b[0],b[1],0,b[0],b[1],b[2]);g.addColorStop(0,i===0?"rgba(77,145,255,.16)":i===1?"rgba(170,105,255,.13)":"rgba(45,200,180,.10)");g.addColorStop(1,"rgba(255,255,255,0)");ctx.fillStyle=g;ctx.beginPath();ctx.arc(b[0],b[1],b[2],0,Math.PI*2);ctx.fill()});
+    raf=requestAnimationFrame(draw);
+  };
+  resize(); window.addEventListener("resize",resize,{passive:true}); draw();
+}
+
+function init(){
+  initHeaderCanvas();
+  populateFilters();
+  applyLanguage();
+  const page=location.pathname.split("/").pop().toLowerCase();
+  if(page==="buy.html") purpose="sale";
+  if(page==="rent.html") purpose="rent";
+  properties.forEach(preloadImages);
+  renderProperties();
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
