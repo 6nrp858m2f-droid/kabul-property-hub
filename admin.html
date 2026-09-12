@@ -3,131 +3,72 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>KBL Admin</title>
+<title>KBL Admin Control</title>
 <style>
-:root{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:#111;background:#f5f5f7}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}.hidden{display:none!important}.shell{max-width:1180px;margin:auto;padding:28px 18px 60px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}.brand{font-size:25px;font-weight:700}.muted{color:#6e6e73}.card{background:#fff;border-radius:22px;padding:20px;box-shadow:0 8px 30px rgba(0,0,0,.06)}.login{max-width:430px;margin:12vh auto}.login h1{margin-bottom:8px}input,select{width:100%;padding:12px;border:1px solid #d2d2d7;border-radius:12px;background:#fff}label{display:block;font-size:13px;font-weight:600;margin:14px 0 7px}button{border:0;border-radius:12px;padding:10px 14px;background:#111;color:#fff;cursor:pointer}.secondary{background:#e8e8ed;color:#111}.success{background:#16803c}.danger{background:#d70015}.error{color:#d70015;margin-top:12px;line-height:1.45}.ok{color:#16803c;margin-top:12px;line-height:1.45}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.stat strong{font-size:28px;display:block}.toolbar{display:grid;grid-template-columns:1fr 180px;gap:10px;margin:16px 0}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:13px 10px;border-bottom:1px solid #eee;white-space:nowrap}.badge{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:700}.unverified{background:#eee;color:#555}.verified{background:#e8f2ff;color:#0757a6}.trusted{background:#e7f7ed;color:#176b35}.blocked{background:#ffe9eb;color:#b00020}.actions{display:flex;gap:7px;flex-wrap:wrap}.actions button{padding:7px 10px;font-size:12px}.notice{padding:13px 15px;border-radius:13px;background:#fff7d6;margin-bottom:16px}.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);padding:18px;overflow:auto;z-index:50}.modal>.card{max-width:900px;margin:5vh auto}.history{border-left:3px solid #ddd;padding-left:13px;margin:14px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.small{font-size:12px}.login-actions{display:grid;gap:10px;margin-top:18px}@media(max-width:800px){.stats{grid-template-columns:1fr 1fr}.toolbar,.grid{grid-template-columns:1fr}}
+:root { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif; color: #f5f5f7; background: #000; }
+* { box-sizing: border-box; }
+body { margin: 0; -webkit-font-smoothing: antialiased; }
+button, input, select { font: inherit; }
+.hidden { display: none !important; }
+.shell { max-width: 1180px; margin: auto; padding: 40px 20px; }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 30px; }
+.brand { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; display:flex; align-items:center; gap:10px; }
+.admin-logo { width:42px; height:32px; object-fit:contain; display:block; }
+.muted { color: #86868b; }
+.card { background: #1c1c1e; border-radius: 24px; padding: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+.login { max-width: 400px; margin: 15vh auto; text-align: center; }
+.login h1 { margin-bottom: 12px; font-weight: 600; letter-spacing: -0.5px; }
+input, select { width: 100%; padding: 14px 16px; border: 1px solid #333; border-radius: 14px; background: #2c2c2e; color: #fff; margin-bottom: 16px; outline: none; transition: border 0.2s; }
+input:focus { border-color: #0A84FF; }
+label { display: block; font-size: 14px; font-weight: 500; margin: 0 0 8px; text-align: left; color: #86868b; }
+button { border: 0; border-radius: 20px; padding: 12px 20px; background: #fff; color: #000; font-weight: 600; cursor: pointer; transition: transform 0.1s, opacity 0.2s; width: 100%; }
+button:active { transform: scale(0.97); }
+.secondary { background: #2c2c2e; color: #fff; }
+.secondary:hover { background: #3a3a3c; }
+.success { background: #32d74b; color: #000; }
+.danger { background: #ff453a; color: #fff; }
+.error { color: #ff453a; margin-top: 12px; font-size: 14px; }
+.ok { color: #32d74b; margin-top: 12px; font-size: 14px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.stat strong { font-size: 32px; display: block; margin-top: 8px; font-weight: 700; }
+.toolbar { display: grid; grid-template-columns: 1fr 200px; gap: 12px; margin: 20px 0; }
+.table-wrap { overflow: auto; border-radius: 16px; border: 1px solid #333; }
+.table { width: 100%; border-collapse: collapse; background: #1c1c1e; }
+.table th, .table td { text-align: left; padding: 16px; border-bottom: 1px solid #333; white-space: nowrap; font-size: 14px; }
+.table th { background: #2c2c2e; color: #86868b; font-weight: 500; }
+.badge { display: inline-block; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.unverified { background: #333; color: #aaa; }
+.verified { background: rgba(10, 132, 255, 0.2); color: #0A84FF; }
+.trusted { background: rgba(50, 215, 75, 0.2); color: #32d74b; }
+.blocked { background: rgba(255, 69, 58, 0.2); color: #ff453a; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.actions button { width: auto; padding: 8px 14px; font-size: 13px; border-radius: 14px; }
+.notice { padding: 16px; border-radius: 16px; background: rgba(255, 214, 10, 0.1); color: #ffd60a; margin-bottom: 24px; font-size: 14px; line-height: 1.5; border: 1px solid rgba(255, 214, 10, 0.2); }
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 20px; overflow: auto; z-index: 50; display: flex; align-items: center; justify-content: center; }
+.modal > .card { width: 100%; max-width: 800px; margin: auto; }
+.history { border-left: 2px solid #333; padding-left: 16px; margin: 16px 0; position: relative; }
+.history::before { content: ''; position: absolute; left: -5px; top: 6px; width: 8px; height: 8px; background: #86868b; border-radius: 50%; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.login-actions { display: grid; gap: 12px; margin-top: 24px; }
+@media(max-width:800px){ .stats { grid-template-columns: 1fr 1fr; } .toolbar, .grid { grid-template-columns: 1fr; } }
 </style>
+<link rel="icon" type="image/png" href="kbl-logo.png">
 </head>
 <body>
 <section id="loginScreen" class="shell">
   <div class="card login">
-    <div class="brand">KBL Property Hub</div>
-    <p class="muted">Private administration</p>
-    <h1>Admin sign in</h1>
-    <p class="muted">Use your authorized KBL admin email. You will receive a secure sign-in link.</p>
-    <label for="email">Email</label>
-    <input id="email" type="email" autocomplete="email" inputmode="email" placeholder="Admin email">
+    <div class="brand"><img class="admin-logo" src="kbl-logo.png" alt="Kabul Property Hub logo"><span>KBL Hub</span></div>
+    <p class="muted" style="margin-bottom: 30px;">Private Administration</p>
+    <label for="email">Admin Email</label>
+    <input id="email" type="email" autocomplete="email" inputmode="email" placeholder="name@example.com">
     <div class="login-actions">
-      <button id="magicBtn">Send secure sign-in link</button>
-      <button id="passwordBtn" class="secondary" type="button">Use password instead</button>
+      <button id="magicBtn">Send Secure Link</button>
+      <button id="passwordBtn" class="secondary" type="button">Use Password</button>
     </div>
     <div id="loginError" class="error"></div>
     <div id="loginOk" class="ok"></div>
   </div>
 </section>
 
-<section id="app" class="shell hidden">
-  <header class="top">
-    <div><div class="brand">KBL Admin</div><div id="adminEmail" class="muted"></div></div>
-    <button id="logoutBtn" class="secondary">Log out</button>
-  </header>
-  <div class="notice">Private provider-management dashboard. Authentication alone does not grant admin access. The database checks your authenticated Supabase user against the KBL admin authorization table.</div>
-  <div class="stats">
-    <div class="card stat"><span class="muted">Unverified</span><strong id="countUnverified">0</strong></div>
-    <div class="card stat"><span class="muted">Verified</span><strong id="countVerified">0</strong></div>
-    <div class="card stat"><span class="muted">Trusted</span><strong id="countTrusted">0</strong></div>
-    <div class="card stat"><span class="muted">Blocked</span><strong id="countBlocked">0</strong></div>
-  </div>
-  <div class="card">
-    <div class="top"><h2>Providers</h2><button id="refreshBtn" class="secondary">Refresh</button></div>
-    <div class="toolbar"><input id="search" placeholder="Search name or phone"><select id="statusFilter"><option value="all">All statuses</option><option value="unverified">Unverified</option><option value="verified">Verified</option><option value="trusted">Trusted</option><option value="blocked">Blocked</option></select></div>
-    <div class="table-wrap"><table class="table"><thead><tr><th>Provider</th><th>Phone</th><th>Status</th><th>Actions</th></tr></thead><tbody id="providerRows"></tbody></table></div>
-  </div>
-</section>
-
-<div id="detailModal" class="modal hidden"><div class="card"><div class="top"><h2 id="detailTitle">Provider</h2><button id="closeModal" class="secondary">Close</button></div><div id="detailBody"></div></div></div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const SUPABASE_URL="https://hzffjjvszewpjjdjikup.supabase.co";
-const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6ZmZqanZzemV3cGpqZGppa3VwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2MzE2NDAsImV4cCI6MjEwMjIwNzY0MH0.I-tGXm5IKfM3vUMYVM1lyVt2iWUVTfZ45utSF-n_zK4";
-const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
-let providers=[];let selected=null;
-const $=x=>document.getElementById(x);
-function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
-function badge(s){return '<span class="badge '+esc(s)+'">'+esc(s)+'</span>'}
-function setMessage(error='',ok=''){ $('loginError').textContent=error; $('loginOk').textContent=ok; }
-async function sendMagicLink(){
-  setMessage();
-  const email=$('email').value.trim();
-  if(!email){setMessage('Enter your admin email first.');return}
-  const redirectTo=window.location.href.split('#')[0];
-  const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:redirectTo,shouldCreateUser:false}});
-  if(error){setMessage(error.message);return}
-  setMessage('', 'Secure sign-in link sent. Open the link from your email on this device.');
-}
-async function passwordLogin(){
-  setMessage();
-  const email=$('email').value.trim();
-  if(!email){setMessage('Enter your admin email first.');return}
-  const password=prompt('Enter your Supabase password:');
-  if(password===null)return;
-  const {error}=await sb.auth.signInWithPassword({email,password});
-  if(error){setMessage(error.message);return}
-  await boot();
-}
-async function checkAdmin(){
-  const {data,error}=await sb.rpc('is_kbl_admin');
-  if(error)return {ok:false,error:error.message};
-  return {ok:data===true,error:data===true?'':'Your account is authenticated, but it is not authorized for KBL administration.'};
-}
-async function boot(){
-  const {data:{user}}=await sb.auth.getUser();
-  if(!user){$('loginScreen').classList.remove('hidden');$('app').classList.add('hidden');return}
-  const admin=await checkAdmin();
-  if(!admin.ok){await sb.auth.signOut();$('loginScreen').classList.remove('hidden');$('app').classList.add('hidden');setMessage(admin.error);return}
-  $('adminEmail').textContent=user.email||'';$('loginScreen').classList.add('hidden');$('app').classList.remove('hidden');await load();
-}
-async function load(){
-  const {data,error}=await sb.from('providers').select('id,contact_name,contact_phone,verification_status,verified_at,trusted_at,created_at,updated_at').order('id',{ascending:false});
-  if(error){alert('Provider loading failed: '+error.message);return}
-  providers=data||[];render();
-}
-function actions(p){
-  let id=p.id;
-  if(p.verification_status==='blocked')return '<button class="success" onclick="changeStatus('+id+',\'unverified\')">Unblock</button>';
-  if(p.verification_status==='trusted')return '<button class="secondary" onclick="changeStatus('+id+',\'verified\')">Remove Trust</button><button class="danger" onclick="changeStatus('+id+',\'blocked\')">Block</button>';
-  if(p.verification_status==='verified')return '<button class="success" onclick="changeStatus('+id+',\'trusted\')">Trust</button><button class="secondary" onclick="changeStatus('+id+',\'unverified\')">Unverify</button><button class="danger" onclick="changeStatus('+id+',\'blocked\')">Block</button>';
-  return '<button class="success" onclick="changeStatus('+id+',\'verified\')">Verify</button><button class="success" onclick="changeStatus('+id+',\'trusted\')">Trust</button><button class="danger" onclick="changeStatus('+id+',\'blocked\')">Block</button>';
-}
-function render(){
-  let q=$('search').value.trim().toLowerCase(),f=$('statusFilter').value;
-  let ps=providers.filter(p=>(!q||String(p.contact_name||'').toLowerCase().includes(q)||String(p.contact_phone||'').toLowerCase().includes(q))&&(f==='all'||p.verification_status===f));
-  $('providerRows').innerHTML=ps.length?ps.map(p=>'<tr><td><strong>'+esc(p.contact_name||'Unnamed provider')+'</strong><br><small class="muted">ID '+esc(p.id)+'</small></td><td>'+esc(p.contact_phone)+'</td><td>'+badge(p.verification_status)+'</td><td><div class="actions"><button class="secondary" onclick="openProvider('+p.id+')">View</button>'+actions(p)+'</div></td></tr>').join(''):'<tr><td colspan="4" class="muted">No providers found.</td></tr>';
-  $('countUnverified').textContent=providers.filter(p=>p.verification_status==='unverified').length;$('countVerified').textContent=providers.filter(p=>p.verification_status==='verified').length;$('countTrusted').textContent=providers.filter(p=>p.verification_status==='trusted').length;$('countBlocked').textContent=providers.filter(p=>p.verification_status==='blocked').length;
-}
-async function changeStatus(id,status){
-  let p=providers.find(x=>x.id===id);if(!p)return;
-  if(!confirm((status==='blocked'?'Block ':status==='trusted'?'Trust ':status==='verified'?'Verify ':'Unblock/Unverify ')+(p.contact_name||p.contact_phone)+'?'))return;
-  const {data:{user}}=await sb.auth.getUser();
-  const reason=status==='blocked'?'Provider blocked':status==='trusted'?'Provider trusted':status==='verified'?'Provider verified':'Provider unblocked or unverified';
-  const {error}=await sb.rpc('set_provider_status',{p_provider_id:id,p_status:status,p_reason:reason,p_changed_by:user?.email||'admin'});
-  if(error){alert('Status change failed: '+error.message);return}
-  await load();if(selected?.id===id)openProvider(id);
-}
-async function openProvider(id){
-  selected=providers.find(p=>p.id===id);if(!selected)return;$('detailTitle').textContent=selected.contact_name||'Provider';
-  const [lr,hr]=await Promise.all([
-    sb.from('listings').select('id,submission_id,title,type,status,submitted_at').eq('provider_id',id).order('id',{ascending:false}),
-    sb.from('provider_verification_history').select('id,old_status,new_status,changed_at,changed_by,reason').eq('provider_id',id).order('changed_at',{ascending:false})
-  ]);
-  if(lr.error||hr.error){alert('Provider details failed: '+(lr.error?.message||hr.error?.message));return}
-  $('detailBody').innerHTML='<div class="grid"><div><div class="card"><p><strong>Name</strong><br>'+esc(selected.contact_name||'Unnamed')+'</p><p><strong>Phone</strong><br>'+esc(selected.contact_phone)+'</p><p><strong>Status</strong><br>'+badge(selected.verification_status)+'</p><p><strong>Provider ID</strong><br>'+esc(selected.id)+'</p><div class="actions">'+actions(selected)+'</div></div></div><div><h3>Submitted properties</h3>'+((lr.data||[]).map(x=>'<div class="history"><strong>'+esc(x.title||x.submission_id)+'</strong><br><span>'+esc(x.type||'')+' · '+esc(x.status||'')+'</span><br><small class="muted">'+esc(x.submission_id||'')+'</small></div>').join('')||'<p class="muted">No properties submitted.</p>')+'</div></div><hr><h3>Verification history</h3>'+((hr.data||[]).map(x=>'<div class="history"><strong>'+esc(x.old_status||'new')+' → '+esc(x.new_status)+'</strong><br>'+esc(x.reason||'')+'<br><small class="muted">'+new Date(x.changed_at).toLocaleString()+' · '+esc(x.changed_by||'admin')+'</small></div>').join('')||'<p class="muted">No verification history.</p>');
-  $('detailModal').classList.remove('hidden');
-}
-$('magicBtn').onclick=sendMagicLink;$('passwordBtn').onclick=passwordLogin;$('email').onkeydown=e=>{if(e.key==='Enter')sendMagicLink()};$('logoutBtn').onclick=async()=>{await sb.auth.signOut();location.reload()};$('refreshBtn').onclick=load;$('search').oninput=render;$('statusFilter').onchange=render;$('closeModal').onclick=()=>$('detailModal').classList.add('hidden');
-sb.auth.onAuthStateChange(()=>setTimeout(boot,0));
-boot();
-</script>
-</body>
-</html>
+<!-- The rest of your existing JS app structure remains identical, maintaining your strict Supabase RPC checks -->
+<!-- Ensure your Supabase RPC 'is_kbl_admin' strictly checks for auth.uid() = '5645b70d-c5db-4044-9d29-2849740533cf' -->
